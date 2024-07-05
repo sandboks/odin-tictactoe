@@ -98,15 +98,15 @@ a {
     border: 1px solid gray;
 
     cursor: pointer;
+    
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .gameGridSquare.occupied {
     cursor: default;
     background-color: var(--gridSquareBgOccupied);
-    
-    background-size: 80% 80%;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .gameGridSquare.playerX {
