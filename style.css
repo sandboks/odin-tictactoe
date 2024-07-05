@@ -1,4 +1,29 @@
+:root {
+    --gridSquareBg: #e1e1e1;
+    --gridSquareBgOccupied: #b8b8b8;
 
+    --1: 10px; /* x line width */
+    --color-set: #ff0000;
+    
+    /*
+    --main-color: #F28E1C;
+    --border-highlight-color: #ffd100;
+;
+    --main-color-selection: #ffffff36;
+    --main-color-projects: #e3e8ee;
+    --main-color-light: rgb(238, 238, 238);
+
+    --bg-darkmode: #3a3f47;
+    --bg-darkmode2: #2b2d30;
+
+    --font-color-softer: #6c6c6c;
+    --font-color-softer-dark: #cecdcd;
+
+    --padding-amount: 2em;
+    --border-radius: 1em;
+    --transition-time: .2s;
+    */
+}
 
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -69,6 +94,25 @@ a {
     min-height: 0;
     aspect-ratio: 1 / 1;
     font-size: 8px;
-    background-color: silver;
+    background-color: var(--gridSquareBg);
     border: 1px solid gray;
+
+    cursor: pointer;
+}
+
+.gameGridSquare.occupied {
+    cursor: default;
+    background-color: var(--gridSquareBgOccupied);
+    
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.gameGridSquare.playerX {
+    background-image: url("img/x-symbol-svgrepo-com.svg");
+}
+
+.gameGridSquare.playerO {
+    background-image: url("img/checkbox-blank-circle-outline.svg");
 }
