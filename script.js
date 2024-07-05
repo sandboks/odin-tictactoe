@@ -63,7 +63,8 @@ const gameBoard = (() => {
     }
 
     const ClickOnSpace = (index) => {
-        console.log(index);
+        //console.log(index);
+        alert("you clicked on space #: " + index);
         /*
         let y = Math.floor(index / 3);
         let x = index % 3
