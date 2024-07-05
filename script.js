@@ -16,6 +16,9 @@ const WINNING_COMBINATIONS = [
     [[0, 0], [1, 0], [2, 0]],
     [[0, 1], [1, 1], [2, 1]],
     [[0, 2], [1, 2], [2, 2]],
+    // DIAGONAL
+    [[0, 0], [1, 1], [2, 2]],
+    [[0, 2], [1, 1], [2, 0]],
 ];
 
 const gameBoard = (() => {
@@ -24,19 +27,33 @@ const gameBoard = (() => {
     this.boardGrid = Array(3).fill().map(() => Array(3).fill(0)); // this is "function scope", ie, private
 
     const MarkSpaceWithPlayer = (row, column, playerNumber) => {
-        console.log("marking space");
+        //console.log("marking space");
         boardGrid[row][column] = playerNumber;
         HTMLcontroller.MarkSpaceWithPlayer(row, column, playerNumber);
 
+        ToggleCurrentPlayer();
+
         CheckWinCondition();
     };
+
+    function ToggleCurrentPlayer() {
+        switch(currentPlayer) {
+            case spacePlayerOne:
+                currentPlayer = spacePlayerTwo;
+                break;
+            case spacePlayerTwo:
+                currentPlayer = spacePlayerOne;
+                break;
+        }
+    }
 
     function CheckWin(player) {
         WINNING_COMBINATIONS.forEach(function(combo) {
             if ((boardGrid[combo[0][0]][combo[0][1]] == player)
             && (boardGrid[combo[1][0]][combo[1][1]] == player)
             && (boardGrid[combo[2][0]][combo[2][1]] == player)) {
-                console.log("YOU'RE WINNER" + player);
+                //console.log("YOU'RE WINNER" + player);
+                alert("YOU'RE WINNER" + player);
             }
         });
     }
@@ -63,15 +80,13 @@ const gameBoard = (() => {
     }
 
     const ClickOnSpace = (index) => {
-        //console.log(index);
-        alert("you clicked on space #: " + index);
-        /*
+        //alert("you clicked on space #: " + index);
+        
         let y = Math.floor(index / 3);
         let x = index % 3
-        console.log("x = " + x);
-        console.log("y = " + y);
-        MarkSpaceWithPlayer (x, y, currentPlayer);
-        */
+
+        if (boardGrid[y][x] == spaceEmpty)
+            MarkSpaceWithPlayer (y, x, currentPlayer);
     };
 
     const printBoardState = () => {
@@ -89,20 +104,18 @@ const gameBoard = (() => {
 
 const HTMLcontroller = (() => {
 
-    this.gridParentDiv = document.querySelector(".gameGrid");
-    this.gridSquareDivs = [];
+    const gridParentDiv = document.querySelector(".gameGrid");
+    let gridSquareDivs = [];
     
     const InitializeGame = () => {
         // get children, then convert into a 3x3 2D array
         this.newArr = Array.from(gridParentDiv.children);
-        var i = 0;
-        newArr.forEach(function(child) {
-            console.log(i);
+        for (let i = 0; i < newArr.length; i++) {
+            let child = newArr[i];
             child.addEventListener("click", () => {
                 gameBoard.ClickOnSpace(i);
             })
-            i++;
-        });
+        }
 
         while(newArr.length) gridSquareDivs.push(newArr.splice(0,3));
         
@@ -110,7 +123,7 @@ const HTMLcontroller = (() => {
     }
 
     const MarkSpaceWithPlayer = (row, column, playerNumber) => {
-        console.log(row + " / " + column + " / " + playerNumber);
+        //console.log(row + " / " + column + " / " + playerNumber);
         let currentSpace = gridSquareDivs[row][column];
 
         if (currentSpace == null)
