@@ -48,14 +48,12 @@ a {
 }
 
 .gameGrid {
-    /*
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    aspect-ratio: 1 / 1;
-    */ 
     width: 100cqmin;
     height: 100cqmin;
     background-color: silver;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 .gameGridSquare {
