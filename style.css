@@ -2,8 +2,7 @@
     --gridSquareBg: #e1e1e1;
     --gridSquareBgOccupied: #b8b8b8;
 
-    --1: 10px; /* x line width */
-    --color-set: #ff0000;
+    --colorPlayerOne: #0099ff;
     
     /*
     --main-color: #F28E1C;
@@ -57,8 +56,8 @@ a {
     flex-direction: column;
     flex: 1;
 
-    padding: 24px;
-    padding-top: 48px;
+    padding: 2em;
+    gap: 2em
 }
 
 .gameGridParent {
@@ -116,3 +115,57 @@ a {
 .gameGridSquare.playerO {
     background-image: url("img/checkbox-blank-circle-outline.svg");
 }
+
+/* player HUD */
+
+.hudParent {
+    display: flex;
+    gap: 6em;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
+}
+
+.activePlayerBackground {
+    background-color: var(--colorPlayerOne);
+    border-radius: 6em;
+    padding: 0.5em;
+    
+}
+
+.playerHUD {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    border: 6px solid var(--colorPlayerOne);
+    border-radius: 6em;
+    width: 300px;
+    height: 100px;
+    overflow: hidden;
+    gap: 1em;
+    color: var(--colorPlayerOne);
+    container-type: size;
+}
+
+.activePlayer {
+    background-color: var(--colorPlayerOne);
+    color: white;
+}
+
+.playerHUD img {
+    height: 100px;
+    border-radius: 50%;
+}
+
+.nameTagParent {
+    padding: 6px;
+}
+
+.playerHUD p {
+    margin: 0;
+    font-weight: 600;
+    font-size: x-large;
+}
+
+

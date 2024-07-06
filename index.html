@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odin Tic Tac Toe</title>
+    <title>Odin Tic-Tac-Toe</title>
 
     <link rel="stylesheet" href="./style.css">
     <script src="script.js" defer></script>
@@ -13,9 +13,26 @@
 </head>
 <body>
     <div class="header">
-        <h1>Odin Tic Tac Toe</h1>
+        <h1>Odin Tic-Tac-Toe</h1>
     </div>
     <div class="main">
+        <div class="hudParent">
+            <div class = "activePlayerBackground">
+                <div class="playerHUD activePlayer">
+                    <img src="img/Normal.png">
+                    <div class="nameTagParent">
+                        <p>Player 1</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="playerHUD">
+                <img src="img/Normal.png">
+                <div class="nameTagParent">
+                    <p>Player 2</p>
+                </div>
+            </div>
+        </div>
         <div class="gameGridParent">
             <div class="gameGrid">
                 <div class="gameGridSquare"></div>
