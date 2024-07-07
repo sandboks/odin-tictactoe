@@ -3,6 +3,7 @@
     --gridSquareBgOccupied: #b8b8b8;
 
     --colorPlayerOne: #0099ff;
+    --colorPlayerTwo: #ff9d00;
     
     /*
     --main-color: #F28E1C;
@@ -36,7 +37,6 @@ body {
 }
 
 a {
-    color: white;
     text-decoration: none;
 }
 
@@ -46,6 +46,30 @@ a {
     align-items: center;
     background-color: #1F2937;
     color: white;
+}
+
+footer {
+    /*
+    position: absolute;
+    */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    bottom: 0;
+    height: 2.5rem; 
+}
+
+footer a {
+    display:flex;
+    justify-content: center;
+}
+
+footer img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
 }
 
 .main {
@@ -110,7 +134,15 @@ a {
 
 .gameGridSquare.playerX {
     background-image: url("img/x-symbol-svgrepo-com.svg");
+    fill: var(--colorPlayerOne);
+    background-size: 0%;
+    mask-image: url("img/x-symbol-svgrepo-com.svg");
+    background-color: var(--colorPlayerOne);
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: 80%;
 }
+
 
 .gameGridSquare.playerO {
     background-image: url("img/checkbox-blank-circle-outline.svg");
@@ -120,7 +152,6 @@ a {
 
 .hudParent {
     display: flex;
-    gap: 6em;
     justify-content: center;
     align-items: center;
     background-color: lightgray;
@@ -130,6 +161,7 @@ a {
     border-radius: 6em;
     padding: 0.5em;
     overflow: hidden;
+    min-width: 112px;
 }
 
 .activePlayerBackground.active {
@@ -139,6 +171,10 @@ a {
     color: white;
 }
 
+.activePlayerBackground.active.playerTwo {
+    background-color: var(--colorPlayerTwo);
+}
+
 .playerHUD {
     display: flex;
     flex-direction: row;
@@ -146,14 +182,21 @@ a {
     align-items: center;
     border: 6px solid var(--colorPlayerOne);
     border-radius: 6em;
-    width: 300px;
-    height: 100px;
+    /* width: 300px; */
+    /* height: 100px; */
     gap: 1em;
     color: var(--colorPlayerOne);
-    container-type: size;
+    /* container-type: size; */
+    overflow: hidden;
+    /* min-width: 100px;*/
 }
 
-.activePlayerBackground .playerHUD {
+.playerTwo .playerHUD {
+    border: 6px solid var(--colorPlayerTwo);
+    color: var(--colorPlayerTwo);
+}
+
+.activePlayerBackground.active .playerHUD {
     color: white;
 }
 
@@ -165,16 +208,24 @@ a {
 .playerHUD img {
     height: 100px;
     border-radius: 50%;
+    min-width: 100px;
 }
 
 .nameTagParent {
     padding: 6px;
+    width: 180px;
 }
 
 .playerHUD p {
     margin: 0;
     font-weight: 600;
     font-size: x-large;
+    text-align: start;
+}
+
+.gapBetweenPlayers {
+    max-width: 6em;
+    flex: 1;
 }
 
 
