@@ -32,6 +32,7 @@ const gameBoard = (() => {
         HTMLcontroller.MarkSpaceWithPlayer(row, column, playerNumber);
 
         ToggleCurrentPlayer();
+        HTMLcontroller.SetActivePlayer(currentPlayer - 1);
 
         CheckWinCondition();
     };
@@ -63,20 +64,6 @@ const gameBoard = (() => {
     function CheckWinCondition() {
         CheckWin(spacePlayerOne);
         CheckWin(spacePlayerTwo);
-        /*
-        // HORIZONTAL
-        if ((boardGrid[0][0] == boardGrid[0][1] && boardGrid[0][1] == boardGrid[0][2]) ||
-        (boardGrid[1][0] == boardGrid[1][1] && boardGrid[1][1] == boardGrid[1][2]) ||
-        (boardGrid[2][0] == boardGrid[2][1] && boardGrid[2][1] == boardGrid[2][2])) {
-            console.log("YOU'RE WINNER");
-        }
-        */
-
-        /*
-        if ( (gridSquareDivs[0][0] == gridSquareDivs[0][1] && gridSquareDivs[0][1] == gridSquareDivs[0][2]) ||
-        (gridSquareDivs[1][0] == gridSquareDivs[1][1] && gridSquareDivs[0][1] == gridSquareDivs[1][2]) ||
-        )
-        */
     }
 
     const ClickOnSpace = (index) => {
@@ -106,9 +93,10 @@ const HTMLcontroller = (() => {
 
     const gridParentDiv = document.querySelector(".gameGrid");
     let gridSquareDivs = [];
+
+    let playerOneHUD = null;
     
     const InitializeGame = () => {
-        // get children, then convert into a 3x3 2D array
         this.newArr = Array.from(gridParentDiv.children);
         for (let i = 0; i < newArr.length; i++) {
             let child = newArr[i];
@@ -117,9 +105,16 @@ const HTMLcontroller = (() => {
             })
         }
 
+        // convert into a 3x3 2D array
         while(newArr.length) gridSquareDivs.push(newArr.splice(0,3));
-        
-        PrintDivs();
+
+        SetActivePlayer(0);
+    }
+
+    const SetActivePlayer = (playerNumber) => {
+        let playerHTMLroots = document.getElementsByClassName("activePlayerBackground");
+        playerHTMLroots[(playerNumber+1)%2].classList.remove("active");
+        playerHTMLroots[playerNumber].classList.add("active");
     }
 
     const MarkSpaceWithPlayer = (row, column, playerNumber) => {
@@ -149,7 +144,8 @@ const HTMLcontroller = (() => {
 
     return {
         InitializeGame,
-        MarkSpaceWithPlayer
+        MarkSpaceWithPlayer,
+        SetActivePlayer
     }
 })();
 

@@ -127,10 +127,16 @@ a {
 }
 
 .activePlayerBackground {
+    border-radius: 6em;
+    padding: 0.5em;
+    overflow: hidden;
+}
+
+.activePlayerBackground.active {
     background-color: var(--colorPlayerOne);
     border-radius: 6em;
     padding: 0.5em;
-    
+    color: white;
 }
 
 .playerHUD {
@@ -142,10 +148,13 @@ a {
     border-radius: 6em;
     width: 300px;
     height: 100px;
-    overflow: hidden;
     gap: 1em;
     color: var(--colorPlayerOne);
     container-type: size;
+}
+
+.activePlayerBackground .playerHUD {
+    color: white;
 }
 
 .activePlayer {
