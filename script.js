@@ -7,6 +7,7 @@ const spacePlayerTwo = 2; // o
 
 var currentPlayer = spacePlayerOne;
 var gameLocked = false;
+var playerVictor = spaceEmpty;
 
 const WINNING_COMBINATIONS = [
     // HORIZONTAL
@@ -38,7 +39,6 @@ const gameBoard = (() => {
         boardGrid[row][column] = playerNumber;
         HTMLcontroller.MarkSpaceWithPlayer(row, column, playerNumber);
 
-        console.log(GameIsOver() + "_");
         if (GameIsOver() == true) {
             alert("GAME OVERRRRR");
             LockGame();
@@ -74,18 +74,27 @@ const gameBoard = (() => {
             if ((boardGrid[combo[0][0]][combo[0][1]] == player)
             && (boardGrid[combo[1][0]][combo[1][1]] == player)
             && (boardGrid[combo[2][0]][combo[2][1]] == player)) {
-                //console.log("YOU'RE WINNER" + player);
-                console.log("YOU'RE WINNER_" + player + "should now return TRUE");
+                //console.log("YOU'RE WINNER_" + player + "should now return TRUE");
+                playerVictor = player;
                 return true;
             }
-            console.log("checking winstate");
         }
-        console.log("returning FALSE");
+        //console.log("returning FALSE");
         return false;
     }
 
     function GameIsOver() {
-        return (CheckWin(spacePlayerOne) || CheckWin(spacePlayerTwo));
+        return (CheckWin(spacePlayerOne) || CheckWin(spacePlayerTwo) || AllSquaresOccupied());
+    }
+
+    function AllSquaresOccupied() {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (boardGrid[i][j] == spaceEmpty)
+                    return false;
+            }
+        }
+        return true;
     }
 
     function LockGame() {
@@ -94,6 +103,11 @@ const gameBoard = (() => {
         // lock the hover functionality
         r.style.setProperty('--colorPlayerCurrent', 'white');
         r.style.setProperty('--currentSymbolURL', '');
+
+        // if the game is over because we ran out of spaces, set the active player to no one
+        if (AllSquaresOccupied && playerVictor == spaceEmpty) {
+            HTMLcontroller.SetBothPlayersInactive();
+        }
     }
 
     const ClickOnSpace = (index) => {
@@ -150,6 +164,12 @@ const HTMLcontroller = (() => {
         playerHTMLroots[playerNumber].classList.add("active");
     }
 
+    const SetBothPlayersInactive = () => {
+        let playerHTMLroots = document.getElementsByClassName("activePlayerBackground");
+        playerHTMLroots[0].classList.remove("active");
+        playerHTMLroots[1].classList.remove("active");
+    }
+
     const MarkSpaceWithPlayer = (row, column, playerNumber) => {
         //console.log(row + " / " + column + " / " + playerNumber);
         let currentSpace = gridSquareDivs[row][column];
@@ -178,7 +198,8 @@ const HTMLcontroller = (() => {
     return {
         InitializeGame,
         MarkSpaceWithPlayer,
-        SetActivePlayer
+        SetActivePlayer,
+        SetBothPlayersInactive
     }
 })();
 
