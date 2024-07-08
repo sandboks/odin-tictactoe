@@ -1,6 +1,7 @@
 :root {
-    --gridSquareBg: #ffffff;
-    --gridSquareBgOccupied: #ffffff;
+    --gridSquareBg: #eeeeee;
+    --gridSquareBgOccupied: white;
+    --colorPanelBorder: #b6b6b6;
 
     --colorPlayerOne: #0099ff;
     --colorPlayerTwo: #ff9d00;
@@ -111,7 +112,6 @@ footer img {
 .gameGrid {
     width: 100cqmin;
     height: 100cqmin;
-    background-color: silver;
 
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -120,9 +120,7 @@ footer img {
 
 .gameGridSquare {
 
-    background-color: silver;
     display: flex;
-    flex: 1;
     justify-content: center;
     align-items: center;
     font-size: 8px;
@@ -133,11 +131,21 @@ footer img {
     background-size: 80% 80%;
     background-repeat: no-repeat;
     background-position: center;
+
+
+    border-radius: 3em;
+    border: 0.5em solid var(--colorPanelBorder);
+    overflow: hidden;
 }
 
 .gameGridSquare.occupied {
     cursor: default;
     background-color: var(--gridSquareBgOccupied);
+}
+
+.gameGridSquare.occupied.victory {
+    background-color: var(--colorPlayerCurrent);
+    border: 0.5em solid var(--colorPlayerCurrent);
 }
 
 .gameGridSquareSymbol {
@@ -147,7 +155,6 @@ footer img {
     background-image: var('');
     background-size: 0%;
     mask-image: var('');
-    background-color: #ffffff;
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: var(--currentSymbolSize);
@@ -177,6 +184,11 @@ footer img {
     mask-size: var(--sizePercentPlayerTwo); /* 83 */
 }
 
+/* placing this further down overrides the above background-color lines */
+.gameGridSquare.victory .gameGridSquareSymbol {
+    background-color: white;
+}
+
 /* player HUD */
 
 .hudParent {
@@ -197,8 +209,6 @@ footer img {
 
 .activePlayerBackground.active {
     background-color: var(--colorPlayerOne);
-    border-radius: 6em;
-    padding: 0.5em;
     color: white;
 }
 
@@ -213,12 +223,12 @@ footer img {
     align-items: center;
     border: 6px solid var(--colorPlayerOne);
     border-radius: 6em;
-    /* width: 300px; */
-    /* height: 100px; */
     gap: 1em;
     color: var(--colorPlayerOne);
-    /* container-type: size; */
     overflow: hidden;
+    /* container-type: size; */
+    /* width: 300px; */
+    /* height: 100px; */
     /* min-width: 100px;*/
 }
 

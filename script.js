@@ -30,6 +30,8 @@ const gameBoard = (() => {
     const r = document.querySelector(':root');
 
     const InitializeGame = () => {
+        playerVictor == spaceEmpty
+        
         HTMLcontroller.InitializeGame();
         SetCurrentPlayer();
     };
@@ -40,7 +42,7 @@ const gameBoard = (() => {
         HTMLcontroller.MarkSpaceWithPlayer(row, column, playerNumber);
 
         if (GameIsOver() == true) {
-            alert("GAME OVERRRRR");
+            // alert("GAME OVERRRRR");
             LockGame();
         }
         else {
@@ -62,6 +64,12 @@ const gameBoard = (() => {
         SetCurrentPlayer();
     }
 
+    function RecolorWinningPanels(winningPanelsCombo) {
+        for (let i = 0; i < winningPanelsCombo.length; i++) {
+            HTMLcontroller.MarkSpaceAsVictor(winningPanelsCombo[i][0], winningPanelsCombo[i][1]);
+        }
+    }
+
     function SetCurrentPlayer() {
         r.style.setProperty('--colorPlayerCurrent', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--colorPlayerOne' : '--colorPlayerTwo'));
         r.style.setProperty('--currentSymbolURL', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--imageURLx' : '--imageURLo'));
@@ -76,6 +84,7 @@ const gameBoard = (() => {
             && (boardGrid[combo[2][0]][combo[2][1]] == player)) {
                 //console.log("YOU'RE WINNER_" + player + "should now return TRUE");
                 playerVictor = player;
+                RecolorWinningPanels(combo);
                 return true;
             }
         }
@@ -101,12 +110,13 @@ const gameBoard = (() => {
         gameLocked = true;
         
         // lock the hover functionality
-        r.style.setProperty('--colorPlayerCurrent', 'white');
+        //r.style.setProperty('--colorPlayerCurrent', 'white');
         r.style.setProperty('--currentSymbolURL', '');
 
         // if the game is over because we ran out of spaces, set the active player to no one
         if (AllSquaresOccupied && playerVictor == spaceEmpty) {
             HTMLcontroller.SetBothPlayersInactive();
+            r.style.setProperty('--gridSquareBgOccupied', getComputedStyle(r).getPropertyValue('--gridSquareBg'));
         }
     }
 
@@ -188,6 +198,11 @@ const HTMLcontroller = (() => {
         }
     }
 
+    const MarkSpaceAsVictor = (row, column) => {
+        let currentSpace = gridSquareDivs[row][column];
+        currentSpace.classList.add("victory");
+    }
+
     function PrintDivs() {
         console.log(gridSquareDivs.length);
         gridSquareDivs.forEach(function(child) {
@@ -199,20 +214,12 @@ const HTMLcontroller = (() => {
         InitializeGame,
         MarkSpaceWithPlayer,
         SetActivePlayer,
-        SetBothPlayersInactive
+        SetBothPlayersInactive,
+        MarkSpaceAsVictor
     }
 })();
 
 gameBoard.InitializeGame();
 
-/*
-gameBoard.printBoardState();
-gameBoard.MarkSpaceWithPlayer(0, 0, spacePlayerOne);
-gameBoard.MarkSpaceWithPlayer(1, 0, spacePlayerTwo);
-gameBoard.MarkSpaceWithPlayer(0, 1, spacePlayerOne);
-gameBoard.MarkSpaceWithPlayer(1, 1, spacePlayerTwo);
-gameBoard.MarkSpaceWithPlayer(0, 2, spacePlayerOne);
-gameBoard.printBoardState();
-*/
 // console.log(game.boardGrid[0][0]); // produces error because boardGrid is private
 
