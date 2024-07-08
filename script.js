@@ -6,6 +6,7 @@ const spacePlayerOne = 1; // x
 const spacePlayerTwo = 2; // o
 
 var currentPlayer = spacePlayerOne;
+var gameLocked = false;
 
 const WINNING_COMBINATIONS = [
     // HORIZONTAL
@@ -25,16 +26,27 @@ const gameBoard = (() => {
     // create a 2d array where each cell contains a 0
     // let array = Array(rows).fill().map(() => Array(columns).fill(0));
     this.boardGrid = Array(3).fill().map(() => Array(3).fill(0)); // this is "function scope", ie, private
+    const r = document.querySelector(':root');
 
+    const InitializeGame = () => {
+        HTMLcontroller.InitializeGame();
+        SetCurrentPlayer();
+    };
+    
     const MarkSpaceWithPlayer = (row, column, playerNumber) => {
         //console.log("marking space");
         boardGrid[row][column] = playerNumber;
         HTMLcontroller.MarkSpaceWithPlayer(row, column, playerNumber);
 
-        ToggleCurrentPlayer();
-        HTMLcontroller.SetActivePlayer(currentPlayer - 1);
-
-        CheckWinCondition();
+        console.log(GameIsOver() + "_");
+        if (GameIsOver() == true) {
+            alert("GAME OVERRRRR");
+            LockGame();
+        }
+        else {
+            ToggleCurrentPlayer();
+            HTMLcontroller.SetActivePlayer(currentPlayer - 1);
+        }
     };
 
     function ToggleCurrentPlayer() {
@@ -46,27 +58,47 @@ const gameBoard = (() => {
                 currentPlayer = spacePlayerOne;
                 break;
         }
+
+        SetCurrentPlayer();
+    }
+
+    function SetCurrentPlayer() {
+        r.style.setProperty('--colorPlayerCurrent', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--colorPlayerOne' : '--colorPlayerTwo'));
+        r.style.setProperty('--currentSymbolURL', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--imageURLx' : '--imageURLo'));
+        r.style.setProperty('--currentSymbolSize', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--sizePercentPlayerOne' : '--sizePercentPlayerTwo'));
     }
 
     function CheckWin(player) {
-        WINNING_COMBINATIONS.forEach(function(combo) {
+        for (let i = 0; i < WINNING_COMBINATIONS.length; i++) {
+            let combo = WINNING_COMBINATIONS[i];
             if ((boardGrid[combo[0][0]][combo[0][1]] == player)
             && (boardGrid[combo[1][0]][combo[1][1]] == player)
             && (boardGrid[combo[2][0]][combo[2][1]] == player)) {
                 //console.log("YOU'RE WINNER" + player);
-                alert("YOU'RE WINNER" + player);
+                console.log("YOU'RE WINNER_" + player + "should now return TRUE");
+                return true;
             }
-        });
+            console.log("checking winstate");
+        }
+        console.log("returning FALSE");
+        return false;
     }
 
+    function GameIsOver() {
+        return (CheckWin(spacePlayerOne) || CheckWin(spacePlayerTwo));
+    }
 
-
-    function CheckWinCondition() {
-        CheckWin(spacePlayerOne);
-        CheckWin(spacePlayerTwo);
+    function LockGame() {
+        gameLocked = true;
+        
+        // lock the hover functionality
+        r.style.setProperty('--colorPlayerCurrent', 'white');
+        r.style.setProperty('--currentSymbolURL', '');
     }
 
     const ClickOnSpace = (index) => {
+        if (gameLocked)
+            return;
         //alert("you clicked on space #: " + index);
         
         let y = Math.floor(index / 3);
@@ -83,6 +115,7 @@ const gameBoard = (() => {
     }
 
     return {
+        InitializeGame,
         MarkSpaceWithPlayer,
         printBoardState,
         ClickOnSpace
@@ -149,7 +182,7 @@ const HTMLcontroller = (() => {
     }
 })();
 
-HTMLcontroller.InitializeGame();
+gameBoard.InitializeGame();
 
 /*
 gameBoard.printBoardState();

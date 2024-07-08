@@ -1,9 +1,20 @@
 :root {
-    --gridSquareBg: #e1e1e1;
-    --gridSquareBgOccupied: #b8b8b8;
+    --gridSquareBg: #ffffff;
+    --gridSquareBgOccupied: #ffffff;
 
     --colorPlayerOne: #0099ff;
     --colorPlayerTwo: #ff9d00;
+
+    --colorPlayerCurrent: #ffffff;
+
+    --currentSymbolURL: url("");
+    /*--url: url(yoururl);*/
+    --currentSymbolSize: 100%;
+
+    --imageURLx: url("img/x-symbol-svgrepo-com.svg");
+    --sizePercentPlayerOne: 65%;
+    --imageURLo: url("img/checkbox-blank-circle-outline.svg");
+    --sizePercentPlayerTwo: 83%;
     
     /*
     --main-color: #F28E1C;
@@ -91,7 +102,9 @@ footer img {
     align-items: center;
     justify-content: center;
 
+    /*
     background-color: black;
+    */
     container-type: size;
 }
 
@@ -102,23 +115,18 @@ footer img {
 
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5%;
 }
 
 .gameGridSquare {
-    border: 1px black solid;
-    aspect-ratio: 1/1;
 
     background-color: silver;
     display: flex;
     flex: 1;
-    /* justify-content: center; */
-    align-content: center;
-    min-width: 0;
-    min-height: 0;
-    aspect-ratio: 1 / 1;
+    justify-content: center;
+    align-items: center;
     font-size: 8px;
     background-color: var(--gridSquareBg);
-    border: 1px solid gray;
 
     cursor: pointer;
     
@@ -132,20 +140,41 @@ footer img {
     background-color: var(--gridSquareBgOccupied);
 }
 
-.gameGridSquare.playerX {
-    background-image: url("img/x-symbol-svgrepo-com.svg");
-    fill: var(--colorPlayerOne);
+.gameGridSquareSymbol {
+    width: 100%;
+    height: 100%;
+
+    background-image: var('');
     background-size: 0%;
-    mask-image: url("img/x-symbol-svgrepo-com.svg");
-    background-color: var(--colorPlayerOne);
+    mask-image: var('');
+    background-color: #ffffff;
     mask-repeat: no-repeat;
     mask-position: center;
-    mask-size: 80%;
+    mask-size: var(--currentSymbolSize);
+}
+
+/* hover state, preview the current player's symbol when they mouse over a panel */
+.gameGridSquareSymbol:not(.gameGridSquare.occupied .gameGridSquareSymbol):hover {
+    background-image: var(--currentSymbolURL);
+    mask-image: var(--currentSymbolURL);
+    background-color: var(--colorPlayerCurrent);
+    opacity: 50%;
+    mask-size: var(--currentSymbolSize);
+}
+
+.gameGridSquare.playerX .gameGridSquareSymbol {
+    background-image: var(--imageURLx);
+    mask-image: var(--imageURLx);
+    background-color: var(--colorPlayerOne);
+    mask-size: var(--sizePercentPlayerOne); /* 65% */
 }
 
 
-.gameGridSquare.playerO {
-    background-image: url("img/checkbox-blank-circle-outline.svg");
+.gameGridSquare.playerO .gameGridSquareSymbol {
+    background-image: var(--imageURLo);
+    mask-image: var(--imageURLo);
+    background-color: var(--colorPlayerTwo);
+    mask-size: var(--sizePercentPlayerTwo); /* 83 */
 }
 
 /* player HUD */
@@ -154,7 +183,9 @@ footer img {
     display: flex;
     justify-content: center;
     align-items: center;
+    /*
     background-color: lightgray;
+    */
 }
 
 .activePlayerBackground {
