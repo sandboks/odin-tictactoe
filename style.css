@@ -50,6 +50,7 @@ body {
 
 a {
     text-decoration: none;
+    color: inherit;
 }
 
 .header, .footer {
@@ -92,13 +93,20 @@ footer img {
     flex-direction: column;
     flex: 1;
 
-    padding: 2em;
-    gap: 2em
+    padding: 1em;
+    gap: 2em;
+    min-height: 400px;
+    min-width: 250px;
 }
 
+/*
+css trickery to get a perfect square that fits in a window taken from here:
+https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-inside-a-flex-item
+*/
 .gameGridParent {
     display: flex;
     flex: 1 0;
+    flex-direction: column;
     
     align-items: center;
     justify-content: center;
@@ -107,11 +115,13 @@ footer img {
     background-color: black;
     */
     container-type: size;
+    width: 100%;
+    gap: 1em;
 }
 
 .gameGrid {
-    width: 100cqmin;
-    height: 100cqmin;
+    width: 80cqmin;
+    height: 80cqmin;
 
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -198,13 +208,17 @@ footer img {
     /*
     background-color: lightgray;
     */
+    background-color: lightgray;
+    width: 80cqmin;
 }
 
 .activePlayerBackground {
     border-radius: 6em;
     padding: 0.5em;
     overflow: hidden;
+    /*
     min-width: 112px;
+    */
 }
 
 .activePlayerBackground.active {
@@ -247,14 +261,18 @@ footer img {
 }
 
 .playerHUD img {
-    height: 100px;
     border-radius: 50%;
+    /*
+    height: 100px;
     min-width: 100px;
+    */
 }
 
 .nameTagParent {
     padding: 6px;
+    /*
     width: 180px;
+    */
 }
 
 .playerHUD p {
@@ -262,11 +280,14 @@ footer img {
     font-weight: 600;
     font-size: x-large;
     text-align: start;
+    white-space: nowrap;
 }
 
 .gapBetweenPlayers {
-    max-width: 6em;
     flex: 1;
+    /*
+    max-width: 6em;
+    */
 }
 
 
