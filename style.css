@@ -72,6 +72,7 @@ footer {
     width: 100%;
     bottom: 0;
     height: 2.5rem; 
+    text-align: center;
 }
 
 footer a {
@@ -93,9 +94,9 @@ footer img {
     flex-direction: column;
     flex: 1;
 
-    padding: 1em;
+    padding: 1em 0;
     gap: 2em;
-    min-height: 400px;
+    min-height: 450px;
     min-width: 250px;
 }
 
@@ -208,7 +209,6 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
     /*
     background-color: lightgray;
     */
-    background-color: lightgray;
     width: 80cqmin;
 }
 
@@ -219,6 +219,9 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
     /*
     min-width: 112px;
     */
+    flex-grow: 1;
+    max-width: 280px;
+    width: 100%;
 }
 
 .activePlayerBackground.active {
@@ -237,7 +240,7 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
     align-items: center;
     border: 6px solid var(--colorPlayerOne);
     border-radius: 6em;
-    gap: 1em;
+    gap: 0.5em;
     color: var(--colorPlayerOne);
     overflow: hidden;
     /* container-type: size; */
@@ -278,7 +281,7 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
 .playerHUD p {
     margin: 0;
     font-weight: 600;
-    font-size: x-large;
+    font-size: small;
     text-align: start;
     white-space: nowrap;
 }
@@ -290,4 +293,51 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
     */
 }
 
+/* MOBILE ASPECT RATIO */
+@media (max-width: 400px) {
+    /*
+    .gameGrid {
+        width: 100cqmin;
+        height: 100cqmin;
+    }
 
+    .hudParent {
+        width: 100cqmin;
+    }
+    */
+
+    .main {
+    }
+
+    .playerHUD {
+        gap: 0;
+    }
+
+    .playerHUD p {
+        font-size: small;
+    }
+
+    .activePlayerBackground {
+        flex-grow: 0;
+        width: auto;
+    }
+
+    .nameTagParent {
+        display: none;
+    }
+}
+
+
+@media (min-width: 680px) and (min-height: 750px) {
+    .playerHUD img {
+        height: 60px;
+    }
+
+    .playerHUD {
+        gap: 1em;
+    }
+
+    .playerHUD p {
+        font-size: x-large;
+    }
+}
