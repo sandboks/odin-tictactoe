@@ -220,7 +220,10 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
     min-width: 112px;
     */
     flex-grow: 1;
+    /*
     max-width: 280px;
+    */
+    max-width: 35cqmin;
     width: 100%;
 }
 
@@ -265,6 +268,7 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
 
 .playerHUD img {
     border-radius: 50%;
+    max-height: 10cqmin;
     /*
     height: 100px;
     min-width: 100px;
@@ -294,7 +298,7 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
 }
 
 /* MOBILE ASPECT RATIO */
-@media (max-width: 400px) {
+@media (max-width: 400px) or (max-height: 520px) {
     /*
     .gameGrid {
         width: 100cqmin;
@@ -307,6 +311,7 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
     */
 
     .main {
+        min-height: auto;
     }
 
     .playerHUD {
@@ -326,11 +331,20 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
         display: none;
     }
 }
+/* hide the footer in landscape mobile view */
+@media (max-height: 520px) {
+    footer {
+        display: none;
+    }
+}
 
 
 @media (min-width: 680px) and (min-height: 750px) {
     .playerHUD img {
+        /*
         height: 60px;
+        */
+        height: 10cqmin;
     }
 
     .playerHUD {
