@@ -16,6 +16,8 @@
     --sizePercentPlayerOne: 65%;
     --imageURLo: url("img/checkbox-blank-circle-outline.svg");
     --sizePercentPlayerTwo: 83%;
+
+    --durationFast: 0.1s;
     
     /*
     --main-color: #F28E1C;
@@ -39,13 +41,14 @@
 
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    
-    display: flex;
-    flex: 1;
-    flex-direction: column;
 
     margin: 0px;
-    height: 100vh;
+}
+
+dialog {
+    margin: 1em;    
+    justify-self: center;
+    align-self: center;
 }
 
 a {
@@ -84,6 +87,12 @@ footer img {
     width: 24px;
     height: 24px;
     cursor: pointer;
+}
+
+.contentParent {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
 }
 
 .main {
@@ -172,7 +181,7 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
 }
 
 /* hover state, preview the current player's symbol when they mouse over a panel */
-.gameGridSquareSymbol:not(.gameGridSquare.occupied .gameGridSquareSymbol):hover {
+.gameGridSquare:hover .gameGridSquareSymbol:not(.gameGridSquare.occupied .gameGridSquareSymbol) {
     background-image: var(--currentSymbolURL);
     mask-image: var(--currentSymbolURL);
     background-color: var(--colorPlayerCurrent);
@@ -234,6 +243,17 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
 
 .activePlayerBackground.active.playerTwo {
     background-color: var(--colorPlayerTwo);
+}
+
+
+.canHover:not(.gameGridSquare.occupied):hover {
+    transform: scale(1.1);
+    transition: transform var(--durationFast);
+}
+
+.canHover:not(.gameGridSquare.occupied) {
+    transform: scale(1);
+    transition: transform var(--durationFast);
 }
 
 .playerHUD {

@@ -13,16 +13,18 @@
     -->
 </head>
 <body>
-    <dialog class="StartGameModal">
-        <p>hello</p>
-        <button id="StartGameButton">START</button>
-    </dialog>
-    <dialog class="SelectScreenModal">
-        <p>CHOOSE YOUR CHARACTER</p>
-        <button id="FightButton">FIGHT</button>
-    </dialog>
-    
-    <div class="main">
+    <div class="dialogParent">
+        <dialog class="StartGameModal">
+            <p>hello</p>
+            <button id="StartGameButton">START</button>
+        </dialog>
+        <dialog class="SelectScreenModal">
+            <p>CHOOSE YOUR CHARACTER</p>
+            <button id="FightButton">FIGHT</button>
+        </dialog>
+    </div>
+    <div class="contentParent">
+        <div class="main">
             <div class="gameGridParent">
                 <div class="hudParent">
                     <div class = "activePlayerBackground">
@@ -44,25 +46,27 @@
                     </div>
                 </div>
                 <div class="gameGrid">
-                    <div class="gameGridSquare"><div class="gameGridSquareSymbol"></div></div>
-                    <div class="gameGridSquare"><div class="gameGridSquareSymbol"></div></div>
-                    <div class="gameGridSquare"><div class="gameGridSquareSymbol"></div></div>
-                    <div class="gameGridSquare"><div class="gameGridSquareSymbol"></div></div>
-                    <div class="gameGridSquare"><div class="gameGridSquareSymbol"></div></div>
-                    <div class="gameGridSquare"><div class="gameGridSquareSymbol"></div></div>
-                    <div class="gameGridSquare"><div class="gameGridSquareSymbol"></div></div>
-                    <div class="gameGridSquare"><div class="gameGridSquareSymbol"></div></div>
-                    <div class="gameGridSquare"><div class="gameGridSquareSymbol"></div></div>
+                    <div class="gameGridSquare canHover"><div class="gameGridSquareSymbol"></div></div>
+                    <div class="gameGridSquare canHover"><div class="gameGridSquareSymbol"></div></div>
+                    <div class="gameGridSquare canHover"><div class="gameGridSquareSymbol"></div></div>
+                    <div class="gameGridSquare canHover"><div class="gameGridSquareSymbol"></div></div>
+                    <div class="gameGridSquare canHover"><div class="gameGridSquareSymbol"></div></div>
+                    <div class="gameGridSquare canHover"><div class="gameGridSquareSymbol"></div></div>
+                    <div class="gameGridSquare canHover"><div class="gameGridSquareSymbol"></div></div>
+                    <div class="gameGridSquare canHover"><div class="gameGridSquareSymbol"></div></div>
+                    <div class="gameGridSquare canHover"><div class="gameGridSquareSymbol"></div></div>
                 </div>
             </div>
-        
-    </div>
+        </div>
 
-    <a href="https://github.com/sandboks">
-    <footer>
-            <p>created by @sandboks</p>
-            <img src="img/github-mark.svg" class="buttonImage">
-    </footer>
-    </a>
+        <a href="https://github.com/sandboks">
+            <footer>
+                    <p>created by @sandboks</p>
+                    <img src="img/github-mark.svg" class="buttonImage">
+            </footer>
+        </a>
+    </div>
+    
+
 </body>
 </html>
