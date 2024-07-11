@@ -310,6 +310,10 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
     }
     */
 
+    .hudParent {
+        flex-direction: column;
+    }
+
     .main {
         min-height: auto;
     }
@@ -324,11 +328,11 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
 
     .activePlayerBackground {
         flex-grow: 0;
-        width: auto;
-    }
+        
+        max-width: 100%;
+        width: 100%;
 
-    .nameTagParent {
-        display: none;
+        box-sizing: border-box;
     }
 }
 /* hide the footer in landscape mobile view */
@@ -336,14 +340,15 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
     footer {
         display: none;
     }
+
+    .hudParent {
+        flex-direction: row;
+    }
 }
 
 
-@media (min-width: 680px) and (min-height: 750px) {
+@media (min-width: 700px) and (min-height: 700px) {
     .playerHUD img {
-        /*
-        height: 60px;
-        */
         height: 10cqmin;
     }
 
