@@ -147,11 +147,36 @@ const gameBoard = (() => {
 })();
 
 const HTMLcontroller = (() => {
-
+    
     const gridParentDiv = document.querySelector(".gameGrid");
     let gridSquareDivs = [];
 
     let playerOneHUD = null;
+
+    const InitializeApp = () => {
+        const StartGameModal = document.querySelector(".StartGameModal");
+        const StartGameButton = document.getElementById("StartGameButton");
+
+        StartGameModal.showModal();
+
+        StartGameButton.addEventListener("click", () => {
+            StartGameModal.close();
+            ShowSelectionScreen();
+        });
+    }
+
+    function ShowSelectionScreen() {
+        const SelectionScreenModal = document.querySelector(".SelectScreenModal");
+        const FightButton = document.getElementById("FightButton");
+        //FightButton
+
+        SelectionScreenModal.showModal();
+
+        FightButton.addEventListener("click", () => {
+            SelectionScreenModal.close();
+            InitializeGame();
+        });
+    }
     
     const InitializeGame = () => {
         this.newArr = Array.from(gridParentDiv.children);
@@ -211,13 +236,16 @@ const HTMLcontroller = (() => {
     }
 
     return {
+        InitializeApp,
         InitializeGame,
         MarkSpaceWithPlayer,
         SetActivePlayer,
         SetBothPlayersInactive,
-        MarkSpaceAsVictor
+        MarkSpaceAsVictor,
     }
 })();
+
+HTMLcontroller.InitializeApp();
 
 gameBoard.InitializeGame();
 
