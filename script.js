@@ -5,6 +5,10 @@ const spaceEmpty = 0;
 const spacePlayerOne = 1; // x
 const spacePlayerTwo = 2; // o
 
+// player names
+var player1Name = "Player 1"; // this feels like it could go into a class maybe?
+var player2Name = "Player 2";
+
 var currentPlayer = spacePlayerOne;
 var gameLocked = false;
 var playerVictor = spaceEmpty;
@@ -32,8 +36,12 @@ const gameBoard = (() => {
     const InitializeGame = () => {
         playerVictor == spaceEmpty
         
-        HTMLcontroller.InitializeGame();
         SetCurrentPlayer();
+        HTMLcontroller.InitializeGame();
+
+        console.log(getComputedStyle(r).getPropertyValue('--colorPlayerCurrent'));
+        console.log(getComputedStyle(r).getPropertyValue('--colorPlayerOne'));
+        //HTMLcontroller.SetActivePlayer(currentPlayer - 1);
     };
     
     const MarkSpaceWithPlayer = (row, column, playerNumber) => {
@@ -147,6 +155,7 @@ const gameBoard = (() => {
 })();
 
 const HTMLcontroller = (() => {
+    const r = document.querySelector(':root');
     
     const gridParentDiv = document.querySelector(".gameGrid");
     let gridSquareDivs = [];
@@ -163,6 +172,9 @@ const HTMLcontroller = (() => {
             StartGameModal.close();
             ShowSelectionScreen();
         });
+
+        StartGameModal.close();
+            ShowSelectionScreen();
     }
 
     function ShowSelectionScreen() {
@@ -174,8 +186,51 @@ const HTMLcontroller = (() => {
 
         FightButton.addEventListener("click", () => {
             SelectionScreenModal.close();
-            InitializeGame();
+            gameBoard.InitializeGame();
         });
+
+        let allFighters = document.querySelectorAll(".fighterParent");
+        for (let i = 0; i < allFighters.length; i++) {
+            let currentFighterNode = allFighters[i];
+            let playerNumber = currentFighterNode.id;
+            console.log(playerNumber);
+
+            let colorPicker = currentFighterNode.querySelector('input[type="color"]');
+            colorPicker.addEventListener("input", (event) => {
+                let customColor = event.target.value;
+                switch (~~playerNumber) { // the ~tildes~ are required or it won't work
+                    case spacePlayerOne:
+                        r.style.setProperty('--colorPlayerOne', customColor);
+                        break;
+                    case spacePlayerTwo:
+                        r.style.setProperty('--colorPlayerTwo', customColor);
+                        break;
+                    default:
+                        console.log("nothing found");
+                }
+            });
+
+            let playerNameInput = currentFighterNode.querySelector('input[type="text"]');
+            playerNameInput.addEventListener("input", (event) => {
+                // console.log(playerNameInput.value);
+                switch (~~playerNumber) { // the ~tildes~ are required or it won't work
+                    case spacePlayerOne:
+                        player1Name = playerNameInput.value;
+                        break;
+                    case spacePlayerTwo:
+                        player2Name = playerNameInput.value;
+                        break;
+                }
+
+                UpdateNameTagText();
+            });
+        }
+    }
+
+    function UpdateNameTagText() {
+        let nameTags = document.querySelectorAll(".nameTagParent p");
+        nameTags[0].textContent = player1Name;
+        nameTags[1].textContent = player2Name;
     }
     
     const InitializeGame = () => {
@@ -246,8 +301,6 @@ const HTMLcontroller = (() => {
 })();
 
 HTMLcontroller.InitializeApp();
-
-gameBoard.InitializeGame();
 
 // console.log(game.boardGrid[0][0]); // produces error because boardGrid is private
 

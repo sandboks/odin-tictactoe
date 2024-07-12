@@ -45,11 +45,46 @@ body {
     margin: 0px;
 }
 
+/* DIALOG RELATED */
+
 dialog {
     margin: 1em;    
     justify-self: center;
     align-self: center;
 }
+
+.fightersGrid {
+    margin: 1em 0;
+}
+
+.fighterParent {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.characterSelectAvatar {
+    border-radius: 15%;
+    border: 0.5em solid var(--colorPlayerOne);
+}
+
+.horizontalRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+input[type="color"] {
+    width: 100%;
+}
+
+.toggleCPUbutton {
+    overflow: hidden;
+}
+
+
+
+
+
 
 a {
     text-decoration: none;
@@ -126,7 +161,7 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
     */
     container-type: size;
     width: 100%;
-    gap: 1em;
+    gap: 2em;
 }
 
 .gameGrid {
