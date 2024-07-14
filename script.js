@@ -13,6 +13,12 @@ var currentPlayer = spacePlayerOne;
 var gameLocked = false;
 var playerVictor = spaceEmpty;
 
+let players = []; // a 2D array consisting of 2 Player objects
+function Player1() { return players[0]; }
+function Player2() { return players[1]; }
+//const Player1 = () => { return players[0]; };
+//const Player2 = () => { return players[1]; };
+
 const WINNING_COMBINATIONS = [
     // HORIZONTAL
     [[0, 0], [0, 1], [0, 2]],
@@ -27,20 +33,42 @@ const WINNING_COMBINATIONS = [
     [[0, 2], [1, 1], [2, 0]],
 ];
 
+// PLAYER CLASS
+// used to store info about an individual player, mainly for aesthetic reasons
+class Player {
+    // a '#' in front makes these variables private
+    id = 0;
+    name = "";
+    color = "#ffffff";
+    avatar = 0;
+    
+    constructor(id, name, color, avatar) {
+        this.id = id;
+        this.name = name;
+        this.color = color;
+        this.avatar = avatar;
+    }
+}
+
 const gameBoard = (() => {
     // create a 2d array where each cell contains a 0
     // let array = Array(rows).fill().map(() => Array(columns).fill(0));
     this.boardGrid = Array(3).fill().map(() => Array(3).fill(0)); // this is "function scope", ie, private
-    const r = document.querySelector(':root');
 
-    const InitializeGame = () => {
+    const SetInitialGameState = () => {
         playerVictor == spaceEmpty
-        
-        SetCurrentPlayer();
+
+        players = []; // make sure we clear out the old Player objects
+        players[0] = new Player(0, "Player 1", getComputedStyle(document.querySelector(':root')).getPropertyValue('--colorPlayerOne'), 0);
+        players[1] = new Player(1, "Player 2", getComputedStyle(document.querySelector(':root')).getPropertyValue('--colorPlayerTwo'), 0);
+    };
+
+    const StartNewGame = () => {
+        HTMLcontroller.SetCurrentPlayer();
         HTMLcontroller.InitializeGame();
 
-        console.log(getComputedStyle(r).getPropertyValue('--colorPlayerCurrent'));
-        console.log(getComputedStyle(r).getPropertyValue('--colorPlayerOne'));
+        //console.log(getComputedStyle(r).getPropertyValue('--colorPlayerCurrent'));
+        //console.log(getComputedStyle(r).getPropertyValue('--colorPlayerOne'));
         //HTMLcontroller.SetActivePlayer(currentPlayer - 1);
     };
     
@@ -69,19 +97,13 @@ const gameBoard = (() => {
                 break;
         }
 
-        SetCurrentPlayer();
+        HTMLcontroller.SetCurrentPlayer();
     }
 
     function RecolorWinningPanels(winningPanelsCombo) {
         for (let i = 0; i < winningPanelsCombo.length; i++) {
             HTMLcontroller.MarkSpaceAsVictor(winningPanelsCombo[i][0], winningPanelsCombo[i][1]);
         }
-    }
-
-    function SetCurrentPlayer() {
-        r.style.setProperty('--colorPlayerCurrent', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--colorPlayerOne' : '--colorPlayerTwo'));
-        r.style.setProperty('--currentSymbolURL', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--imageURLx' : '--imageURLo'));
-        r.style.setProperty('--currentSymbolSize', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--sizePercentPlayerOne' : '--sizePercentPlayerTwo'));
     }
 
     function CheckWin(player) {
@@ -117,15 +139,7 @@ const gameBoard = (() => {
     function LockGame() {
         gameLocked = true;
         
-        // lock the hover functionality
-        //r.style.setProperty('--colorPlayerCurrent', 'white');
-        r.style.setProperty('--currentSymbolURL', '');
-
-        // if the game is over because we ran out of spaces, set the active player to no one
-        if (AllSquaresOccupied && playerVictor == spaceEmpty) {
-            HTMLcontroller.SetBothPlayersInactive();
-            r.style.setProperty('--gridSquareBgOccupied', getComputedStyle(r).getPropertyValue('--gridSquareBg'));
-        }
+        HTMLcontroller.ApplyLockVisual(AllSquaresOccupied && playerVictor == spaceEmpty);
     }
 
     const ClickOnSpace = (index) => {
@@ -147,7 +161,8 @@ const gameBoard = (() => {
     }
 
     return {
-        InitializeGame,
+        RestartGame: SetInitialGameState,
+        InitializeGame: StartNewGame,
         MarkSpaceWithPlayer,
         printBoardState,
         ClickOnSpace
@@ -163,6 +178,8 @@ const HTMLcontroller = (() => {
     let playerOneHUD = null;
 
     const InitializeApp = () => {
+        gameBoard.RestartGame();
+        
         const StartGameModal = document.querySelector(".StartGameModal");
         const StartGameButton = document.getElementById("StartGameButton");
 
@@ -180,11 +197,14 @@ const HTMLcontroller = (() => {
     function ShowSelectionScreen() {
         const SelectionScreenModal = document.querySelector(".SelectScreenModal");
         const FightButton = document.getElementById("FightButton");
-        //FightButton
 
         SelectionScreenModal.showModal();
 
+        // when the "FIGHT" button is clicked, we start the new game
+        // this is where all the player input needs to be read, and inserted into the game
         FightButton.addEventListener("click", () => {
+            SetupPlayers();
+            
             SelectionScreenModal.close();
             gameBoard.InitializeGame();
         });
@@ -192,45 +212,51 @@ const HTMLcontroller = (() => {
         let allFighters = document.querySelectorAll(".fighterParent");
         for (let i = 0; i < allFighters.length; i++) {
             let currentFighterNode = allFighters[i];
-            let playerNumber = currentFighterNode.id;
-            console.log(playerNumber);
+            //players[i] = new Player(currentFighterNode.id, "Player " + (i+1), 'white', 0);
+            let currentFighter = players[i];
+            //let playerNumber = currentFighterNode.id;
+            console.log(currentFighter.id);
 
             let colorPicker = currentFighterNode.querySelector('input[type="color"]');
             colorPicker.addEventListener("input", (event) => {
                 let customColor = event.target.value;
-                switch (~~playerNumber) { // the ~tildes~ are required or it won't work
-                    case spacePlayerOne:
-                        r.style.setProperty('--colorPlayerOne', customColor);
-                        break;
-                    case spacePlayerTwo:
-                        r.style.setProperty('--colorPlayerTwo', customColor);
-                        break;
-                    default:
-                        console.log("nothing found");
-                }
+                currentFighter.color = customColor;
+                
             });
 
             let playerNameInput = currentFighterNode.querySelector('input[type="text"]');
             playerNameInput.addEventListener("input", (event) => {
-                // console.log(playerNameInput.value);
-                switch (~~playerNumber) { // the ~tildes~ are required or it won't work
-                    case spacePlayerOne:
-                        player1Name = playerNameInput.value;
-                        break;
-                    case spacePlayerTwo:
-                        player2Name = playerNameInput.value;
-                        break;
-                }
-
-                UpdateNameTagText();
+                currentFighter.name = playerNameInput.value;
             });
         }
     }
 
+
+    // all of this should be in the htmlcontroller!!
+    const SetupPlayers = () => {
+        
+        //players[0] = player1;
+        //players[1] = player2;
+        console.log(players);
+        //console.log(Player1());
+
+        r.style.setProperty('--colorPlayerOne', Player1().color);
+        //r.style.setProperty('--colorPlayerTwo', Player2.color);
+
+        HTMLcontroller.UpdateNameTagText();
+        
+    };
+
     function UpdateNameTagText() {
         let nameTags = document.querySelectorAll(".nameTagParent p");
-        nameTags[0].textContent = player1Name;
-        nameTags[1].textContent = player2Name;
+        nameTags[0].textContent = Player1().name;
+        nameTags[1].textContent = Player2().name;
+    }
+
+    function SetCurrentPlayer() {
+        r.style.setProperty('--colorPlayerCurrent', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--colorPlayerOne' : '--colorPlayerTwo'));
+        r.style.setProperty('--currentSymbolURL', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--imageURLx' : '--imageURLo'));
+        r.style.setProperty('--currentSymbolSize', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--sizePercentPlayerOne' : '--sizePercentPlayerTwo'));
     }
     
     const InitializeGame = () => {
@@ -252,6 +278,16 @@ const HTMLcontroller = (() => {
         let playerHTMLroots = document.getElementsByClassName("activePlayerBackground");
         playerHTMLroots[(playerNumber+1)%2].classList.remove("active");
         playerHTMLroots[playerNumber].classList.add("active");
+    }
+
+    const ApplyLockVisual = (matchEndedInTie) => {
+        r.style.setProperty('--currentSymbolURL', '');
+
+        // if the game is over because we ran out of spaces, set the active player to no one
+        if (matchEndedInTie) {
+            SetBothPlayersInactive();
+            r.style.setProperty('--gridSquareBgOccupied', getComputedStyle(r).getPropertyValue('--gridSquareBg'));
+        }
     }
 
     const SetBothPlayersInactive = () => {
@@ -293,9 +329,11 @@ const HTMLcontroller = (() => {
     return {
         InitializeApp,
         InitializeGame,
+        UpdateNameTagText,
+        SetCurrentPlayer,
         MarkSpaceWithPlayer,
         SetActivePlayer,
-        SetBothPlayersInactive,
+        ApplyLockVisual,
         MarkSpaceAsVictor,
     }
 })();

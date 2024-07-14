@@ -161,7 +161,7 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
     */
     container-type: size;
     width: 100%;
-    gap: 2em;
+    gap: 1em;
 }
 
 .gameGrid {
@@ -403,6 +403,10 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
 
 
 @media (min-width: 700px) and (min-height: 700px) {
+    .gameGridParent {
+        gap: 2em;
+    }
+    
     .playerHUD img {
         height: 10cqmin;
     }
