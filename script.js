@@ -214,6 +214,10 @@ const HTMLcontroller = (() => {
             let playerNameInput = currentFighterNode.querySelector('input[type="text"]');
             playerNameInput.addEventListener("input", (event) => {
                 currentFighter.name = playerNameInput.value;
+                // basic check to make sure the player's name isn't blank
+                if (currentFighter.name.trim().length == 0) {
+                    currentFighter.name = "Player " + (currentFighter.id + 1);
+                }
             });
         }
     }
