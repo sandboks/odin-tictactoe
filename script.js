@@ -41,6 +41,8 @@ class Player {
     name = "";
     color = "#ffffff";
     avatar = 0;
+
+    isCPU = false;
     
     constructor(id, name, color, avatar) {
         this.id = id;
@@ -61,15 +63,6 @@ const gameBoard = (() => {
         players = []; // make sure we clear out the old Player objects
         players[0] = new Player(0, "Player 1", getComputedStyle(document.querySelector(':root')).getPropertyValue('--colorPlayerOne'), 0);
         players[1] = new Player(1, "Player 2", getComputedStyle(document.querySelector(':root')).getPropertyValue('--colorPlayerTwo'), 0);
-    };
-
-    const StartNewGame = () => {
-        HTMLcontroller.SetCurrentPlayer();
-        HTMLcontroller.InitializeGame();
-
-        //console.log(getComputedStyle(r).getPropertyValue('--colorPlayerCurrent'));
-        //console.log(getComputedStyle(r).getPropertyValue('--colorPlayerOne'));
-        //HTMLcontroller.SetActivePlayer(currentPlayer - 1);
     };
     
     const MarkSpaceWithPlayer = (row, column, playerNumber) => {
@@ -97,7 +90,7 @@ const gameBoard = (() => {
                 break;
         }
 
-        HTMLcontroller.SetCurrentPlayer();
+        HTMLcontroller.SetHoverPreviewToCurrentPlayer();
     }
 
     function RecolorWinningPanels(winningPanelsCombo) {
@@ -145,8 +138,8 @@ const gameBoard = (() => {
     const ClickOnSpace = (index) => {
         if (gameLocked)
             return;
-        //alert("you clicked on space #: " + index);
         
+        // convert index to 2D array coordinates
         let y = Math.floor(index / 3);
         let x = index % 3
 
@@ -154,17 +147,8 @@ const gameBoard = (() => {
             MarkSpaceWithPlayer (y, x, currentPlayer);
     };
 
-    const printBoardState = () => {
-        boardGrid.forEach(function(space) {
-            console.log(space);
-        });
-    }
-
     return {
-        RestartGame: SetInitialGameState,
-        InitializeGame: StartNewGame,
-        MarkSpaceWithPlayer,
-        printBoardState,
+        SetInitialGameState,
         ClickOnSpace
     }
 })();
@@ -178,7 +162,7 @@ const HTMLcontroller = (() => {
     let playerOneHUD = null;
 
     const InitializeApp = () => {
-        gameBoard.RestartGame();
+        gameBoard.SetInitialGameState();
         
         const StartGameModal = document.querySelector(".StartGameModal");
         const StartGameButton = document.getElementById("StartGameButton");
@@ -203,10 +187,13 @@ const HTMLcontroller = (() => {
         // when the "FIGHT" button is clicked, we start the new game
         // this is where all the player input needs to be read, and inserted into the game
         FightButton.addEventListener("click", () => {
-            SetupPlayers();
+            SetupPlayerHUD();
             
             SelectionScreenModal.close();
-            gameBoard.InitializeGame();
+            //gameBoard.StartNewGame();
+
+            SetHoverPreviewToCurrentPlayer();
+            InitializeGame();
         });
 
         let allFighters = document.querySelectorAll(".fighterParent");
@@ -221,7 +208,7 @@ const HTMLcontroller = (() => {
             colorPicker.addEventListener("input", (event) => {
                 let customColor = event.target.value;
                 currentFighter.color = customColor;
-                
+                UpdateColors();
             });
 
             let playerNameInput = currentFighterNode.querySelector('input[type="text"]');
@@ -232,32 +219,28 @@ const HTMLcontroller = (() => {
     }
 
 
-    // all of this should be in the htmlcontroller!!
-    const SetupPlayers = () => {
-        
-        //players[0] = player1;
-        //players[1] = player2;
-        console.log(players);
-        //console.log(Player1());
-
+    const SetupPlayerHUD = () => {
+        UpdateColors();
+        UpdateNameTagText();
+    };
+    
+    const UpdateColors = () => {
         r.style.setProperty('--colorPlayerOne', Player1().color);
-        //r.style.setProperty('--colorPlayerTwo', Player2.color);
-
-        HTMLcontroller.UpdateNameTagText();
-        
+        r.style.setProperty('--colorPlayerTwo', Player2().color);
     };
 
-    function UpdateNameTagText() {
+    
+    const UpdateNameTagText = () => {
         let nameTags = document.querySelectorAll(".nameTagParent p");
         nameTags[0].textContent = Player1().name;
         nameTags[1].textContent = Player2().name;
-    }
+    };
 
-    function SetCurrentPlayer() {
+    const SetHoverPreviewToCurrentPlayer = () => {
         r.style.setProperty('--colorPlayerCurrent', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--colorPlayerOne' : '--colorPlayerTwo'));
         r.style.setProperty('--currentSymbolURL', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--imageURLx' : '--imageURLo'));
         r.style.setProperty('--currentSymbolSize', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--sizePercentPlayerOne' : '--sizePercentPlayerTwo'));
-    }
+    };
     
     const InitializeGame = () => {
         this.newArr = Array.from(gridParentDiv.children);
@@ -330,7 +313,7 @@ const HTMLcontroller = (() => {
         InitializeApp,
         InitializeGame,
         UpdateNameTagText,
-        SetCurrentPlayer,
+        SetHoverPreviewToCurrentPlayer,
         MarkSpaceWithPlayer,
         SetActivePlayer,
         ApplyLockVisual,
@@ -341,4 +324,3 @@ const HTMLcontroller = (() => {
 HTMLcontroller.InitializeApp();
 
 // console.log(game.boardGrid[0][0]); // produces error because boardGrid is private
-

@@ -48,7 +48,9 @@ body {
 /* DIALOG RELATED */
 
 dialog {
-    margin: 1em;    
+    margin: 1em;
+    padding: 2em;
+    border-radius: 2em; 
     justify-self: center;
     align-self: center;
 }
@@ -73,6 +75,60 @@ dialog {
     grid-template-columns: 1fr 1fr;
 }
 
+.inputContainer {
+    position: relative;
+}
+
+.labelContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;;
+    
+    color: silver;
+    position: absolute;
+    left: 0.5em;
+    top: 0;
+    /* padding: 0.25em; */
+    pointer-events: none;
+    transition: transform 300ms;
+    transform-origin: left;
+    height: 100%;
+}
+
+input[type=text] {
+    padding: 0.5em;
+    border-radius: 0.5em;
+    width: 100%;
+    border: 2px solid silver;
+    /* display: flex; */
+    /* flex-grow: 1; */
+    /* display: grid; */
+    box-sizing: border-box;
+}
+
+input + .labelContainer label {
+  font-size: 16px;
+  background-color: #ffffff00;
+  border-radius: 0.25em;
+  padding: 0.25em;
+  /*
+  left: 0;
+  top: 5px;
+  */
+  pointer-events: none; /* Label doesn't interfere with pointer events */
+  transition: transform 300ms; /* Smooth transition for transformation */
+  transform-origin: left; /* Think of this as an imaginary point around which all these transformations happen */
+}
+
+/* when selected, or has been filled out */
+input:focus + .labelContainer label,
+input:valid + .labelContainer label {
+  transform: scale(0.8) translateY(-1.6em); /* Scale down and move up on focus or non-empty input */
+  background-color: white;
+  border-radius: 0.25em;
+  padding: 0.25em;
+}
+
 input[type="color"] {
     width: 100%;
 }
@@ -84,19 +140,11 @@ input[type="color"] {
 
 
 
-
+/* FOOTER */
 
 a {
     text-decoration: none;
     color: inherit;
-}
-
-.header, .footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #1F2937;
-    color: white;
 }
 
 footer {
@@ -123,6 +171,8 @@ footer img {
     height: 24px;
     cursor: pointer;
 }
+
+/* MAIN CONTENT */
 
 .contentParent {
     display: flex;

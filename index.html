@@ -23,7 +23,12 @@
             <div class="fightersGrid">
                 <div class="fighterParent" id="1">
                     <img src="img/Normal.png" class="characterSelectAvatar">
-                    <input type="text" name="playerName" placeholder="Name">
+                    <div class="inputContainer">
+                        <input type="text" name="playerName" required minlength="1">
+                        <div class="labelContainer">
+                            <label for="playerName">Name</span></label>
+                        </div>
+                    </div>
                     <div class="horizontalRow">
                         <div class="colorPickWrapper">
                             <input type="color" id="colorPicker" name="customColor" value="#0099ff">
