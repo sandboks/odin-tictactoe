@@ -173,7 +173,7 @@ const gameBoard = (() => {
 
 const ComputerPlayer = (() => {
     const PerformMove = (boardGrid) => {
-        let thinkingTime = (Math.random() * 2000) + 250;
+        let thinkingTime = (Math.random() * 2500) + 500;
         
         sleep(thinkingTime).then(() => { CalculateAndExecuteMove(boardGrid); });
     }
