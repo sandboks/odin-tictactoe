@@ -18,6 +18,8 @@
     --sizePercentPlayerTwo: 83%;
 
     --durationFast: 0.1s;
+
+    --borderRadiusSmall: 0.25em;
     
     /*
     --main-color: #F28E1C;
@@ -50,6 +52,7 @@ body {
 dialog {
     margin: 1em;
     padding: 2em;
+    border: none;
     border-radius: 2em; 
     justify-self: center;
     align-self: center;
@@ -73,6 +76,7 @@ dialog {
 .horizontalRow {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    height: 3em;
 }
 
 .inputContainer {
@@ -96,7 +100,8 @@ dialog {
 }
 
 input[type=text] {
-    padding: 0.5em;
+    padding: 1em;
+    font-size: 1em;
     border-radius: 0.5em;
     width: 100%;
     border: 2px solid silver;
@@ -109,8 +114,8 @@ input[type=text] {
 input + .labelContainer label {
   font-size: 16px;
   background-color: #ffffff00;
-  border-radius: 0.25em;
-  padding: 0.25em;
+  border-radius: var(--borderRadiusSmall);
+  padding: var(--borderRadiusSmall);
   /*
   left: 0;
   top: 5px;
@@ -123,14 +128,73 @@ input + .labelContainer label {
 /* when selected, or has been filled out */
 input:focus + .labelContainer label,
 input:valid + .labelContainer label {
-  transform: scale(0.8) translateY(-1.6em); /* Scale down and move up on focus or non-empty input */
+  transform: scale(0.8) translateY(-2em) translateX(0.3em); /* Scale down and move up on focus or non-empty input */
   background-color: white;
-  border-radius: 0.25em;
-  padding: 0.25em;
+  border-radius: var(--borderRadiusSmall);
+  padding: var(--borderRadiusSmall);
 }
 
 input[type="color"] {
     width: 100%;
+    height: 100%;
+}
+
+/*
+css code based on this codepen by "Coding Artist":
+https://codepen.io/Coding-Artist/pen/poLrBxr
+*/
+input[type="checkbox"] {
+    margin: 0;
+}
+
+input[type="checkbox"]:before {
+	font-size: 1.5em;
+	content: "CPU";
+    height: 100%;
+	/*
+    position: absolute;
+	width: 3.75em;
+	height: 2.9em;
+	background-color: #2d2936;
+    */
+	background-color: white;
+    border: 2px solid silver;
+    box-sizing: border-box;
+    border-radius: var(--borderRadiusSmall);
+	color: #a0a0a0;
+	top: 0.42em;
+	left: 0.42em;
+	-webkit-transition: 0.3s;
+	-o-transition: 0.3s;
+	transition: 0.3s;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	font-family: "Poppins", sans-serif;
+	font-weight: 600;
+	letter-spacing: 1px;
+}
+input[type="checkbox"]:checked {
+	background: -o-linear-gradient(315deg, #8175fe, #89befe);
+	background: linear-gradient(135deg, #8175fe, #89befe);
+}
+input[type="checkbox"]:checked:before {
+	content: "Human";
+    letter-spacing: normal;
+	/*
+    left: 4.1em;
+    */
+	color: #89befe;
+}
+
+button {
+    border-radius: var(--borderRadiusSmall);
 }
 
 .toggleCPUbutton {
