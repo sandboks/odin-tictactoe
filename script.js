@@ -9,13 +9,15 @@ const spacePlayerTwo = 2; // o
 var player1Name = "Player 1"; // this feels like it could go into a class maybe?
 var player2Name = "Player 2";
 
-var currentPlayer = spacePlayerOne;
-var gameLocked = false;
+var currentPlayerID = spacePlayerOne;
 var playerVictor = spaceEmpty;
+var gameLocked = true; // start as true
+function InputIsAllowed() { return (!gameLocked && CurrentPlayer().isCPU == false); }
 
 let players = []; // a 2D array consisting of 2 Player objects
 function Player1() { return players[0]; }
 function Player2() { return players[1]; }
+function CurrentPlayer() { return players[currentPlayerID - 1]; }
 //const Player1 = () => { return players[0]; };
 //const Player2 = () => { return players[1]; };
 
@@ -58,39 +60,54 @@ const gameBoard = (() => {
     this.boardGrid = Array(3).fill().map(() => Array(3).fill(0)); // this is "function scope", ie, private
 
     const SetInitialGameState = () => {
-        playerVictor == spaceEmpty
+        playerVictor = spaceEmpty
+        gameLocked = true;
+        allowInput = false;
 
         players = []; // make sure we clear out the old Player objects
         players[0] = new Player(0, "Player 1", getComputedStyle(document.querySelector(':root')).getPropertyValue('--colorPlayerOne'), 0);
         players[1] = new Player(1, "Player 2", getComputedStyle(document.querySelector(':root')).getPropertyValue('--colorPlayerTwo'), 0);
     };
+
+    const StartGame = () => {
+        gameLocked = false;
+        CheckForCPU();
+    };
     
     const MarkSpaceWithPlayer = (row, column, playerNumber) => {
-        //console.log("marking space");
         boardGrid[row][column] = playerNumber;
         HTMLcontroller.MarkSpaceWithPlayer(row, column, playerNumber);
 
         if (GameIsOver() == true) {
-            // alert("GAME OVERRRRR");
             LockGame();
         }
         else {
             ToggleCurrentPlayer();
-            HTMLcontroller.SetActivePlayer(currentPlayer - 1);
+            HTMLcontroller.SetActivePlayer(currentPlayerID - 1);
         }
     };
 
     function ToggleCurrentPlayer() {
-        switch(currentPlayer) {
+        switch(currentPlayerID) {
             case spacePlayerOne:
-                currentPlayer = spacePlayerTwo;
+                currentPlayerID = spacePlayerTwo;
                 break;
             case spacePlayerTwo:
-                currentPlayer = spacePlayerOne;
+                currentPlayerID = spacePlayerOne;
                 break;
         }
 
         HTMLcontroller.SetHoverPreviewToCurrentPlayer();
+
+        CheckForCPU();
+    }
+
+    function CheckForCPU() {
+        console.log("check if player is AI here _" + CurrentPlayer().isCPU);
+        if (CurrentPlayer().isCPU) {
+            //allowInput = false;
+            ComputerPlayer.PerformMove(boardGrid);
+        }
     }
 
     function RecolorWinningPanels(winningPanelsCombo) {
@@ -135,8 +152,8 @@ const gameBoard = (() => {
         HTMLcontroller.ApplyLockVisual(AllSquaresOccupied && playerVictor == spaceEmpty);
     }
 
-    const ClickOnSpace = (index) => {
-        if (gameLocked)
+    const ClickOnSpace = (index, override = false) => {
+        if (!InputIsAllowed() && !override)
             return;
         
         // convert index to 2D array coordinates
@@ -144,12 +161,70 @@ const gameBoard = (() => {
         let x = index % 3
 
         if (boardGrid[y][x] == spaceEmpty)
-            MarkSpaceWithPlayer (y, x, currentPlayer);
+            MarkSpaceWithPlayer (y, x, currentPlayerID);
     };
 
     return {
         SetInitialGameState,
+        StartGame,
         ClickOnSpace
+    }
+})();
+
+const ComputerPlayer = (() => {
+    const PerformMove = (boardGrid) => {
+        sleep(2000).then(() => { CalculateAndExecuteMove(boardGrid); });
+    }
+
+    const CalculateAndExecuteMove = (boardGrid) => {
+        // go through each space and give it a "weight" based on a heuristic
+        // want to rank options by some simple logic, in decreasing score:
+        // if that space will win the game, give it full marks (and terminate there tbh)
+        // if that space will block the other player from winning, we need to pick that, so store this but don't terminate early because there still might be a winner
+        // for whatever's left, score it based on how many remaining winning combinations it's included in, and add it to a list
+        // if that space is occupied, ignore it
+        // once we've gone through this process:
+        // do we have a "blocker"? If so, return that
+        // else, return the candidate with the highest score
+
+        // examine each space and for now, return any space that's valid
+        let candidates = Array(9).fill(-1); // start by marking each space with -1
+        for (let i = 0; i < candidates.length; i++) {
+            // convert index to 2D array coordinates
+            let y = Math.floor(i / 3);
+            let x = i % 3
+            let currentSpace = boardGrid[y][x];
+            if (currentSpace != spaceEmpty) {
+                continue; // skip this one
+            }
+            candidates[i] = 0; // mark this space as valid
+            // we're not going to check anything else for now lol
+        }
+
+        bestCandidates = getAllIndexes(candidates, Math.max(...candidates));
+        let randomElement = bestCandidates[Math.floor(Math.random() * bestCandidates.length)];
+        //let chosenSpaceIndex = candidates.indexOf(Math.max(...candidates));
+        gameBoard.ClickOnSpace(randomElement, true);
+    }
+
+    // get an array with all the indexes of a given value VAL in an array ARR
+    // https://stackoverflow.com/questions/20798477/how-to-find-the-indexes-of-all-occurrences-of-an-element-in-array
+    const getAllIndexes = (arr, val) => {
+        var indexes = [], i;
+        for(i = 0; i < arr.length; i++)
+            if (arr[i] === val)
+                indexes.push(i);
+        return indexes;
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    //sleep(2000).then(() => { console.log('World!'); });
+
+    return {
+        PerformMove,
     }
 })();
 
@@ -190,10 +265,10 @@ const HTMLcontroller = (() => {
             SetupPlayerHUD();
             
             SelectionScreenModal.close();
-            //gameBoard.StartNewGame();
 
             SetHoverPreviewToCurrentPlayer();
             InitializeGame();
+            gameBoard.StartGame();
         });
 
         let allFighters = document.querySelectorAll(".fighterParent");
@@ -219,6 +294,12 @@ const HTMLcontroller = (() => {
                     currentFighter.name = "Player " + (currentFighter.id + 1);
                 }
             });
+
+            let toggleIsHuman = currentFighterNode.querySelector('#isHumanToggle');
+            toggleIsHuman.addEventListener("input", (event) => {
+                //console.log(toggleIsHuman.checked);
+                currentFighter.isCPU = (!toggleIsHuman.checked);
+            });
         }
     }
 
@@ -241,9 +322,9 @@ const HTMLcontroller = (() => {
     };
 
     const SetHoverPreviewToCurrentPlayer = () => {
-        r.style.setProperty('--colorPlayerCurrent', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--colorPlayerOne' : '--colorPlayerTwo'));
-        r.style.setProperty('--currentSymbolURL', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--imageURLx' : '--imageURLo'));
-        r.style.setProperty('--currentSymbolSize', getComputedStyle(r).getPropertyValue((currentPlayer == spacePlayerOne) ? '--sizePercentPlayerOne' : '--sizePercentPlayerTwo'));
+        r.style.setProperty('--colorPlayerCurrent', getComputedStyle(r).getPropertyValue((currentPlayerID == spacePlayerOne) ? '--colorPlayerOne' : '--colorPlayerTwo'));
+        r.style.setProperty('--currentSymbolURL', getComputedStyle(r).getPropertyValue((currentPlayerID == spacePlayerOne) ? '--imageURLx' : '--imageURLo'));
+        r.style.setProperty('--currentSymbolSize', getComputedStyle(r).getPropertyValue((currentPlayerID == spacePlayerOne) ? '--sizePercentPlayerOne' : '--sizePercentPlayerTwo'));
     };
     
     const InitializeGame = () => {
@@ -274,6 +355,9 @@ const HTMLcontroller = (() => {
         if (matchEndedInTie) {
             SetBothPlayersInactive();
             r.style.setProperty('--gridSquareBgOccupied', getComputedStyle(r).getPropertyValue('--gridSquareBg'));
+
+            // get rid of the "clicked" state
+
         }
     }
 
@@ -291,6 +375,9 @@ const HTMLcontroller = (() => {
             console.log("Oh no");
 
         currentSpace.classList.add("occupied");
+        if (!currentSpace.classList.contains("clicked"))
+            currentSpace.classList.add("clicked");
+
         switch(playerNumber) {
             case spacePlayerOne:
                 currentSpace.classList.add("playerX");

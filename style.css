@@ -77,6 +77,7 @@ dialog {
     display: grid;
     grid-template-columns: 1fr 1fr;
     height: 3em;
+    gap: 0.5em;
 }
 
 .inputContainer {
@@ -149,21 +150,8 @@ input[type="checkbox"] {
 
 input[type="checkbox"]:before {
 	font-size: 1.5em;
-	content: "CPU";
     height: 100%;
-	/*
-    position: absolute;
-	width: 3.75em;
-	height: 2.9em;
-	background-color: #2d2936;
-    */
-	background-color: white;
-    border: 2px solid silver;
-    box-sizing: border-box;
-    border-radius: var(--borderRadiusSmall);
-	color: #a0a0a0;
-	top: 0.42em;
-	left: 0.42em;
+
 	-webkit-transition: 0.3s;
 	-o-transition: 0.3s;
 	transition: 0.3s;
@@ -178,7 +166,24 @@ input[type="checkbox"]:before {
 	justify-content: center;
 	font-family: "Poppins", sans-serif;
 	font-weight: 600;
+	/*
+    position: absolute;
+	width: 3.75em;
+	height: 2.9em;
+	background-color: #2d2936;
+    */
+    border: 2px solid silver;
+    box-sizing: border-box;
+    border-radius: var(--borderRadiusSmall);
+	
+    content: "CPU";
+	background-color: #e5e5e5;
+	color: #a0a0a0;
 	letter-spacing: 1px;
+	/*
+    top: 0.42em;
+	left: 0.42em;
+    */
 }
 input[type="checkbox"]:checked {
 	background: -o-linear-gradient(315deg, #8175fe, #89befe);
@@ -187,6 +192,7 @@ input[type="checkbox"]:checked {
 input[type="checkbox"]:checked:before {
 	content: "Human";
     letter-spacing: normal;
+    background-color: white;
 	/*
     left: 4.1em;
     */
@@ -288,7 +294,6 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
 }
 
 .gameGridSquare {
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -305,6 +310,27 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
     border-radius: 3em;
     border: 0.5em solid var(--colorPanelBorder);
     overflow: hidden;
+}
+
+/*
+https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
+*/
+[class*='clicked'] {
+    /*
+    box-shadow: 0 0 0, inset 0 2px 10px rgba(0, 0, 0, .4);
+    filter: brightness(1.2);
+    */
+    animation: bounce var(--durationFast) ease 1;
+}
+
+@keyframes bounce {
+    50% {
+        transform: scale(0.95);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .gameGridSquare.occupied {
