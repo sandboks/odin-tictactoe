@@ -103,7 +103,7 @@ const gameBoard = (() => {
     }
 
     function CheckForCPU() {
-        console.log("check if player is AI here _" + CurrentPlayer().isCPU);
+        //console.log("check if player is AI here _" + CurrentPlayer().isCPU);
         if (CurrentPlayer().isCPU) {
             //allowInput = false;
             ComputerPlayer.PerformMove(boardGrid);
@@ -173,7 +173,9 @@ const gameBoard = (() => {
 
 const ComputerPlayer = (() => {
     const PerformMove = (boardGrid) => {
-        sleep(2000).then(() => { CalculateAndExecuteMove(boardGrid); });
+        let thinkingTime = (Math.random() * 2000) + 250;
+        
+        sleep(thinkingTime).then(() => { CalculateAndExecuteMove(boardGrid); });
     }
 
     const CalculateAndExecuteMove = (boardGrid) => {
@@ -323,8 +325,12 @@ const HTMLcontroller = (() => {
 
     const SetHoverPreviewToCurrentPlayer = () => {
         r.style.setProperty('--colorPlayerCurrent', getComputedStyle(r).getPropertyValue((currentPlayerID == spacePlayerOne) ? '--colorPlayerOne' : '--colorPlayerTwo'));
-        r.style.setProperty('--currentSymbolURL', getComputedStyle(r).getPropertyValue((currentPlayerID == spacePlayerOne) ? '--imageURLx' : '--imageURLo'));
         r.style.setProperty('--currentSymbolSize', getComputedStyle(r).getPropertyValue((currentPlayerID == spacePlayerOne) ? '--sizePercentPlayerOne' : '--sizePercentPlayerTwo'));
+
+        if (CurrentPlayer().isCPU) 
+            r.style.setProperty('--currentSymbolURL', '');
+        else
+            r.style.setProperty('--currentSymbolURL', getComputedStyle(r).getPropertyValue((currentPlayerID == spacePlayerOne) ? '--imageURLx' : '--imageURLo'));
     };
     
     const InitializeGame = () => {
@@ -391,13 +397,6 @@ const HTMLcontroller = (() => {
     const MarkSpaceAsVictor = (row, column) => {
         let currentSpace = gridSquareDivs[row][column];
         currentSpace.classList.add("victory");
-    }
-
-    function PrintDivs() {
-        console.log(gridSquareDivs.length);
-        gridSquareDivs.forEach(function(child) {
-            console.log(child);
-        });
     }
 
     return {
