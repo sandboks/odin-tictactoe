@@ -219,11 +219,10 @@ const ComputerPlayer = (() => {
         return indexes;
     }
 
+    // https://www.sitepoint.com/delay-sleep-pause-wait/
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-    
-    //sleep(2000).then(() => { console.log('World!'); });
 
     return {
         PerformMove,
@@ -298,6 +297,7 @@ const HTMLcontroller = (() => {
             });
 
             let toggleIsHuman = currentFighterNode.querySelector('#isHumanToggle');
+            currentFighter.isCPU = (!toggleIsHuman.checked); // do this at least once in case it's set checked/unchecked in the HTML
             toggleIsHuman.addEventListener("input", (event) => {
                 //console.log(toggleIsHuman.checked);
                 currentFighter.isCPU = (!toggleIsHuman.checked);

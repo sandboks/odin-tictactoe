@@ -12,14 +12,16 @@
     /*--url: url(yoururl);*/
     --currentSymbolSize: 100%;
 
-    --imageURLx: url("img/batsu.svg");
+    --imageURLx: url("img/batsu.svg"); /* fun trivia factoid: "batsu" is Japanese for an "x" symbol */
     --sizePercentPlayerOne: 65%;
-    --imageURLo: url("img/maru.svg");
+    --imageURLo: url("img/maru.svg"); /* fun trivia factoid: "maru" is Japanese for an "o" symbol */
     --sizePercentPlayerTwo: 83%;
 
     --durationFast: 0.1s;
 
     --borderRadiusSmall: 0.25em;
+
+    --buttonHeight: 3em;
     
     /*
     --main-color: #F28E1C;
@@ -60,8 +62,14 @@ dialog {
 
 /* CHARACTER SELECT SCREEN */
 
+.SelectScreenModal {
+    text-align: center;
+}
+
 .fightersGrid {
     margin: 1em 0;
+    display: flex;
+    gap: 3em;
 }
 
 .fighterParent {
@@ -75,15 +83,20 @@ dialog {
     border: 0.5em solid var(--colorPlayerOne);
 }
 
+[id='2'] .characterSelectAvatar {
+    border: 0.5em solid var(--colorPlayerTwo);
+}
+
 .horizontalRow {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    height: 3em;
+    height: var(--buttonHeight);
     gap: 0.5em;
 }
 
 .inputContainer {
     position: relative;
+    height: var(--buttonHeight);
 }
 
 .labelContainer {
@@ -107,6 +120,7 @@ input[type=text] {
     font-size: 1em;
     border-radius: 0.5em;
     width: 100%;
+    height: 100%;
     border: 2px solid silver;
     /* display: flex; */
     /* flex-grow: 1; */
@@ -140,6 +154,9 @@ input:valid + .labelContainer label {
 input[type="color"] {
     width: 100%;
     height: 100%;
+    border-width: 2px;
+    border-radius: var(--borderRadiusSmall);
+    border-color: var(--colorPanelBorder);
 }
 
 /*
@@ -148,11 +165,14 @@ https://codepen.io/Coding-Artist/pen/poLrBxr
 */
 input[type="checkbox"] {
     margin: 0;
+    width: 100%;
+    height: 100%;
 }
 
 input[type="checkbox"]:before {
 	font-size: 1.5em;
     height: 100%;
+    width: 100%;
 
 	-webkit-transition: 0.3s;
 	-o-transition: 0.3s;
@@ -203,6 +223,10 @@ input[type="checkbox"]:checked:before {
 
 button {
     border-radius: var(--borderRadiusSmall);
+    /*
+    height: var(--buttonHeight);
+    */
+    height: 100%;
 }
 
 .toggleCPUbutton {
@@ -217,13 +241,6 @@ button {
 }
 
 .inputBlock {
-    /*
-    background-color: #00000064;
-    border: 0.5em solid silver;
-    border-radius: 1em;
-    box-sizing: border-box;
-    */
-
     height: 100%;
     width: 100%;
     position: absolute;

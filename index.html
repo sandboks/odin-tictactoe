@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odin Tic-Tac-Toe</title>
+    <title>Tic-Tactics</title>
 
     <link rel="stylesheet" href="./style.css">
     <script src="script.js" defer></script>
@@ -19,7 +19,7 @@
             <button id="StartGameButton">START</button>
         </dialog>
         <dialog class="SelectScreenModal">
-            <p>CHOOSE YOUR CHARACTER</p>
+            <h2>CHOOSE YOUR CHARACTER</h2>
             <div class="fightersGrid">
                 <div class="fighterParent" id="1">
                     <img src="img/avatar/0.png" class="characterSelectAvatar">
@@ -34,13 +34,27 @@
                             <input type="color" id="colorPicker" name="customColor" value="#0099ff">
                         </div>
                         <input type="checkbox" id="isHumanToggle" checked/> <!-- checked means it's true by default -->
-                        <!--
-                        <button class="toggleCPUbutton">HUMAN</button>
-                        -->
+                    </div>
+                </div>
+                <div class="fighterParent" id="2">
+                    <img src="img/avatar/1.png" class="characterSelectAvatar">
+                    <div class="inputContainer">
+                        <input type="text" id="playerName" required minlength="1" maxlength="16">
+                        <div class="labelContainer">
+                            <label for="playerName">Name</span></label>
+                        </div>
+                    </div>
+                    <div class="horizontalRow">
+                        <div class="colorPickWrapper">
+                            <input type="color" id="colorPicker" name="customColor" value="#ff9d00">
+                        </div>
+                        <input type="checkbox" id="isHumanToggle"/>
                     </div>
                 </div>
             </div>
-            <button id="FightButton">FIGHT</button>
+            <div class="horizontalRow">
+                <button id="FightButton">FIGHT</button>
+            </div>
         </dialog>
     </div>
     <div class="contentParent">

@@ -26,9 +26,10 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 - SVG color manipulation
 - css masking properties
 - 'cqmin' units
+- 'Promise' and 'resolve' keywords to create pauses
+- blocking mouse input with an invisible overlay
 
 # TODO
-- block mouse input with a dialog overlay?
 - find a better way to make artifical wait pauses
 
 # CREDITS
