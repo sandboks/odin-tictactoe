@@ -73,9 +73,14 @@ const gameBoard = (() => {
         CheckForCPU();
     };
     
-    const MarkSpaceWithPlayer = (row, column, playerNumber) => {
+    async function MarkSpaceWithPlayer (row, column, playerNumber) {
         boardGrid[row][column] = playerNumber;
         HTMLcontroller.MarkSpaceWithPlayer(row, column, playerNumber);
+
+
+        HTMLcontroller.SetPlayerInputBlocker(true);
+        // add a pause here
+        await ComputerPlayer.sleep(500);
 
         if (GameIsOver() == true) {
             LockGame();
@@ -84,7 +89,7 @@ const gameBoard = (() => {
             ToggleCurrentPlayer();
             HTMLcontroller.SetActivePlayer(currentPlayerID - 1);
         }
-    };
+    }
 
     function ToggleCurrentPlayer() {
         switch(currentPlayerID) {
@@ -226,6 +231,7 @@ const ComputerPlayer = (() => {
 
     return {
         PerformMove,
+        sleep,
     }
 })();
 
@@ -275,10 +281,7 @@ const HTMLcontroller = (() => {
         let allFighters = document.querySelectorAll(".fighterParent");
         for (let i = 0; i < allFighters.length; i++) {
             let currentFighterNode = allFighters[i];
-            //players[i] = new Player(currentFighterNode.id, "Player " + (i+1), 'white', 0);
             let currentFighter = players[i];
-            //let playerNumber = currentFighterNode.id;
-            console.log(currentFighter.id);
 
             let colorPicker = currentFighterNode.querySelector('input[type="color"]');
             colorPicker.addEventListener("input", (event) => {
@@ -296,7 +299,7 @@ const HTMLcontroller = (() => {
                 }
             });
 
-            let toggleIsHuman = currentFighterNode.querySelector('#isHumanToggle');
+            let toggleIsHuman = currentFighterNode.querySelector('[name="isHumanToggle"]');
             currentFighter.isCPU = (!toggleIsHuman.checked); // do this at least once in case it's set checked/unchecked in the HTML
             toggleIsHuman.addEventListener("input", (event) => {
                 //console.log(toggleIsHuman.checked);
