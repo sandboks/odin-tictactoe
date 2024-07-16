@@ -12,9 +12,9 @@
     /*--url: url(yoururl);*/
     --currentSymbolSize: 100%;
 
-    --imageURLx: url("img/x-symbol-svgrepo-com.svg");
+    --imageURLx: url("img/batsu.svg");
     --sizePercentPlayerOne: 65%;
-    --imageURLo: url("img/checkbox-blank-circle-outline.svg");
+    --imageURLo: url("img/maru.svg");
     --sizePercentPlayerTwo: 83%;
 
     --durationFast: 0.1s;
@@ -57,6 +57,8 @@ dialog {
     justify-self: center;
     align-self: center;
 }
+
+/* CHARACTER SELECT SCREEN */
 
 .fightersGrid {
     margin: 1em 0;
@@ -205,6 +207,37 @@ button {
 
 .toggleCPUbutton {
     overflow: hidden;
+}
+
+
+/* INPUT BLOCK OVERLAY MODAL */
+
+.gameGridRoot {
+    position: relative;
+}
+
+.inputBlock {
+    /*
+    background-color: #00000064;
+    border: 0.5em solid silver;
+    border-radius: 1em;
+    box-sizing: border-box;
+    */
+
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+}
+
+.inputBlockOverlayModal {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff00;
+}
+
+.inputBlockOverlayModal::backdrop {
+    background-color: #ffffff00;
 }
 
 

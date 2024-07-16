@@ -62,7 +62,6 @@ const gameBoard = (() => {
     const SetInitialGameState = () => {
         playerVictor = spaceEmpty
         gameLocked = true;
-        allowInput = false;
 
         players = []; // make sure we clear out the old Player objects
         players[0] = new Player(0, "Player 1", getComputedStyle(document.querySelector(':root')).getPropertyValue('--colorPlayerOne'), 0);
@@ -104,8 +103,8 @@ const gameBoard = (() => {
 
     function CheckForCPU() {
         //console.log("check if player is AI here _" + CurrentPlayer().isCPU);
+        HTMLcontroller.SetPlayerInputBlocker(CurrentPlayer().isCPU);
         if (CurrentPlayer().isCPU) {
-            //allowInput = false;
             ComputerPlayer.PerformMove(boardGrid);
         }
     }
@@ -148,6 +147,7 @@ const gameBoard = (() => {
 
     function LockGame() {
         gameLocked = true;
+        HTMLcontroller.SetPlayerInputBlocker(true);
         
         HTMLcontroller.ApplyLockVisual(AllSquaresOccupied && playerVictor == spaceEmpty);
     }
@@ -305,6 +305,11 @@ const HTMLcontroller = (() => {
         }
     }
 
+    const SetPlayerInputBlocker = (isVisible) => {
+        const inputBlockOverlay = document.querySelector(".inputBlock");
+        inputBlockOverlay.style.display = (isVisible) ? "block" : "none";
+    };
+
 
     const SetupPlayerHUD = () => {
         UpdateColors();
@@ -355,16 +360,12 @@ const HTMLcontroller = (() => {
     }
 
     const ApplyLockVisual = (matchEndedInTie) => {
-        r.style.setProperty('--currentSymbolURL', '');
-
+        //r.style.setProperty('--currentSymbolURL', ''); // no more hover preview
         // if the game is over because we ran out of spaces, set the active player to no one
         if (matchEndedInTie) {
             SetBothPlayersInactive();
-            r.style.setProperty('--gridSquareBgOccupied', getComputedStyle(r).getPropertyValue('--gridSquareBg'));
-
-            // get rid of the "clicked" state
-
         }
+        r.style.setProperty('--gridSquareBgOccupied', getComputedStyle(r).getPropertyValue('--gridSquareBg'));
     }
 
     const SetBothPlayersInactive = () => {
@@ -402,6 +403,7 @@ const HTMLcontroller = (() => {
     return {
         InitializeApp,
         InitializeGame,
+        SetPlayerInputBlocker,
         UpdateNameTagText,
         SetHoverPreviewToCurrentPlayer,
         MarkSpaceWithPlayer,

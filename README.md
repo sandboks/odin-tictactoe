@@ -27,6 +27,10 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 - css masking properties
 - 'cqmin' units
 
+# TODO
+- block mouse input with a dialog overlay?
+- find a better way to make artifical wait pauses
+
 # CREDITS
 Some ideas were lifted from:
-https://codebrainer.com/blog/tic-tac-toe-javascript-game
+- https://codebrainer.com/blog/tic-tac-toe-javascript-game
