@@ -5,12 +5,8 @@ const spaceEmpty = 0;
 const spacePlayerOne = 1; // x
 const spacePlayerTwo = 2; // o
 
-// player names
-var player1Name = "Player 1"; // this feels like it could go into a class maybe?
-var player2Name = "Player 2";
-
 var currentPlayerID = spacePlayerOne;
-var playerVictor = spaceEmpty;
+var playerVictor = null;
 var gameLocked = true; // start as true
 function InputIsAllowed() { return (!gameLocked && CurrentPlayer().isCPU == false); }
 
@@ -57,11 +53,10 @@ class Player {
 const gameBoard = (() => {
     // create a 2d array where each cell contains a 0
     // let array = Array(rows).fill().map(() => Array(columns).fill(0));
-    this.boardGrid = Array(3).fill().map(() => Array(3).fill(0)); // this is "function scope", ie, private
+    this.boardGrid; // this is "function scope", ie, private
 
     const SetInitialGameState = () => {
-        playerVictor = spaceEmpty
-        gameLocked = true;
+        ResetBoard();
 
         players = []; // make sure we clear out the old Player objects
         players[0] = new Player(0, "Player 1", getComputedStyle(document.querySelector(':root')).getPropertyValue('--colorPlayerOne'), 0);
@@ -72,18 +67,24 @@ const gameBoard = (() => {
         gameLocked = false;
         CheckForCPU();
     };
+
+    const ResetBoard = () => {
+        this.boardGrid = Array(3).fill().map(() => Array(3).fill(0));
+        playerVictor = null
+        gameLocked = true;
+    }
     
     async function MarkSpaceWithPlayer (row, column, playerNumber) {
         boardGrid[row][column] = playerNumber;
         HTMLcontroller.MarkSpaceWithPlayer(row, column, playerNumber);
-
-
         HTMLcontroller.SetPlayerInputBlocker(true);
+
         // add a pause here
         await ComputerPlayer.sleep(500);
 
         if (GameIsOver() == true) {
             LockGame();
+            HTMLcontroller.ShowVictoryScreen();
         }
         else {
             ToggleCurrentPlayer();
@@ -107,7 +108,7 @@ const gameBoard = (() => {
     }
 
     function CheckForCPU() {
-        //console.log("check if player is AI here _" + CurrentPlayer().isCPU);
+        console.log("check if player is AI here _" + CurrentPlayer().isCPU);
         HTMLcontroller.SetPlayerInputBlocker(CurrentPlayer().isCPU);
         if (CurrentPlayer().isCPU) {
             ComputerPlayer.PerformMove(boardGrid);
@@ -120,12 +121,13 @@ const gameBoard = (() => {
         }
     }
 
-    function CheckWin(player) {
+    function CheckWin(playerID) {
+        let player = players[playerID-1]
         for (let i = 0; i < WINNING_COMBINATIONS.length; i++) {
             let combo = WINNING_COMBINATIONS[i];
-            if ((boardGrid[combo[0][0]][combo[0][1]] == player)
-            && (boardGrid[combo[1][0]][combo[1][1]] == player)
-            && (boardGrid[combo[2][0]][combo[2][1]] == player)) {
+            if ((boardGrid[combo[0][0]][combo[0][1]] == playerID)
+            && (boardGrid[combo[1][0]][combo[1][1]] == playerID)
+            && (boardGrid[combo[2][0]][combo[2][1]] == playerID)) {
                 //console.log("YOU'RE WINNER_" + player + "should now return TRUE");
                 playerVictor = player;
                 RecolorWinningPanels(combo);
@@ -154,7 +156,7 @@ const gameBoard = (() => {
         gameLocked = true;
         HTMLcontroller.SetPlayerInputBlocker(true);
         
-        HTMLcontroller.ApplyLockVisual(AllSquaresOccupied && playerVictor == spaceEmpty);
+        HTMLcontroller.ApplyLockVisual(AllSquaresOccupied && playerVictor != null && playerVictor.id == spaceEmpty);
     }
 
     const ClickOnSpace = (index, override = false) => {
@@ -172,6 +174,7 @@ const gameBoard = (() => {
     return {
         SetInitialGameState,
         StartGame,
+        ResetBoard,
         ClickOnSpace
     }
 })();
@@ -245,6 +248,8 @@ const HTMLcontroller = (() => {
 
     const InitializeApp = () => {
         gameBoard.SetInitialGameState();
+
+        AddEventListeners();
         
         const StartGameModal = document.querySelector(".StartGameModal");
         const StartGameButton = document.getElementById("StartGameButton");
@@ -265,6 +270,29 @@ const HTMLcontroller = (() => {
         const FightButton = document.getElementById("FightButton");
 
         SelectionScreenModal.showModal();
+    }
+
+    const ShowVictoryScreen = () => {
+        const VictoryScreenModal = document.querySelector(".VictoryScreenModal");
+
+        if (playerVictor == null) {
+            VictoryScreenModal.querySelector("h2").textContent = `It's a tie!`;
+            VictoryScreenModal.querySelector("img").src = ``;
+        }
+        else {
+            VictoryScreenModal.querySelector("h2").textContent = `${playerVictor.name} wins!`;
+            VictoryScreenModal.querySelector("img").src = `img/avatar/${playerVictor.avatar}.png`;
+            VictoryScreenModal.querySelector(".VictoryScreen").id = playerVictor.id + 1;
+        }
+
+
+
+        VictoryScreenModal.showModal();
+    };
+
+    const AddEventListeners = () => {
+        const SelectionScreenModal = document.querySelector(".SelectScreenModal");
+        const FightButton = document.getElementById("FightButton");
 
         // when the "FIGHT" button is clicked, we start the new game
         // this is where all the player input needs to be read, and inserted into the game
@@ -282,6 +310,10 @@ const HTMLcontroller = (() => {
         for (let i = 0; i < allFighters.length; i++) {
             let currentFighterNode = allFighters[i];
             let currentFighter = players[i];
+
+            let currentAvatar = currentFighterNode.querySelector('img');
+            currentFighter.avatar = currentFighter.id;
+            currentAvatar.src = `img/avatar/${currentFighter.avatar}.png`;
 
             let colorPicker = currentFighterNode.querySelector('input[type="color"]');
             colorPicker.addEventListener("input", (event) => {
@@ -306,7 +338,30 @@ const HTMLcontroller = (() => {
                 currentFighter.isCPU = (!toggleIsHuman.checked);
             });
         }
-    }
+
+        
+        const VictoryScreenModal = document.querySelector(".VictoryScreenModal");
+
+        const PlayAgainButton = document.getElementById("PlayAgainButton");
+        PlayAgainButton.addEventListener("click", () => {
+            VictoryScreenModal.close();
+            gameBoard.ResetBoard();
+            RefreshBoardVisual();
+
+            ShowSelectionScreen();
+        });
+
+    };
+
+    const RefreshBoardVisual = () => {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                MarkSpaceWithPlayer(i, j, spaceEmpty);
+            }
+        }
+
+        r.style.setProperty('--gridSquareBgOccupied', 'white');
+    };
 
     const SetPlayerInputBlocker = (isVisible) => {
         const inputBlockOverlay = document.querySelector(".inputBlock");
@@ -334,11 +389,7 @@ const HTMLcontroller = (() => {
     const SetHoverPreviewToCurrentPlayer = () => {
         r.style.setProperty('--colorPlayerCurrent', getComputedStyle(r).getPropertyValue((currentPlayerID == spacePlayerOne) ? '--colorPlayerOne' : '--colorPlayerTwo'));
         r.style.setProperty('--currentSymbolSize', getComputedStyle(r).getPropertyValue((currentPlayerID == spacePlayerOne) ? '--sizePercentPlayerOne' : '--sizePercentPlayerTwo'));
-
-        if (CurrentPlayer().isCPU) 
-            r.style.setProperty('--currentSymbolURL', '');
-        else
-            r.style.setProperty('--currentSymbolURL', getComputedStyle(r).getPropertyValue((currentPlayerID == spacePlayerOne) ? '--imageURLx' : '--imageURLo'));
+        r.style.setProperty('--currentSymbolURL', getComputedStyle(r).getPropertyValue((currentPlayerID == spacePlayerOne) ? '--imageURLx' : '--imageURLo'));
     };
     
     const InitializeGame = () => {
@@ -384,6 +435,11 @@ const HTMLcontroller = (() => {
         if (currentSpace == null)
             console.log("Oh no");
 
+        if (playerNumber == spaceEmpty) {
+            currentSpace.classList.remove("occupied", "clicked", "playerX", "playerO", "victory");
+            return;
+        }
+
         currentSpace.classList.add("occupied");
         if (!currentSpace.classList.contains("clicked"))
             currentSpace.classList.add("clicked");
@@ -413,6 +469,7 @@ const HTMLcontroller = (() => {
         SetActivePlayer,
         ApplyLockVisual,
         MarkSpaceAsVictor,
+        ShowVictoryScreen,
     }
 })();
 

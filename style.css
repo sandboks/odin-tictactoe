@@ -58,13 +58,10 @@ dialog {
     border-radius: 2em; 
     justify-self: center;
     align-self: center;
+    text-align: center;
 }
 
 /* CHARACTER SELECT SCREEN */
-
-.SelectScreenModal {
-    text-align: center;
-}
 
 .fightersGrid {
     margin: 1em 0;
@@ -231,6 +228,13 @@ button {
 
 .toggleCPUbutton {
     overflow: hidden;
+}
+
+/* VICTORY SCREEN MODAL */
+
+.VictoryScreen {
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -581,7 +585,7 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     }
 }
 /* hide the footer in landscape mobile view */
-@media (max-height: 520px) {
+@media (orientation: landscape) {
     footer {
         display: none;
     }

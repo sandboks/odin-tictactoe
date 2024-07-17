@@ -11,7 +11,7 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 # FEATURES
 - Play Tic Tac Toe!
 - Customize each player, including their avatar, name and color
-- Play against an AI-controlled CPU, or pit two of them against each other! (coming soon)
+- Play against an AI-controlled CPU, or pit two of them against each other!
 - Responsive layout that's fully playable across different devices
 
 # RETROSPECTIVE
