@@ -61,6 +61,35 @@ dialog {
     text-align: center;
 }
 
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+dialog {
+    transform:scale(0);
+    animation: zoomIn 0.5s 0s cubic-bezier(0.28, 1.52, 0.6, 0.96) forwards;
+}
+
+@keyframes zoomIn {
+    0% {
+      transform:scale(0);
+      filter: brightness(100%);
+    }
+    100% {
+      transform:scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes zoomOut {
+    0% {
+      transform:scale(1);
+    }
+    100% {
+      transform:scale(0);
+    }
+  }
+
 /* CHARACTER SELECT SCREEN */
 
 .fightersGrid {

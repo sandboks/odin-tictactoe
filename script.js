@@ -1,5 +1,3 @@
-
-
 // keywords to represent who owns a space
 const spaceEmpty = 0;
 const spacePlayerOne = 1; // x
@@ -14,8 +12,6 @@ let players = []; // a 2D array consisting of 2 Player objects
 function Player1() { return players[0]; }
 function Player2() { return players[1]; }
 function CurrentPlayer() { return players[currentPlayerID - 1]; }
-//const Player1 = () => { return players[0]; };
-//const Player2 = () => { return players[1]; };
 
 const WINNING_COMBINATIONS = [
     // HORIZONTAL
@@ -212,9 +208,9 @@ const ComputerPlayer = (() => {
         }
 
         bestCandidates = getAllIndexes(candidates, Math.max(...candidates));
-        let randomElement = bestCandidates[Math.floor(Math.random() * bestCandidates.length)];
+        let randomlyChosenElement = bestCandidates[Math.floor(Math.random() * bestCandidates.length)];
         //let chosenSpaceIndex = candidates.indexOf(Math.max(...candidates));
-        gameBoard.ClickOnSpace(randomElement, true);
+        gameBoard.ClickOnSpace(randomlyChosenElement, true);
     }
 
     // get an array with all the indexes of a given value VAL in an array ARR
@@ -414,8 +410,6 @@ const HTMLcontroller = (() => {
     }
 
     const ApplyLockVisual = (matchEndedInTie) => {
-        //r.style.setProperty('--currentSymbolURL', ''); // no more hover preview
-        // if the game is over because we ran out of spaces, set the active player to no one
         if (matchEndedInTie) {
             SetBothPlayersInactive();
         }
