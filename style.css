@@ -104,6 +104,18 @@ dialog {
     gap: 1em;
 }
 
+.shuffleButton {
+    height: var(--buttonHeight);
+    width: var(--buttonHeight);
+    border-radius: 50%;
+    align-self: center;
+    border-width: 0px;
+    background-image: url(img/creation.svg);
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .characterSelectAvatar {
     border-radius: 15%;
     border: 0.5em solid var(--colorPlayerOne);

@@ -27,6 +27,16 @@ const WINNING_COMBINATIONS = [
     [[0, 2], [1, 1], [2, 0]],
 ];
 
+// colors used for the shuffle feature
+const DEFAULT_COLORS = [
+    '#000000', // black
+    'green',
+    'red',
+    '#ff9d00', // orange
+    '#0099ff', // blue
+
+];
+
 // PLAYER CLASS
 // used to store info about an individual player, mainly for aesthetic reasons
 class Player {
@@ -286,6 +296,57 @@ const HTMLcontroller = (() => {
         VictoryScreenModal.showModal();
     };
 
+
+
+    const RandomizePlayer = (player) => {
+        player.name = "Random";
+        player.avatar = Math.round(Math.random());
+        
+        // generate a random color
+        let maxTotal = Math.round((255 * 2) * (1 - (Math.random() * Math.random())));
+        let colorArray = [0, 0, 0];
+        //let c1 = 
+        /*
+        for (let i = 0; i < maxTotal; i++) {
+            colorArray[Math.floor(3 * Math.random())]++;
+        }*/
+        //player.color = `rgb(${colorArray[0]},${colorArray[1]},${colorArray[2]})`;
+
+        player.color = DEFAULT_COLORS[Math.floor(Math.random() * DEFAULT_COLORS.length)];
+    };
+
+    const SelectScreenRefreshPlayer = (currentFighter, currentFighterNode) => {
+        // AVATAR
+        let currentAvatar = currentFighterNode.querySelector('img');
+        currentFighter.avatar = currentFighter.id;
+        currentAvatar.src = `img/avatar/${currentFighter.avatar}.png`;
+
+        // NAME
+        let playerNameInput = currentFighterNode.querySelector('input[type="text"]');
+        playerNameInput.value = currentFighter.name;
+
+        // COLOR
+        let colorPicker = currentFighterNode.querySelector('input[type="color"]');
+        colorPicker.value = currentFighter.color;
+
+        let toggleIsHuman = currentFighterNode.querySelector('[name="isHumanToggle"]');
+        currentFighter.isCPU = (!toggleIsHuman.checked); // do this at least once in case it's set checked/unchecked in the HTML
+
+        SetupPlayerHUD();
+    };
+
+    
+    const VictoryScreenModal = document.querySelector(".VictoryScreenModal");
+
+    const PlayAgainButton = document.getElementById("PlayAgainButton");
+    PlayAgainButton.addEventListener("click", () => {
+        VictoryScreenModal.close();
+        gameBoard.ResetBoard();
+        RefreshBoardVisual();
+
+        ShowSelectionScreen();
+    });
+
     const AddEventListeners = () => {
         const SelectionScreenModal = document.querySelector(".SelectScreenModal");
         const FightButton = document.getElementById("FightButton");
@@ -307,10 +368,10 @@ const HTMLcontroller = (() => {
             let currentFighterNode = allFighters[i];
             let currentFighter = players[i];
 
-            let currentAvatar = currentFighterNode.querySelector('img');
-            currentFighter.avatar = currentFighter.id;
-            currentAvatar.src = `img/avatar/${currentFighter.avatar}.png`;
+            // sync the display with the default player info
+            SelectScreenRefreshPlayer(currentFighter, currentFighterNode);
 
+            // COLOR PICKER
             let colorPicker = currentFighterNode.querySelector('input[type="color"]');
             colorPicker.addEventListener("input", (event) => {
                 let customColor = event.target.value;
@@ -318,6 +379,7 @@ const HTMLcontroller = (() => {
                 UpdateColors();
             });
 
+            // PLAYER NAME
             let playerNameInput = currentFighterNode.querySelector('input[type="text"]');
             playerNameInput.addEventListener("input", (event) => {
                 currentFighter.name = playerNameInput.value;
@@ -327,25 +389,20 @@ const HTMLcontroller = (() => {
                 }
             });
 
+            // IS HUMAN?
             let toggleIsHuman = currentFighterNode.querySelector('[name="isHumanToggle"]');
-            currentFighter.isCPU = (!toggleIsHuman.checked); // do this at least once in case it's set checked/unchecked in the HTML
             toggleIsHuman.addEventListener("input", (event) => {
                 //console.log(toggleIsHuman.checked);
                 currentFighter.isCPU = (!toggleIsHuman.checked);
             });
+
+            // SHUFFLE
+            let shuffleButton = currentFighterNode.querySelector(".shuffleButton");
+            shuffleButton.addEventListener("click", (event) => {
+                RandomizePlayer(currentFighter);
+                SelectScreenRefreshPlayer(currentFighter, currentFighterNode);
+            });
         }
-
-        
-        const VictoryScreenModal = document.querySelector(".VictoryScreenModal");
-
-        const PlayAgainButton = document.getElementById("PlayAgainButton");
-        PlayAgainButton.addEventListener("click", () => {
-            VictoryScreenModal.close();
-            gameBoard.ResetBoard();
-            RefreshBoardVisual();
-
-            ShowSelectionScreen();
-        });
 
     };
 
