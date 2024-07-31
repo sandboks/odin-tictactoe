@@ -28,14 +28,40 @@ const WINNING_COMBINATIONS = [
 ];
 
 // colors used for the shuffle feature
-const DEFAULT_COLORS = [
-    '#000000', // black
-    'green',
-    'red',
-    '#ff9d00', // orange
-    '#0099ff', // blue
-
+const NAME_ADJECTIVES = [
+    "Super",
+    "Amazing",
+    "Mega",
+    "Stupendous",
+    "Crazy",
+    "Intolerant",
+    "Angsty",
+    "Salty",
+    "Sneaky",
+    "Suspicious",
+    "Overstimulated",
+    "Cynical",
+    "Malding",
 ];
+
+const NAME_NOUN = [
+    "Pickle",
+    "Cucumber",
+    "Pineapple",
+    "Fox",
+    "Ninja",
+    "Turtle",
+    "Trickster",
+    "Edgelord",
+    "Lurker",
+    "Pumpkin",
+    "Cupcake",
+    "Beaver",
+    "Quokka",
+    "Binturong"
+]
+
+const TOTAL_AVATARS = 16;
 
 // PLAYER CLASS
 // used to store info about an individual player, mainly for aesthetic reasons
@@ -66,7 +92,7 @@ const gameBoard = (() => {
 
         players = []; // make sure we clear out the old Player objects
         players[0] = new Player(0, "Player 1", getComputedStyle(document.querySelector(':root')).getPropertyValue('--colorPlayerOne'), 0);
-        players[1] = new Player(1, "Player 2", getComputedStyle(document.querySelector(':root')).getPropertyValue('--colorPlayerTwo'), 0);
+        players[1] = new Player(1, "Player 2", getComputedStyle(document.querySelector(':root')).getPropertyValue('--colorPlayerTwo'), 1);
     };
 
     const StartGame = () => {
@@ -299,26 +325,43 @@ const HTMLcontroller = (() => {
 
 
     const RandomizePlayer = (player) => {
-        player.name = "Random";
-        player.avatar = Math.round(Math.random());
+        player.name = NAME_ADJECTIVES[Math.floor(Math.random() * NAME_ADJECTIVES.length)] + NAME_NOUN[Math.floor(Math.random() * NAME_NOUN.length)];
+        player.avatar = Math.min(Math.floor(Math.random() * (TOTAL_AVATARS)), TOTAL_AVATARS - 1);
         
         // generate a random color
-        let maxTotal = Math.round((255 * 2) * (1 - (Math.random() * Math.random())));
-        let colorArray = [0, 0, 0];
-        //let c1 = 
-        /*
-        for (let i = 0; i < maxTotal; i++) {
-            colorArray[Math.floor(3 * Math.random())]++;
-        }*/
-        //player.color = `rgb(${colorArray[0]},${colorArray[1]},${colorArray[2]})`;
-
-        player.color = DEFAULT_COLORS[Math.floor(Math.random() * DEFAULT_COLORS.length)];
+        player.color = hsl2rgb(Math.round(Math.random() * 360), 1 - (Math.random() * Math.random() * Math.random()), 0.5 - (0.5 * (Math.random() * Math.random() * Math.random())));
     };
+
+    // https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
+    // input: h as an angle in [0,360] and s,l in [0,1] - output: r,g,b in [0,1]
+    function hsl2rgb(h,s,l) 
+    {
+        let a=s*Math.min(l,1-l);
+        let f= (n,k=(n+h/30)%12) => (l - a*Math.max(Math.min(k-3,9-k,1),-1));
+        //return [f(0),f(8),f(4)];
+        //return `rgb(${Math.round(f(0) * 255)},${Math.round(f(8) * 255)},${Math.round(f(4) * 255)})`;
+        return RGBToHex(Math.round(f(0) * 255), Math.round(f(8) * 255), Math.round(f(4) * 255));
+    }  
+
+    // https://css-tricks.com/converting-color-spaces-in-javascript/
+    function RGBToHex(r,g,b) {
+        r = r.toString(16);
+        g = g.toString(16);
+        b = b.toString(16);
+      
+        if (r.length == 1)
+          r = "0" + r;
+        if (g.length == 1)
+          g = "0" + g;
+        if (b.length == 1)
+          b = "0" + b;
+      
+        return "#" + r + g + b;
+      }
 
     const SelectScreenRefreshPlayer = (currentFighter, currentFighterNode) => {
         // AVATAR
         let currentAvatar = currentFighterNode.querySelector('img');
-        currentFighter.avatar = currentFighter.id;
         currentAvatar.src = `img/avatar/${currentFighter.avatar}.png`;
 
         // NAME
@@ -437,6 +480,10 @@ const HTMLcontroller = (() => {
         let nameTags = document.querySelectorAll(".nameTagParent p");
         nameTags[0].textContent = Player1().name;
         nameTags[1].textContent = Player2().name;
+
+        let avatars = document.querySelectorAll(".playerHUD img");
+        avatars[0].src = `img/avatar/${Player1().avatar}.png`;
+        avatars[1].src = `img/avatar/${Player2().avatar}.png`;
     };
 
     const SetHoverPreviewToCurrentPlayer = () => {
