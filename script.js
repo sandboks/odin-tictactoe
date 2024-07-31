@@ -32,7 +32,7 @@ const NAME_ADJECTIVES = [
     "Super",
     "Amazing",
     "Mega",
-    "Stupendous",
+    "Esoteric",
     "Crazy",
     "Intolerant",
     "Angsty",
@@ -42,6 +42,7 @@ const NAME_ADJECTIVES = [
     "Overstimulated",
     "Cynical",
     "Malding",
+    "Hipster",
 ];
 
 const NAME_NOUN = [
@@ -446,6 +447,15 @@ const HTMLcontroller = (() => {
                 SelectScreenRefreshPlayer(currentFighter, currentFighterNode);
             });
         }
+
+        // Preload all images in the game
+        let img = new Image();
+        for (let i = 0; i < TOTAL_AVATARS; i++) {
+            img.src = `img/avatar/${i}.png`;
+        }
+        img.src = `img/batsu.svg`;
+        img.src = `img/maru.svg`;
+        img.src = ``;
 
     };
 
