@@ -27,11 +27,11 @@ const WINNING_COMBINATIONS = [
     [[0, 2], [1, 1], [2, 0]],
 ];
 
-// colors used for the shuffle feature
+// names used for the shuffle feature
 const NAME_ADJECTIVES = [
     "Super",
     "Amazing",
-    "Mega",
+    "Defective",
     "Esoteric",
     "Crazy",
     "Intolerant",
@@ -43,6 +43,29 @@ const NAME_ADJECTIVES = [
     "Cynical",
     "Malding",
     "Hipster",
+    "Magical",
+    "Assertive",
+    "Mysterious",
+    "Auxiliary",
+    "Naughty",
+    "Persuasive",
+    "Stinky",
+    "Tasty",
+    "Gassy",
+    "Sassy",
+    "Unhinged",
+    "Illiterate",
+    "Humongous",
+    "Ginormous",
+    "Invasive",
+    "Unregistered",
+    "Existential",
+    "Obnoxious",
+    "Milquetoast",
+    "Unfunny",
+    "Squishy",
+    "Redundant",
+    "Deceptive",
 ];
 
 const NAME_NOUN = [
@@ -59,7 +82,25 @@ const NAME_NOUN = [
     "Cupcake",
     "Beaver",
     "Quokka",
-    "Binturong"
+    "Binturong",
+    "Porcupine",
+    "Salesman",
+    "Pizza",
+    "Enigma",
+    "Tachyon",
+    "Techbro",
+    "Normie",
+    "Goober",
+    "Kangaroo",
+    "Dingus",
+    "Crybaby",
+    "Chungus",
+    "Dingleberry",
+    "Kumquat",
+    "Snafu",
+    "Bamboozler",
+    "Rizzler",
+    "Cutie",
 ]
 
 const TOTAL_AVATARS = 16;
@@ -141,7 +182,7 @@ const gameBoard = (() => {
     }
 
     function CheckForCPU() {
-        console.log("check if player is AI here _" + CurrentPlayer().isCPU);
+        //console.log("check if player is AI here _" + CurrentPlayer().isCPU);
         HTMLcontroller.SetPlayerInputBlocker(CurrentPlayer().isCPU);
         if (CurrentPlayer().isCPU) {
             ComputerPlayer.PerformMove(boardGrid);
@@ -326,7 +367,8 @@ const HTMLcontroller = (() => {
 
 
     const RandomizePlayer = (player) => {
-        player.name = NAME_ADJECTIVES[Math.floor(Math.random() * NAME_ADJECTIVES.length)] + NAME_NOUN[Math.floor(Math.random() * NAME_NOUN.length)];
+        //player.name = NAME_ADJECTIVES[Math.floor(Math.random() * NAME_ADJECTIVES.length)] + NAME_NOUN[Math.floor(Math.random() * NAME_NOUN.length)];
+        player.name = `${NAME_ADJECTIVES[Math.floor(Math.random() * NAME_ADJECTIVES.length)]} ${NAME_NOUN[Math.floor(Math.random() * NAME_NOUN.length)]}`
         player.avatar = Math.min(Math.floor(Math.random() * (TOTAL_AVATARS)), TOTAL_AVATARS - 1);
         
         // generate a random color
