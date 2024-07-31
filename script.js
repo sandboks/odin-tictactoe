@@ -29,8 +29,8 @@ const WINNING_COMBINATIONS = [
 
 // names used for the shuffle feature
 const NAME_ADJECTIVES = [
-    "Super",
-    "Amazing",
+    "Inquisitive",
+    "Curious",
     "Defective",
     "Esoteric",
     "Crazy",
@@ -66,6 +66,16 @@ const NAME_ADJECTIVES = [
     "Squishy",
     "Redundant",
     "Deceptive",
+    "Spunky",
+    "Moist",
+    "Scrumptious",
+    "Liquified",
+    "Undercover",
+    "Untrustworthy",
+    "Unethical",
+    "Authoritarian",
+    "Submissive",
+    "Skeptical",
 ];
 
 const NAME_NOUN = [
@@ -101,6 +111,14 @@ const NAME_NOUN = [
     "Bamboozler",
     "Rizzler",
     "Cutie",
+    "Pastafarian",
+    "Meatball",
+    "Snack",
+    "Pancake",
+    "Pikelet",
+    "Lemon",
+    "Leprechaun",
+    "Kibble",
 ]
 
 const TOTAL_AVATARS = 16;
@@ -367,12 +385,29 @@ const HTMLcontroller = (() => {
 
 
     const RandomizePlayer = (player) => {
-        //player.name = NAME_ADJECTIVES[Math.floor(Math.random() * NAME_ADJECTIVES.length)] + NAME_NOUN[Math.floor(Math.random() * NAME_NOUN.length)];
-        player.name = `${NAME_ADJECTIVES[Math.floor(Math.random() * NAME_ADJECTIVES.length)]} ${NAME_NOUN[Math.floor(Math.random() * NAME_NOUN.length)]}`
-        player.avatar = Math.min(Math.floor(Math.random() * (TOTAL_AVATARS)), TOTAL_AVATARS - 1);
+        // logic added to prevent ever reusing the same words from the previous name
+        let newAdjIndex = Math.floor(Math.random() * NAME_ADJECTIVES.length);
+        if (player.name.includes(NAME_ADJECTIVES[newAdjIndex]))
+            newAdjIndex = (newAdjIndex + 1) % (NAME_ADJECTIVES.length - 1);
+        let newNounIndex = Math.floor(Math.random() * NAME_NOUN.length);
+        if (player.name.includes(NAME_NOUN[newAdjIndex]))
+            newNounIndex = (newNounIndex + 1) % (NAME_NOUN.length - 1);
+        player.name = `${NAME_ADJECTIVES[newAdjIndex]} ${NAME_NOUN[newNounIndex]}`
+        
+        // never shuffle the exact same avatar we already have
+        let newAvatar = Math.min(Math.floor(Math.random() * (TOTAL_AVATARS)), TOTAL_AVATARS - 1);
+        if (player.avatar == newAvatar)
+            newAvatar = (player.avatar + 1) % (TOTAL_AVATARS - 1);
+        player.avatar = newAvatar;
         
         // generate a random color
-        player.color = hsl2rgb(Math.round(Math.random() * 360), 1 - (Math.random() * Math.random() * Math.random()), 0.5 - (0.5 * (Math.random() * Math.random() * Math.random())));
+        let newColorAngle = Math.round(Math.random() * 360);
+        let newColor = hsl2rgb(newColorAngle, 1 - (Math.random() * Math.random() * Math.random()), 0.5 - (0.5 * (Math.random() * Math.random() * Math.random())));
+        // if the new color is too similar to the previous one, adjust the angle and regenerate it
+        if (isSimilar(getRGB(player.color), getRGB(newColor)))
+            newColor = hsl2rgb((newColorAngle + 60 + (30 * Math.random())) % 360, 1 - (Math.random() * Math.random() * Math.random()), 0.5 - (0.5 * (Math.random() * Math.random() * Math.random())));
+        player.color = newColor;
+        //console.log(getRGB(player.color));
     };
 
     // https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
@@ -400,6 +435,18 @@ const HTMLcontroller = (() => {
           b = "0" + b;
       
         return "#" + r + g + b;
+      }
+
+      // https://stackoverflow.com/questions/61775790/how-can-we-find-out-if-two-colors-are-similar-or-not
+      function getRGB(color) {
+        color = parseInt(color.substring(1), 16);
+        red = color >> 16;
+        g = (color - (red<<16)) >> 8;
+        b = color - (red<<16) - (g<<8);
+        return [red, g, b];
+      }
+      function isSimilar([r1, g1, b1], [r2, g2, b2]) {
+        return Math.abs(r1-r2)+Math.abs(g1-g2)+Math.abs(b1-b2) < 180;
       }
 
     const SelectScreenRefreshPlayer = (currentFighter, currentFighterNode) => {
