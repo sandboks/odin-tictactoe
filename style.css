@@ -18,6 +18,8 @@
     --sizePercentPlayerTwo: 83%;
 
     --durationFast: 0.1s;
+    --durationFast2: 0.2s;
+    --durationSlow: 1.5s;
 
     --borderRadiusSmall: 0.25em;
 
@@ -102,6 +104,49 @@ dialog {
     display: flex;
     flex-direction: column;
     gap: 1em;
+
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 1em;
+    padding: 1em;
+    position: relative;
+    overflow: hidden;
+}
+
+.fighterBacking, .fighterOverlayFlash {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--colorPlayerOne);
+    box-sizing: border-box;
+    opacity: 0.25;
+    z-index: -1;
+    top: 0;
+    left: 0;
+}
+
+.fighterOverlayFlash {
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.5;
+
+    animation: overlayFlash var(--durationFast2) ease-out 1;
+    animation-fill-mode: forwards;
+    background: white;
+
+}
+
+@keyframes overlayFlash {
+    0% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+[id='2'] .fighterBacking  {
+    background: var(--colorPlayerTwo);
 }
 
 .shuffleButton {
@@ -114,10 +159,11 @@ dialog {
     background-size: 80%;
     background-repeat: no-repeat;
     background-position: center;
+    z-index: 2;
 }
 
 .characterSelectAvatar {
-    border-radius: 15%;
+    border-radius: 2em;
     border: 0.5em solid var(--colorPlayerOne);
 }
 
@@ -536,10 +582,6 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     gap: 0.5em;
     color: var(--colorPlayerOne);
     overflow: hidden;
-    /* container-type: size; */
-    /* width: 300px; */
-    /* height: 100px; */
-    /* min-width: 100px;*/
 }
 
 .playerTwo .playerHUD {
@@ -568,14 +610,7 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
 .nameTagParent {
     padding: 0 1em 0 0;
     overflow: hidden;
-    /*
-    width: 180px;
-    background: black;
-    */ 
-    /* width: 100%; */
     flex: 1;
-    /* overflow: auto; */
-    /* height: 100%; */
     height: 10cqmin; 
     align-items: center;
     display: flex;
@@ -588,24 +623,15 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     text-align: start;
 
     text-overflow: ellipsis;
-    /* display: table-row-group; */
-    /* box-sizing: border-box; */
-    /* word-break: break-all; */
     width: 100%;
     overflow-wrap: break-word;
     overflow: hidden;    
-    /* white-space: normal; */
-    /* word-break: break-all; */
-    /* overflow-wrap: break-word; */
     overflow: hidden;
     hyphens: auto;
 }
 
 .gapBetweenPlayers {
     flex: 1;
-    /*
-    max-width: 6em;
-    */
 }
 
 /* MOBILE ASPECT RATIO */

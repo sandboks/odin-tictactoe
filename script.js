@@ -42,7 +42,6 @@ const NAME_ADJECTIVES = [
     "Overstimulated",
     "Cynical",
     "Malding",
-    "Hipster",
     "Magical",
     "Assertive",
     "Mysterious",
@@ -76,6 +75,23 @@ const NAME_ADJECTIVES = [
     "Authoritarian",
     "Submissive",
     "Skeptical",
+    "Fruity",
+    "Deepfake",
+    "Awkward",
+    "Oblivious",
+    "Delectable",
+    "Chonky",
+    "Nihilistic",
+    "Perplexing",
+    "Deadbeat",
+    "Judgemental",
+    "Insufferable",
+    "Medium Rare",
+    "Deep Fried",
+    "Unauthorized",
+    "Uncomfortable",
+    "Bootleg",
+    "Thirsty",
 ];
 
 const NAME_NOUN = [
@@ -119,6 +135,16 @@ const NAME_NOUN = [
     "Lemon",
     "Leprechaun",
     "Kibble",
+    "Himbo",
+    "Scrunko",
+    "Munchkin",
+    "Daddy",
+    "Bootlicker",
+    "Marmalade",
+    "Coconut",
+    "Hipster",
+    "Weaboo",
+    "Beefcake",
 ]
 
 const TOTAL_AVATARS = 16;
@@ -377,8 +403,6 @@ const HTMLcontroller = (() => {
             VictoryScreenModal.querySelector(".VictoryScreen").id = playerVictor.id + 1;
         }
 
-
-
         VictoryScreenModal.showModal();
     };
 
@@ -390,7 +414,7 @@ const HTMLcontroller = (() => {
         if (player.name.includes(NAME_ADJECTIVES[newAdjIndex]))
             newAdjIndex = (newAdjIndex + 1) % (NAME_ADJECTIVES.length - 1);
         let newNounIndex = Math.floor(Math.random() * NAME_NOUN.length);
-        if (player.name.includes(NAME_NOUN[newAdjIndex]))
+        if (player.name.includes(NAME_NOUN[newNounIndex]))
             newNounIndex = (newNounIndex + 1) % (NAME_NOUN.length - 1);
         player.name = `${NAME_ADJECTIVES[newAdjIndex]} ${NAME_NOUN[newNounIndex]}`
         
@@ -402,11 +426,14 @@ const HTMLcontroller = (() => {
         
         // generate a random color
         let newColorAngle = Math.round(Math.random() * 360);
-        let newColor = hsl2rgb(newColorAngle, 1 - (Math.random() * Math.random() * Math.random()), 0.5 - (0.5 * (Math.random() * Math.random() * Math.random())));
+        let newColorSaturation = 1 - (Math.random() * Math.random()); // multiply two random numbers so you end up with ~ 75%
+        let newColorLuminosity = 0.5 - (0.5 * (Math.random() * Math.random() * Math.random())); // 3 random numbers, so you end up with ~ 88% brightness and pure black is less likely
+        let newColor = hsl2rgb(newColorAngle, newColorSaturation, newColorLuminosity);
         // if the new color is too similar to the previous one, adjust the angle and regenerate it
         if (isSimilar(getRGB(player.color), getRGB(newColor)))
-            newColor = hsl2rgb((newColorAngle + 60 + (30 * Math.random())) % 360, 1 - (Math.random() * Math.random() * Math.random()), 0.5 - (0.5 * (Math.random() * Math.random() * Math.random())));
+            newColor = hsl2rgb((newColorAngle + 60 + (30 * Math.random())) % 360, newColorSaturation, newColorLuminosity);
         player.color = newColor;
+        console.log(newColorSaturation);
         //console.log(getRGB(player.color));
     };
 
@@ -534,6 +561,11 @@ const HTMLcontroller = (() => {
             shuffleButton.addEventListener("click", (event) => {
                 RandomizePlayer(currentFighter);
                 SelectScreenRefreshPlayer(currentFighter, currentFighterNode);
+
+                let overlayFlash = currentFighterNode.querySelector(".fighterOverlayFlash");
+                overlayFlash.classList.remove("fighterOverlayFlash");
+                void overlayFlash.offsetWidth;
+                overlayFlash.classList.add("fighterOverlayFlash"); 
             });
         }
 
