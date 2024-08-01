@@ -97,7 +97,7 @@ dialog {
 .fightersGrid {
     margin: 1em 0;
     display: flex;
-    gap: 3em;
+    gap: 2em;
 }
 
 .fighterParent {

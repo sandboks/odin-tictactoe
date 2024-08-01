@@ -190,6 +190,7 @@ const gameBoard = (() => {
         this.boardGrid = Array(3).fill().map(() => Array(3).fill(0));
         playerVictor = null
         gameLocked = true;
+        currentPlayerID = spacePlayerOne;
     }
     
     async function MarkSpaceWithPlayer (row, column, playerNumber) {
@@ -433,8 +434,6 @@ const HTMLcontroller = (() => {
         if (isSimilar(getRGB(player.color), getRGB(newColor)))
             newColor = hsl2rgb((newColorAngle + 60 + (30 * Math.random())) % 360, newColorSaturation, newColorLuminosity);
         player.color = newColor;
-        console.log(newColorSaturation);
-        //console.log(getRGB(player.color));
     };
 
     // https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
