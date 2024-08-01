@@ -478,6 +478,7 @@ const HTMLcontroller = (() => {
     const SelectScreenRefreshPlayer = (currentFighter, currentFighterNode) => {
         // AVATAR
         let currentAvatar = currentFighterNode.querySelector('img');
+        currentAvatar.src = ``;
         currentAvatar.src = `img/avatar/${currentFighter.avatar}.png`;
 
         // NAME
@@ -569,10 +570,11 @@ const HTMLcontroller = (() => {
         }
 
         // Preload all images in the game
-        let img = new Image();
         for (let i = 0; i < TOTAL_AVATARS; i++) {
+            let img = new Image();
             img.src = `img/avatar/${i}.png`;
         }
+        let img = new Image();
         img.src = `img/batsu.svg`;
         img.src = `img/maru.svg`;
         img.src = ``;
