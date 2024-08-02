@@ -27,128 +27,6 @@ const WINNING_COMBINATIONS = [
     [[0, 2], [1, 1], [2, 0]],
 ];
 
-// names used for the shuffle feature
-const NAME_ADJECTIVES = [
-    "Inquisitive",
-    "Curious",
-    "Defective",
-    "Esoteric",
-    "Crazy",
-    "Intolerant",
-    "Angsty",
-    "Salty",
-    "Sneaky",
-    "Suspicious",
-    "Overstimulated",
-    "Cynical",
-    "Malding",
-    "Magical",
-    "Assertive",
-    "Mysterious",
-    "Auxiliary",
-    "Naughty",
-    "Persuasive",
-    "Stinky",
-    "Tasty",
-    "Gassy",
-    "Sassy",
-    "Unhinged",
-    "Illiterate",
-    "Humongous",
-    "Ginormous",
-    "Invasive",
-    "Unregistered",
-    "Existential",
-    "Obnoxious",
-    "Milquetoast",
-    "Unfunny",
-    "Squishy",
-    "Redundant",
-    "Deceptive",
-    "Spunky",
-    "Moist",
-    "Scrumptious",
-    "Liquified",
-    "Undercover",
-    "Untrustworthy",
-    "Unethical",
-    "Authoritarian",
-    "Submissive",
-    "Skeptical",
-    "Fruity",
-    "Deepfake",
-    "Awkward",
-    "Oblivious",
-    "Delectable",
-    "Chonky",
-    "Nihilistic",
-    "Perplexing",
-    "Deadbeat",
-    "Judgemental",
-    "Insufferable",
-    "Medium Rare",
-    "Deep Fried",
-    "Unauthorized",
-    "Uncomfortable",
-    "Bootleg",
-    "Thirsty",
-];
-
-const NAME_NOUN = [
-    "Pickle",
-    "Cucumber",
-    "Pineapple",
-    "Fox",
-    "Ninja",
-    "Turtle",
-    "Trickster",
-    "Edgelord",
-    "Lurker",
-    "Pumpkin",
-    "Cupcake",
-    "Beaver",
-    "Quokka",
-    "Binturong",
-    "Porcupine",
-    "Salesman",
-    "Pizza",
-    "Enigma",
-    "Tachyon",
-    "Techbro",
-    "Normie",
-    "Goober",
-    "Kangaroo",
-    "Dingus",
-    "Crybaby",
-    "Chungus",
-    "Dingleberry",
-    "Kumquat",
-    "Snafu",
-    "Bamboozler",
-    "Rizzler",
-    "Cutie",
-    "Pastafarian",
-    "Meatball",
-    "Snack",
-    "Pancake",
-    "Pikelet",
-    "Lemon",
-    "Leprechaun",
-    "Kibble",
-    "Himbo",
-    "Scrunko",
-    "Munchkin",
-    "Daddy",
-    "Bootlicker",
-    "Marmalade",
-    "Coconut",
-    "Hipster",
-    "Weaboo",
-    "Beefcake",
-]
-
-const TOTAL_AVATARS = 16;
-
 // PLAYER CLASS
 // used to store info about an individual player, mainly for aesthetic reasons
 class Player {
@@ -410,14 +288,7 @@ const HTMLcontroller = (() => {
 
 
     const RandomizePlayer = (player) => {
-        // logic added to prevent ever reusing the same words from the previous name
-        let newAdjIndex = Math.floor(Math.random() * NAME_ADJECTIVES.length);
-        if (player.name.includes(NAME_ADJECTIVES[newAdjIndex]))
-            newAdjIndex = (newAdjIndex + 1) % (NAME_ADJECTIVES.length - 1);
-        let newNounIndex = Math.floor(Math.random() * NAME_NOUN.length);
-        if (player.name.includes(NAME_NOUN[newNounIndex]))
-            newNounIndex = (newNounIndex + 1) % (NAME_NOUN.length - 1);
-        player.name = `${NAME_ADJECTIVES[newAdjIndex]} ${NAME_NOUN[newNounIndex]}`
+        player.name = `${shuffleController.GetRandomAdj(player.name)} ${shuffleController.GetRandomNoun(player.name)}`
         
         // never shuffle the exact same avatar we already have
         let newAvatar = Math.min(Math.floor(Math.random() * (TOTAL_AVATARS)), TOTAL_AVATARS - 1);
@@ -425,55 +296,9 @@ const HTMLcontroller = (() => {
             newAvatar = (player.avatar + 1) % (TOTAL_AVATARS - 1);
         player.avatar = newAvatar;
         
-        // generate a random color
-        let newColorAngle = Math.round(Math.random() * 360);
-        let newColorSaturation = 1 - (Math.random() * Math.random()); // multiply two random numbers so you end up with ~ 75%
-        let newColorLuminosity = 0.5 - (0.5 * (Math.random() * Math.random() * Math.random())); // 3 random numbers, so you end up with ~ 88% brightness and pure black is less likely
-        let newColor = hsl2rgb(newColorAngle, newColorSaturation, newColorLuminosity);
-        // if the new color is too similar to the previous one, adjust the angle and regenerate it
-        if (isSimilar(getRGB(player.color), getRGB(newColor)))
-            newColor = hsl2rgb((newColorAngle + 60 + (30 * Math.random())) % 360, newColorSaturation, newColorLuminosity);
-        player.color = newColor;
+        // color
+        player.color = shuffleController.getRandomColorRGB(player.color);
     };
-
-    // https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
-    // input: h as an angle in [0,360] and s,l in [0,1] - output: r,g,b in [0,1]
-    function hsl2rgb(h,s,l) 
-    {
-        let a=s*Math.min(l,1-l);
-        let f= (n,k=(n+h/30)%12) => (l - a*Math.max(Math.min(k-3,9-k,1),-1));
-        //return [f(0),f(8),f(4)];
-        //return `rgb(${Math.round(f(0) * 255)},${Math.round(f(8) * 255)},${Math.round(f(4) * 255)})`;
-        return RGBToHex(Math.round(f(0) * 255), Math.round(f(8) * 255), Math.round(f(4) * 255));
-    }  
-
-    // https://css-tricks.com/converting-color-spaces-in-javascript/
-    function RGBToHex(r,g,b) {
-        r = r.toString(16);
-        g = g.toString(16);
-        b = b.toString(16);
-      
-        if (r.length == 1)
-          r = "0" + r;
-        if (g.length == 1)
-          g = "0" + g;
-        if (b.length == 1)
-          b = "0" + b;
-      
-        return "#" + r + g + b;
-      }
-
-      // https://stackoverflow.com/questions/61775790/how-can-we-find-out-if-two-colors-are-similar-or-not
-      function getRGB(color) {
-        color = parseInt(color.substring(1), 16);
-        red = color >> 16;
-        g = (color - (red<<16)) >> 8;
-        b = color - (red<<16) - (g<<8);
-        return [red, g, b];
-      }
-      function isSimilar([r1, g1, b1], [r2, g2, b2]) {
-        return Math.abs(r1-r2)+Math.abs(g1-g2)+Math.abs(b1-b2) < 180;
-      }
 
     const SelectScreenRefreshPlayer = (currentFighter, currentFighterNode) => {
         // AVATAR
@@ -571,13 +396,13 @@ const HTMLcontroller = (() => {
 
         // Preload all images in the game
         for (let i = 0; i < TOTAL_AVATARS; i++) {
-            let img = new Image();
+            let img = new Image(); // need to create a new one each time, or it won't actually load anything
             img.src = `img/avatar/${i}.png`;
         }
-        let img = new Image();
-        img.src = `img/batsu.svg`;
-        img.src = `img/maru.svg`;
-        img.src = ``;
+        let img2 = new Image();
+        img2.src = `img/batsu.svg`;
+        let img3 = new Image();
+        img3.src = `img/maru.svg`;
 
     };
 

@@ -6,6 +6,7 @@
     <title>Tic-Tactics</title>
 
     <link rel="stylesheet" href="./style.css">
+    <script src="shuffle.js" defer></script>
     <script src="script.js" defer></script>
 
     <!--
@@ -19,11 +20,13 @@
             <button id="StartGameButton">START</button>
         </dialog>
         <dialog class="SelectScreenModal">
-            <h2>CHOOSE YOUR CHARACTER</h2>
+            <h2>VERSUS</h2>
             <div class="fightersGrid">
                 <div class="fighterParent" id="1">
                     <div class="fighterOverlayFlash"></div>
-                    <button class="shuffleButton"></button>
+                    <button class="shuffleButton">
+                        <div class="shuffleButtonGraphic"></div>
+                    </button>
                     <img src="img/avatar/0.png" class="characterSelectAvatar">
                     <div class="inputContainer">
                         <input type="text" id="playerName1" required minlength="1" maxlength="32">
@@ -41,7 +44,9 @@
                 </div>
                 <div class="fighterParent" id="2">
                     <div class="fighterOverlayFlash"></div>
-                    <button class="shuffleButton"></button>
+                    <button class="shuffleButton">
+                        <div class="shuffleButtonGraphic"></div>
+                    </button>
                     <img src="img/avatar/1.png" class="characterSelectAvatar">
                     <div class="inputContainer">
                         <input type="text" id="playerName" required minlength="1" maxlength="32">

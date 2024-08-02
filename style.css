@@ -17,6 +17,8 @@
     --imageURLo: url("img/maru.svg"); /* fun trivia factoid: "maru" is Japanese for an "o" symbol */
     --sizePercentPlayerTwo: 83%;
 
+    --imageURLshuffle: url("img/creation.svg");
+
     --durationFast: 0.1s;
     --durationFast2: 0.2s;
     --durationSlow: 1.5s;
@@ -149,17 +151,48 @@ dialog {
     background: var(--colorPlayerTwo);
 }
 
+button {
+    cursor: pointer;
+}
+
 .shuffleButton {
     height: var(--buttonHeight);
     width: var(--buttonHeight);
+    padding: 0;
     border-radius: 50%;
     align-self: center;
     border-width: 0px;
-    background-image: url(img/creation.svg);
+    /*
+    background-image: var(--imageURLshuffle);
     background-size: 80%;
     background-repeat: no-repeat;
     background-position: center;
+    */
     z-index: 2;
+    background-color: white;
+
+    /* to align the inner graphic */
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.shuffleButtonGraphic {
+    width: 80%;
+    height: 80%;
+
+    /* stuff to get recolored SVG working */
+    background-image: var(--imageURLshuffle);
+    background-size: 0%;
+    mask-image: var(--imageURLshuffle);
+    mask-repeat: no-repeat;
+    mask-position: center;
+
+    background-color: var(--colorPlayerOne);
+}
+
+[id='2'] .shuffleButtonGraphic {
+    background-color: var(--colorPlayerTwo);
 }
 
 .characterSelectAvatar {
@@ -238,6 +271,7 @@ input:valid + .labelContainer label {
 input[type="color"] {
     width: 100%;
     height: 100%;
+    cursor: pointer;
     border-width: 2px;
     border-radius: var(--borderRadiusSmall);
     border-color: var(--colorPanelBorder);
@@ -257,6 +291,7 @@ input[type="checkbox"]:before {
 	font-size: 1.5em;
     height: 100%;
     width: 100%;
+    cursor: pointer;
 
 	-webkit-transition: 0.3s;
 	-o-transition: 0.3s;
