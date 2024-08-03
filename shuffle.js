@@ -71,6 +71,11 @@ const NAME_ADJECTIVES = [
     "Cromulent",
     "Fraudulent",
     "Whiny",
+    "Spooky",
+    "Crepuscular",
+    "Diurnal",
+    "Vespertine",
+    "Matutinal",
 ];
 
 const NAME_NOUN = [
@@ -124,6 +129,9 @@ const NAME_NOUN = [
     "Hipster",
     "Weaboo",
     "Beefcake",
+    "Yokai",
+    "Phantom",
+    "Werewolf",
 ]
 
 const shuffleController = (() => {

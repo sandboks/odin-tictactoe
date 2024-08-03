@@ -182,7 +182,7 @@ button {
     padding: 0;
     border-radius: 50%;
     align-self: center;
-    border-width: 0px;
+    border: 0px solid var(--colorPlayerOne);
     /*
     background-image: var(--imageURLshuffle);
     background-size: 80%;
@@ -196,6 +196,18 @@ button {
     align-items: center;
     display: flex;
     justify-content: center;
+    transition-duration: var(--durationFast);
+}
+
+[id='2'] .shuffleButton {
+    border-color: var(--colorPlayerTwo);
+}
+
+.shuffleButton:hover {
+    scale: 115%;
+    border-width: 6px;
+
+    transition-duration: var(--durationFast);
 }
 
 .shuffleButtonGraphic {
@@ -219,6 +231,7 @@ button {
 .characterSelectAvatar {
     border-radius: 2em;
     border: 0.5em solid var(--colorPlayerOne);
+    aspect-ratio: 1 / 1;
 }
 
 [id='2'] .characterSelectAvatar {
@@ -249,9 +262,27 @@ button {
     font-family: 'LilitaOne';
     font-family: "Poppins", sans-serif;
     font-weight: bolder;
+
     color: white;
+    color: var(--colorTextNeutral);
     background-color: var(--colorTextNeutral);
+    background-color: white;
     white-space: nowrap;
+    border-color: var(--colorPanelBorder);
+    border: 2px solid var(--colorPanelBorder);
+    transition-duration: var(--durationFast);
+}
+
+.ButtonNext:hover {
+    font-size: 2em;
+    transition-duration: var(--durationFast);
+    filter: brightness(80%);
+    border-width: 6px;
+    letter-spacing: 2px;
+}
+
+button:hover {
+    transition-duration: var(--durationFast);
 }
 
 .inputContainer {
@@ -288,6 +319,12 @@ input[type=text] {
     box-sizing: border-box;
 }
 
+input[type=text]:hover {
+    /*
+    border-width: 3px;
+    */
+}
+
 input + .labelContainer label {
   font-size: 16px;
   background-color: #ffffff00;
@@ -317,7 +354,13 @@ input[type="color"] {
     cursor: pointer;
     border-width: 2px;
     border-radius: var(--borderRadiusSmall);
-    border-color: var(--colorPanelBorder);
+    border-color: var(--colorTextNeutral);
+    transition: var(--durationFast);
+}
+
+input[type="color"]:hover {
+    border-width: 6px;
+    transition: var(--durationFast);
 }
 
 /*
@@ -336,9 +379,9 @@ input[type="checkbox"]:before {
     width: 100%;
     cursor: pointer;
 
-	-webkit-transition: 0.3s;
-	-o-transition: 0.3s;
-	transition: 0.3s;
+	-webkit-transition: var(--durationFast);
+	-o-transition: var(--durationFast);
+	transition: var(--durationFast);
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -350,12 +393,6 @@ input[type="checkbox"]:before {
 	justify-content: center;
 	font-family: "Poppins", sans-serif;
 	font-weight: 600;
-	/*
-    position: absolute;
-	width: 3.75em;
-	height: 2.9em;
-	background-color: #2d2936;
-    */
     border: 2px solid silver;
     box-sizing: border-box;
     border-radius: var(--borderRadiusSmall);
@@ -377,10 +414,12 @@ input[type="checkbox"]:checked:before {
 	content: "Human";
     letter-spacing: normal;
     background-color: white;
-	/*
-    left: 4.1em;
-    */
 	color: #89befe;
+}
+input[type="checkbox"]:hover, input[type="checkbox"]:hover:before {
+    filter: brightness(95%);
+    font-size: 1.2em;
+    border-width: 6px;
 }
 
 button {
