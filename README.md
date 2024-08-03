@@ -36,10 +36,14 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 - triggering a css animation and ending it on the last frame, repeatedly
 
 # TODO
-- find a better way to make artifical wait pauses
-- adjust the shuffle button aesthetics
+- add a way to change the avatar
+- add hover effects for avatar and name field
 - make the css responsive
 - add variable CPU difficulty
+- transition "close" for windows, and wait until they're gone before moving to next screen
+- add an intro screen
+- add a 2nd screen where you choose the number of rounds to play
+- update the HUD to include number of rounds won
 
 # CREDITS
 Some ideas were lifted from:

@@ -231,14 +231,33 @@ button {
     background-color: var(--colorPlayerTwo);
 }
 
-.characterSelectAvatar {
+.characterSelectAvatarParent {
     border-radius: 2em;
     border: 0.5em solid var(--colorPlayerOne);
     aspect-ratio: 1 / 1;
+    overflow: hidden;
+    transition: var(--durationFast2);
 }
 
-[id='2'] .characterSelectAvatar {
+[id='2'] .characterSelectAvatarParent {
     border: 0.5em solid var(--colorPlayerTwo);
+}
+
+.characterSelectAvatar {
+    width: 100%;
+    height: 100%;
+    transition: var(--durationFast2);
+}
+
+.characterSelectAvatarParent:hover {
+    border-width: 1em;
+    transition: var(--durationFast2);
+}
+
+.characterSelectAvatarParent:hover .characterSelectAvatar {
+    filter: brightness(0.9);
+    transform: scale(1.2);
+    transition: var(--durationFast2);
 }
 
 .horizontalRow {
@@ -304,9 +323,10 @@ button:hover {
     top: 0;
     /* padding: 0.25em; */
     pointer-events: none;
-    transition: transform 300ms;
+    transition: transform var(--durationFast2);
     transform-origin: left;
     height: 100%;
+    z-index: 1;
 }
 
 input[type=text] {
@@ -328,6 +348,24 @@ input[type=text]:hover {
     */
 }
 
+.inputBorderExtra {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    border: 0 solid var(--colorTextNeutral);
+    box-sizing: border-box;
+    border-radius: 0.5em;
+    pointer-events: none;
+    transition: var(--durationFast2);
+}
+
+input:hover ~ .inputBorderExtra,
+input:focus ~ .inputBorderExtra {
+    border-width: 6px;
+    transition: var(--durationFast2);
+}
+
 input + .labelContainer label {
   font-size: 16px;
   background-color: #ffffff00;
@@ -338,7 +376,7 @@ input + .labelContainer label {
   top: 5px;
   */
   pointer-events: none; /* Label doesn't interfere with pointer events */
-  transition: transform 300ms; /* Smooth transition for transformation */
+  transition: transform var(--durationFast2); /* Smooth transition for transformation */
   transform-origin: left; /* Think of this as an imaginary point around which all these transformations happen */
 }
 

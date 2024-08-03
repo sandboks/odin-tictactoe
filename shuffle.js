@@ -133,6 +133,8 @@ const NAME_NOUN = [
     "Yokai",
     "Phantom",
     "Werewolf",
+    "Doormat",
+    "Charlatan",
 ]
 
 const shuffleController = (() => {
@@ -197,7 +199,7 @@ const shuffleController = (() => {
 
     const getRandomAvatar = (playerCurrentAvatar) => {
         let availableAvatars = Array(TOTAL_AVATARS).fill(0).map((n, i) => n + i)
-        console.log(prevAvatars);
+        //console.log(prevAvatars);
         return GetRandomFromList(playerCurrentAvatar, availableAvatars, prevAvatars, true);
     }
 
