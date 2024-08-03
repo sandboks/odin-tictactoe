@@ -76,6 +76,7 @@ const NAME_ADJECTIVES = [
     "Diurnal",
     "Vespertine",
     "Matutinal",
+    "Sinful",
 ];
 
 const NAME_NOUN = [
@@ -138,6 +139,7 @@ const shuffleController = (() => {
     const maxStored = 10; // how many of the previous results we store and prevent from reappearing
     let prevNouns = [];
     let prevAdjs = [];
+    let prevAvatars = [];
 
     const GetRandomAdj = (playerName = "") => {
         return GetRandomFromList(playerName, NAME_ADJECTIVES, prevAdjs);
@@ -147,11 +149,15 @@ const shuffleController = (() => {
         return GetRandomFromList(playerName, NAME_NOUN, prevNouns);
     }
 
+    const GetRandomElementFromArray = (arr) => {
+        return arr[Math.floor(Math.random() * arr.length)]
+    }
+
     // a generic function that can be used for either nouns or adjs
     // take in "playerName" to ensure we don't give the same results
     // "constList" represents the unchanging list we reference
     // "prevList" is the list with our previous entries we don't want to repeat
-    const GetRandomFromList = (playerName = "", constList, prevList) => {
+    const GetRandomFromList = (playerName = "", constList, prevList, halveStored = false) => {
         // clone the const array
         let filteredList = [...constList];
         // remove all prev words from our clone
@@ -162,25 +168,37 @@ const shuffleController = (() => {
                 filteredList.splice(index, 1); // 2nd parameter means remove only 1 item
         }
         // remove the player's current word, if it isn't already gone
-        if (playerName.trim().length > 0); // ensure we're not trying to match the empty string
-        for (let i = 0; i < filteredList.length; i++) {
-            let word = filteredList[i];
-            if (playerName.includes((word))) { // we can check for the space after to try to ensure a perfect match
-                filteredList.splice(i, 1);
+        if (typeof playerName === 'string' || playerName instanceof String) {
+            if (playerName.trim().length > 0); // ensure we're not trying to match the empty string
+                for (let i = 0; i < filteredList.length; i++) {
+                let word = filteredList[i];
+                if (playerName.includes((word))) {
+                    filteredList.splice(i, 1);
+                }
             }
         }
+        else {
+            filteredList.splice(filteredList.indexOf(playerName), 1);
+        }
+        
         // just in case for whatever reason our filteredList is now empty...
         if (filteredList.length == 0)
             return "ERROR";
         // get a random Adj
-        let randomlyChosenWord = filteredList[Math.floor(Math.random() * filteredList.length)];
+        let randomlyChosenWord = GetRandomElementFromArray(filteredList);
         // update the stored prevAdjs
         prevList.push(randomlyChosenWord); // appends to the end of the array
-        if (prevList.length > maxStored)
+        if (prevList.length > (halveStored ? maxStored / 2 : maxStored))
             prevList.shift(); // gets rid of the first element
         //console.log(prevList);
         // return the randomly chosen word
         return randomlyChosenWord;
+    }
+
+    const getRandomAvatar = (playerCurrentAvatar) => {
+        let availableAvatars = Array(TOTAL_AVATARS).fill(0).map((n, i) => n + i)
+        console.log(prevAvatars);
+        return GetRandomFromList(playerCurrentAvatar, availableAvatars, prevAvatars, true);
     }
 
     const colorAngleChangeBy = 120;
@@ -264,6 +282,8 @@ const shuffleController = (() => {
         GetRandomAdj,
         GetRandomNoun,
         getRandomColorRGB,
+        getRandomAvatar,
+        GetRandomElementFromArray,
     }
 
 })();

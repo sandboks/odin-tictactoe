@@ -82,14 +82,17 @@ dialog {
 
 @keyframes zoomIn {
     0% {
-      transform:scale(0);
-      filter: brightness(100%);
+        /* 
+        transform:scale(0.8, 1.2); 
+        */
+        transform:scale(0);
+        filter: brightness(100%);
     }
     100% {
-      transform:scale(1);
-      opacity: 1;
+        transform:scale(1);
+        opacity: 1;
     }
-  }
+}
   
 @keyframes zoomOut {
     0% {
@@ -276,7 +279,7 @@ button {
 .ButtonNext:hover {
     font-size: 2em;
     transition-duration: var(--durationFast);
-    filter: brightness(80%);
+    filter: brightness(90%);
     border-width: 6px;
     letter-spacing: 2px;
 }

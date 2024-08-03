@@ -209,7 +209,7 @@ const ComputerPlayer = (() => {
         }
 
         bestCandidates = getAllIndexes(candidates, Math.max(...candidates));
-        let randomlyChosenElement = bestCandidates[Math.floor(Math.random() * bestCandidates.length)];
+        let randomlyChosenElement = shuffleController.GetRandomElementFromArray(bestCandidates);
         //let chosenSpaceIndex = candidates.indexOf(Math.max(...candidates));
         gameBoard.ClickOnSpace(randomlyChosenElement, true);
     }
@@ -288,13 +288,11 @@ const HTMLcontroller = (() => {
 
 
     const RandomizePlayer = (player) => {
+        // name
         player.name = `${shuffleController.GetRandomAdj(player.name)} ${shuffleController.GetRandomNoun(player.name)}`
         
-        // never shuffle the exact same avatar we already have
-        let newAvatar = Math.min(Math.floor(Math.random() * (TOTAL_AVATARS)), TOTAL_AVATARS - 1);
-        if (player.avatar == newAvatar)
-            newAvatar = (player.avatar + 1) % (TOTAL_AVATARS - 1);
-        player.avatar = newAvatar;
+        // avatar
+        player.avatar = shuffleController.getRandomAvatar(player.avatar);
         
         // color
         player.color = shuffleController.getRandomColorRGB(player.color);
