@@ -2,6 +2,7 @@
     --gridSquareBg: #eeeeee;
     --gridSquareBgOccupied: white;
     --colorPanelBorder: #b6b6b6;
+    --colorTextNeutral: #9d9d9d;
 
     --colorPlayerOne: #0099ff;
     --colorPlayerTwo: #ff9d00;
@@ -47,6 +48,11 @@
     */
 }
 
+@font-face {
+    font-family:'LilitaOne';
+    src: url('font/Lilita_One/LilitaOne-Regular.ttf');
+}
+
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 
@@ -85,14 +91,29 @@ dialog {
     }
   }
   
-  @keyframes zoomOut {
+@keyframes zoomOut {
     0% {
-      transform:scale(1);
+        transform:scale(1);
     }
     100% {
-      transform:scale(0);
-    }
-  }
+        transform:scale(0);
+}
+}
+
+dialog h2 {
+    font-family: 'LilitaOne';
+    font-size: xxx-large;
+    font-size: 2em;
+    /* margin-top: 0; */
+    margin: 0.5em 0;
+    font-weight: 100;
+    color: var(--colorTextNeutral);
+}
+
+dialog h3 {
+    color: var(--colorTextNeutral);
+    margin: 0;
+}
 
 /* CHARACTER SELECT SCREEN */
 
@@ -102,7 +123,7 @@ dialog {
     gap: 2em;
 }
 
-.fighterParent {
+.fighterParent, .fighterParentVictory {
     display: flex;
     flex-direction: column;
     gap: 1em;
@@ -209,6 +230,28 @@ button {
     grid-template-columns: 1fr 1fr;
     height: var(--buttonHeight);
     gap: 0.5em;
+}
+
+.horizontalRowOneButton {
+    display: grid;
+    grid-template-columns: 0.5fr;
+    justify-content: center;
+    height: calc(var(--buttonHeight)* 1.2);
+}
+
+.ButtonNext {
+    font-size: 1.5em;
+    /*
+    font-size: 2em;
+    font-size: 2.5em;
+    */
+    /* font-weight: 100; */
+    font-family: 'LilitaOne';
+    font-family: "Poppins", sans-serif;
+    font-weight: bolder;
+    color: white;
+    background-color: var(--colorTextNeutral);
+    white-space: nowrap;
 }
 
 .inputContainer {
@@ -357,6 +400,18 @@ button {
 .VictoryScreen {
     display: flex;
     flex-direction: column;
+    gap: 1em;
+}
+
+.fighterParentVictory .nameTagParent {
+    width: 220px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.VictoryScreen h2 {
+    color: var(--colorPlayerCurrent);
 }
 
 
@@ -657,12 +712,14 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     font-size: small;
     text-align: start;
 
+    /*
     text-overflow: ellipsis;
     width: 100%;
     overflow-wrap: break-word;
     overflow: hidden;    
     overflow: hidden;
     hyphens: auto;
+    */
 }
 
 .gapBetweenPlayers {

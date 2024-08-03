@@ -11,12 +11,12 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 # FEATURES
 - Play Tic Tac Toe!
 - Customize each player, including their avatar, name and color
-- Creatively bankrupt? Use the shuffle feature to generate funny player names!
+- Creatively bankrupt? Use the shuffle feature to generate funny player names from a database of over 100 words!
 - Play against an AI-controlled CPU, or pit two of them against each other!
 - Responsive layout that's fully playable across different devices (*not fully implemented yet)
 
 # RETROSPECTIVE
-- While the basic game was completed within a day, I spent much, much longer polishing the visuals and UX, and adding extra features
+- While the basic game logic was completed within a day, I spent much, much longer polishing the visuals and UX, and adding extra features
 - My goal was to create the absolute best game I could possibly make, with my current skillset and knowledge
 - ... even if that game was something as basic as Tic Tac Toe
 - There are many things I attempted in previous projects that this one does significantly better
@@ -27,7 +27,7 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 - SVG color manipulation
 - css masking properties
 - 'cqmin' units
-- 'Promise' and 'resolve' keywords to create pauses
+- 'Promise' and 'resolve' keywords to create artifical pauses
 - blocking mouse input with an invisible overlay
 - using multiple js files in one project
 - name generation

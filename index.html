@@ -20,7 +20,7 @@
             <button id="StartGameButton">START</button>
         </dialog>
         <dialog class="SelectScreenModal">
-            <h2>VERSUS</h2>
+            <h2>CHOOSE YOUR CHARACTER</h2>
             <div class="fightersGrid">
                 <div class="fighterParent" id="1">
                     <div class="fighterOverlayFlash"></div>
@@ -63,15 +63,23 @@
                     <div class="fighterBacking"></div>
                 </div>
             </div>
-            <div class="horizontalRow">
-                <button id="FightButton">FIGHT</button>
+            <div class="horizontalRowOneButton">
+                <button class="ButtonNext" id="FightButton">FIGHT</button>
             </div>
         </dialog>
         <dialog class="VictoryScreenModal">
             <div class="VictoryScreen">
-                <img src="img/avatar/0.png" class="characterSelectAvatar">
-                <h2>[WINNER] wins!</h2>
-                <button id="PlayAgainButton">PLAY AGAIN</button>
+                <h3>Winner:</h3>
+                <div class="fighterParentVictory">
+                    <img src="img/avatar/0.png" class="characterSelectAvatar">
+                    <div class="nameTagParent">
+                        <h2>[WINNER]!</h2>
+                    </div>
+                    <div class="fighterBacking"></div>
+                </div>
+                <div class="horizontalRowOneButton">
+                    <button class="ButtonNext" id="PlayAgainButton">NEW GAME</button>
+                </div>
             </div>
         </dialog>
     </div>

@@ -277,7 +277,7 @@ const HTMLcontroller = (() => {
             VictoryScreenModal.querySelector("img").src = ``;
         }
         else {
-            VictoryScreenModal.querySelector("h2").textContent = `${playerVictor.name} wins!`;
+            VictoryScreenModal.querySelector("h2").textContent = `${playerVictor.name}`;
             VictoryScreenModal.querySelector("img").src = `img/avatar/${playerVictor.avatar}.png`;
             VictoryScreenModal.querySelector(".VictoryScreen").id = playerVictor.id + 1;
         }
