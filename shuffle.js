@@ -1,4 +1,4 @@
-const TOTAL_AVATARS = 16;
+const TOTAL_AVATARS = 25;
 
 // names used for the shuffle feature
 const NAME_ADJECTIVES = [
@@ -180,8 +180,16 @@ const shuffleController = (() => {
             }
         }
         else {
-            filteredList.splice(filteredList.indexOf(playerName), 1);
+            //console.log(filteredList);
+            //console.log(filteredList.indexOf(playerName));
+            if (!prevList.includes(playerName)) {
+                prevList.push(playerName);
+                filteredList.splice(filteredList.indexOf(playerName), 1);
+            }
+                
         }
+
+        console.log(filteredList);
         
         // just in case for whatever reason our filteredList is now empty...
         if (filteredList.length == 0)
@@ -199,7 +207,7 @@ const shuffleController = (() => {
 
     const getRandomAvatar = (playerCurrentAvatar) => {
         let availableAvatars = Array(TOTAL_AVATARS).fill(0).map((n, i) => n + i)
-        //console.log(prevAvatars);
+        console.log(prevAvatars);
         return GetRandomFromList(playerCurrentAvatar, availableAvatars, prevAvatars, true);
     }
 
