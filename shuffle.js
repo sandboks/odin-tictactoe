@@ -152,7 +152,7 @@ const NAME_NOUN = [
 ]
 
 const shuffleController = (() => {
-    const maxStored = 10; // how many of the previous results we store and prevent from reappearing
+    //const maxStored = 10; // how many of the previous results we store and prevent from reappearing
     let prevNouns = [];
     let prevAdjs = [];
     let prevAvatars = [];
@@ -173,7 +173,7 @@ const shuffleController = (() => {
     // take in "playerName" to ensure we don't give the same results
     // "constList" represents the unchanging list we reference
     // "prevList" is the list with our previous entries we don't want to repeat
-    const GetRandomFromList = (playerNames, constList, prevList, halveStored = false) => {
+    const GetRandomFromList = (playerNames, constList, prevList) => {
         // clone the const array
         let filteredList = [...constList];
         // remove all prev words from our clone
@@ -199,7 +199,7 @@ const shuffleController = (() => {
             else {
                 // if it's a number, we just need to remove it from the list
                 if (!prevList.includes(playerName)) {
-                    prevList.push(playerName);
+                    // prevList.push(playerName);
                     filteredList.splice(filteredList.indexOf(playerName), 1);
                 }
             }
@@ -215,7 +215,9 @@ const shuffleController = (() => {
         
         // update the stored prevAdjs
         prevList.push(randomlyChosenWord); // appends to the end of the array
-        if (prevList.length > (halveStored ? maxStored / 2 : maxStored))
+        let maxStored = Math.round(constList.length / 4); // how many of the previous results we store and prevent from reappearing
+        //console.log(maxStored);
+        if (prevList.length > maxStored)
             prevList.shift(); // gets rid of the first element
         //console.log(prevList);
         
@@ -226,10 +228,8 @@ const shuffleController = (() => {
     const getRandomAvatar = (playerCurrentAvatar) => {
         let availableAvatars = Array(TOTAL_AVATARS).fill(0).map((n, i) => n + i)
         //console.log(prevAvatars);
-        return GetRandomFromList(playerCurrentAvatar, availableAvatars, prevAvatars, true);
+        return GetRandomFromList(playerCurrentAvatar, availableAvatars, prevAvatars);
     }
-
-    const colorAngleChangeBy = 120;
 
     // generate a random color
     const getRandomColorRGB = (usedColors) => {
@@ -244,13 +244,13 @@ const shuffleController = (() => {
 
         for (let i = 0; i < usedColors.length; i++) {
             let usedColor = usedColors[i];
-            console.log(usedColor);
+            //console.log(usedColor);
             let usedColorRGB = getRGB(usedColor);
-            console.log(usedColorRGB);
+            //console.log(usedColorRGB);
             let usedColorHSL = rgbToHsl(usedColorRGB[0], usedColorRGB[1], usedColorRGB[2]);
-            console.log(usedColorHSL);
+            //console.log(usedColorHSL);
             let h = Math.round((usedColorHSL[0] * 360));
-            console.log(h);
+            //console.log(h);
 
             let s = usedColorHSL[1];
             let l = usedColorHSL[2];
@@ -265,7 +265,7 @@ const shuffleController = (() => {
                 let positive = (h + j + 360) % 360;
                 let index = HueCandidates.indexOf(positive);
                 if (index != -1) {
-                    console.log(`deleting _${HueCandidates[index]} + j=${j}`);
+                    //console.log(`deleting _${HueCandidates[index]} + j=${j}`);
                     HueCandidates.splice(index, 1);
                 }
 
@@ -277,13 +277,13 @@ const shuffleController = (() => {
                 let negative = (h - j + 360) % 360;
                 index = HueCandidates.indexOf(negative);
                 if (index != -1) {
-                    console.log(`deleting _${HueCandidates[index]} - j=${j}`);
+                    //console.log(`deleting _${HueCandidates[index]} - j=${j}`);
                     HueCandidates.splice(index, 1);
                 }
             }
         }
 
-        console.log(HueCandidates);
+        //console.log(HueCandidates);
         
         let newColorAngle = Math.round(Math.random() * 360);
         newColorAngle = GetRandomElementFromArray(HueCandidates);
@@ -393,9 +393,6 @@ const shuffleController = (() => {
     const isSimilar = ([r1, g1, b1], [r2, g2, b2]) => {
         return colorDiff([r1, g1, b1], [r2, g2, b2]) < 180;
     }
-
-
-
 
     return {
         GetRandomAdj,
