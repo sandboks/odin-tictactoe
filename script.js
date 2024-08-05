@@ -289,13 +289,16 @@ const HTMLcontroller = (() => {
 
     const RandomizePlayer = (player) => {
         // name
-        player.name = `${shuffleController.GetRandomAdj(player.name)} ${shuffleController.GetRandomNoun(player.name)}`
+        let playerNames = [Player1().name, Player2().name];
+        player.name = `${shuffleController.GetRandomAdj(playerNames)} ${shuffleController.GetRandomNoun(playerNames)}`
         
         // avatar
-        player.avatar = shuffleController.getRandomAvatar(player.avatar);
+        let playerAvatars = [Player1().avatar, Player2().avatar];
+        player.avatar = shuffleController.getRandomAvatar(playerAvatars);
         
         // color
-        player.color = shuffleController.getRandomColorRGB(player.color);
+        let playerColors = [Player1().color, Player2().color];
+        player.color = shuffleController.getRandomColorRGB(playerColors);
     };
 
     const SelectScreenRefreshPlayer = (currentFighter, currentFighterNode) => {
