@@ -223,7 +223,7 @@ button {
     border-color: var(--colorPlayerTwo);
 }
 
-.shuffleButton:hover {
+.shuffleButton:hover, .shuffleButton:focus {
     scale: 115%;
     border-width: 6px;
 
@@ -312,7 +312,7 @@ button {
     transition-duration: var(--durationFast);
 }
 
-.ButtonNext:hover {
+.ButtonNext:hover, .ButtonNext:focus {
     font-size: 2em;
     transition-duration: var(--durationFast);
     filter: brightness(90%);
@@ -357,12 +357,6 @@ input[type=text] {
     /* flex-grow: 1; */
     /* display: grid; */
     box-sizing: border-box;
-}
-
-input[type=text]:hover {
-    /*
-    border-width: 3px;
-    */
 }
 
 .inputBorderExtra {
@@ -421,7 +415,7 @@ input[type="color"] {
     transition: var(--durationFast);
 }
 
-input[type="color"]:hover {
+input[type="color"]:hover, input[type="color"]:focus {
     border-width: 6px;
     transition: var(--durationFast);
 }
@@ -479,7 +473,7 @@ input[type="checkbox"]:checked:before {
     background-color: white;
 	color: #89befe;
 }
-input[type="checkbox"]:hover, input[type="checkbox"]:hover:before {
+input[type="checkbox"]:hover, input[type="checkbox"]:focus, input[type="checkbox"]:hover:before, input[type="checkbox"]:focus:before {
     filter: brightness(95%);
     font-size: 1.2em;
     border-width: 6px;
