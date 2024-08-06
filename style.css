@@ -518,12 +518,17 @@ button {
     position: relative;
 }
 
-.inputBlock {
+.inputBlock, .whiteOverlay {
     height: 100%;
     width: 100%;
     position: absolute;
     z-index: 1;
     cursor: not-allowed;
+}
+
+.whiteOverlay {
+    background: white;
+    cursor: auto;
 }
 
 .inputBlockOverlayModal {
@@ -669,7 +674,7 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
 }
 
 [class*='fadingIn'] {
-    animation: fadeInOpacity var(--durationFast2) ease 1;
+    animation: fadeInOpacity var(--durationMedium) cubic-bezier(0.28, 1.52, 0.6, 0.96) 1;
 }
 
 [class*='hidden'] {
@@ -841,16 +846,6 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
 
 /* MOBILE ASPECT RATIO */
 @media (max-width: 460px) or (max-height: 520px) {
-    /*
-    .gameGrid {
-        width: 100cqmin;
-        height: 100cqmin;
-    }
-
-    .hudParent {
-        width: 100cqmin;
-    }
-    */
 
     .hudParent {
         flex-direction: column;
@@ -876,6 +871,44 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
 
         box-sizing: border-box;
     }
+
+    /* CHARACTER SELECT SCREEN */
+
+    .fightersGrid {
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .fighterParent {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        gap: 0.5em;
+    }
+
+    .inputContainer {
+        grid-column: span 2;
+        order: 2;
+    }
+
+    .horizontalRow {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .shuffleButton {
+        position: absolute;
+        top: 0.5em;
+        left: 0.5em;
+    }
+
+    .characterSelectAvatarParent {
+        /*
+        max-height: calc(var(--buttonHeight)* 2);
+        */
+    }
+
+
 }
 /* hide the footer in landscape mobile view */
 @media (orientation: landscape) {

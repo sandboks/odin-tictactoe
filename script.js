@@ -260,14 +260,27 @@ const HTMLcontroller = (() => {
 
         console.log("TODO: Add the intro screen");
         StartGameModal.close();
-            ShowSelectionScreen();
+        InitializeGame();
+        ShowSelectionScreen();
     }
 
     function ShowSelectionScreen() {
         const SelectionScreenModal = document.querySelector(".SelectScreenModal");
 
         SelectionScreenModal.showModal();
+
+        HideGameGrid();
     }
+
+    const HideGameGrid = () => {
+        document.querySelector(".whiteOverlay").style.display = "block";
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                gridSquareDivs[i][j].classList.add('hidden');
+            }
+        }
+    };
 
     const ShowVictoryScreen = () => {
         const VictoryScreenModal = document.querySelector(".VictoryScreenModal");
@@ -404,6 +417,8 @@ const HTMLcontroller = (() => {
 
     async function FightButtonClicked () {
         const SelectionScreenModal = document.querySelector(".SelectScreenModal");
+        const whiteOverlay = document.querySelector(".whiteOverlay");
+
         console.log("TODO: Add an input blocker here");
         UpdatePlayerHUD();
         
@@ -416,13 +431,7 @@ const HTMLcontroller = (() => {
         SelectionScreenModal.classList.remove("PlayFadeOut");
         SelectionScreenModal.classList.remove("PlayFadeOutBackdrop");
 
-        InitializeGame();
-
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                gridSquareDivs[i][j].classList.add('hidden');
-            }
-        }
+        whiteOverlay.style.display = "none";
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
@@ -432,13 +441,13 @@ const HTMLcontroller = (() => {
             }
         }
 
+        await ComputerPlayer.sleep(500);
+
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 gridSquareDivs[i][j].classList.remove('fadingIn');
             }
         }
-
-        await ComputerPlayer.sleep(500);
 
         SetActivePlayer(0);
         SetHoverPreviewToCurrentPlayer();
