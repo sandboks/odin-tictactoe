@@ -406,6 +406,11 @@ input:valid + .labelContainer label {
   padding: var(--borderRadiusSmall);
 }
 
+.colorPickWrapper {
+    height: 100%;
+    width: 100%;
+}
+
 input[type="color"] {
     width: 100%;
     height: 100%;
@@ -893,6 +898,7 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
 
     .horizontalRow {
         grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
         height: auto;
     }
 
