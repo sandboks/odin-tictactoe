@@ -258,13 +258,13 @@ const HTMLcontroller = (() => {
             ShowSelectionScreen();
         });
 
+        console.log("TODO: Add the intro screen");
         StartGameModal.close();
             ShowSelectionScreen();
     }
 
     function ShowSelectionScreen() {
         const SelectionScreenModal = document.querySelector(".SelectScreenModal");
-        const FightButton = document.getElementById("FightButton");
 
         SelectionScreenModal.showModal();
     }
@@ -318,7 +318,7 @@ const HTMLcontroller = (() => {
         let toggleIsHuman = currentFighterNode.querySelector('[name="isHumanToggle"]');
         currentFighter.isCPU = (!toggleIsHuman.checked); // do this at least once in case it's set checked/unchecked in the HTML
 
-        SetupPlayerHUD();
+        UpdatePlayerHUD();
     };
 
     
@@ -334,19 +334,12 @@ const HTMLcontroller = (() => {
     });
 
     const AddEventListeners = () => {
-        const SelectionScreenModal = document.querySelector(".SelectScreenModal");
         const FightButton = document.getElementById("FightButton");
 
         // when the "FIGHT" button is clicked, we start the new game
         // this is where all the player input needs to be read, and inserted into the game
         FightButton.addEventListener("click", () => {
-            SetupPlayerHUD();
-            
-            SelectionScreenModal.close();
-
-            SetHoverPreviewToCurrentPlayer();
-            InitializeGame();
-            gameBoard.StartGame();
+            FightButtonClicked();
         });
 
         let allFighters = document.querySelectorAll(".fighterParent");
@@ -388,7 +381,9 @@ const HTMLcontroller = (() => {
                 RandomizePlayer(currentFighter);
                 SelectScreenRefreshPlayer(currentFighter, currentFighterNode);
 
+                // play the overlay flash animation
                 let overlayFlash = currentFighterNode.querySelector(".fighterOverlayFlash");
+                // removing, accessing the offset, and adding the class will make the animation play
                 overlayFlash.classList.remove("fighterOverlayFlash");
                 void overlayFlash.offsetWidth;
                 overlayFlash.classList.add("fighterOverlayFlash"); 
@@ -407,6 +402,49 @@ const HTMLcontroller = (() => {
 
     };
 
+    async function FightButtonClicked () {
+        const SelectionScreenModal = document.querySelector(".SelectScreenModal");
+        console.log("TODO: Add an input blocker here");
+        UpdatePlayerHUD();
+        
+        SelectionScreenModal.classList.add("PlayFadeOut");
+        await ComputerPlayer.sleep(500);
+        SelectionScreenModal.classList.add("PlayFadeOutBackdrop");
+        await ComputerPlayer.sleep(500);
+
+        SelectionScreenModal.close();
+        SelectionScreenModal.classList.remove("PlayFadeOut");
+        SelectionScreenModal.classList.remove("PlayFadeOutBackdrop");
+
+        InitializeGame();
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                gridSquareDivs[i][j].classList.add('hidden');
+            }
+        }
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                gridSquareDivs[i][j].classList.add('fadingIn');
+                gridSquareDivs[i][j].classList.remove('hidden');
+                await ComputerPlayer.sleep(100);
+            }
+        }
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                gridSquareDivs[i][j].classList.remove('fadingIn');
+            }
+        }
+
+        await ComputerPlayer.sleep(500);
+
+        SetActivePlayer(0);
+        SetHoverPreviewToCurrentPlayer();
+        gameBoard.StartGame();
+    }
+
     const RefreshBoardVisual = () => {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
@@ -423,7 +461,7 @@ const HTMLcontroller = (() => {
     };
 
 
-    const SetupPlayerHUD = () => {
+    const UpdatePlayerHUD = () => {
         UpdateColors();
         UpdateNameTagText();
     };
@@ -461,8 +499,6 @@ const HTMLcontroller = (() => {
 
         // convert into a 3x3 2D array
         while(newArr.length) gridSquareDivs.push(newArr.splice(0,3));
-
-        SetActivePlayer(0);
     }
 
     const SetActivePlayer = (playerNumber) => {

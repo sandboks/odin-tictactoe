@@ -49,10 +49,10 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 
 # CREDITS
 Some ideas were lifted from:
-- https://codebrainer.com/blog/tic-tac-toe-javascript-game
+https://codebrainer.com/blog/tic-tac-toe-javascript-game
 
 Pokemon Mystery Dungeon sprites belong to Nintendo, ripped from here:
-- https://sprites.pmdcollab.org/
+https://sprites.pmdcollab.org/
 
 Some avatars created as fanart by user Ernmuffin:
-- https://x.com/Ernmuffin
+https://x.com/Ernmuffin

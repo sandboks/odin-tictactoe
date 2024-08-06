@@ -1,4 +1,4 @@
-const TOTAL_AVATARS = 25;
+const TOTAL_AVATARS = 27;
 
 // names used for the shuffle feature
 const NAME_ADJECTIVES = [
