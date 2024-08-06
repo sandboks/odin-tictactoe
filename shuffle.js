@@ -149,6 +149,7 @@ const NAME_NOUN = [
     "Charlatan",
     "Crumpet",
     "Pumpernickel",
+    "Rapscallion",
 ]
 
 const shuffleController = (() => {
