@@ -28,6 +28,7 @@
     --borderRadiusSmall: 0.25em;
 
     --buttonHeight: 3em;
+    --buttonHeightMobile: 2em;
     
     /*
     --main-color: #F28E1C;
@@ -873,6 +874,12 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
 
     /* CHARACTER SELECT SCREEN */
 
+    dialog {
+        /* width: 90vw; */
+        width: 100%;
+        box-sizing: border-box;
+    }
+
     .fightersGrid {
         flex-direction: column;
         gap: 1em;
@@ -881,19 +888,25 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     .fighterParent {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr;
+        grid-template-rows: 1fr;        
+        grid-template-rows: repeat(3, var(--buttonHeightMobile));
+        grid-template-rows: repeat(3, 1fr);        
+        aspect-ratio: 5 / 3;
         gap: 0.5em;
     }
 
     .inputContainer {
         grid-column: span 2;
         order: 2;
+        overflow: hidden;        
+        height: auto;
     }
 
     .horizontalRow {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
         height: auto;
+        grid-row: span 2;
     }
 
     .shuffleButton {
@@ -902,10 +915,26 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
         left: 0.5em;
     }
 
+    .SelectScreenModal h2 {
+        font-size: large;
+    }
+
     .characterSelectAvatarParent {
         /*
         max-height: calc(var(--buttonHeight)* 2);
-        */
+        */        
+        grid-row: span 2;    
+
+        height: 100%;
+        box-sizing: border-box;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .characterSelectAvatar {
+        height: auto;
     }
 
 

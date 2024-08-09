@@ -267,7 +267,10 @@ const HTMLcontroller = (() => {
     function ShowSelectionScreen() {
         const SelectionScreenModal = document.querySelector(".SelectScreenModal");
 
+        // prevent automatic tab selection
+        SelectionScreenModal.inert = true;
         SelectionScreenModal.showModal();
+        SelectionScreenModal.inert = false;
 
         HideGameGrid();
     }
@@ -295,7 +298,10 @@ const HTMLcontroller = (() => {
             VictoryScreenModal.querySelector(".VictoryScreen").id = playerVictor.id + 1;
         }
 
+        // prevent auto tab highlighting 
+        VictoryScreenModal.inert = true;
         VictoryScreenModal.showModal();
+        VictoryScreenModal.inert = false;
     };
 
 
