@@ -74,6 +74,8 @@ dialog {
     justify-self: center;
     align-self: center;
     text-align: center;
+
+    min-width: 260px;
 }
 
 dialog::backdrop {
@@ -945,7 +947,7 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     }
 }
 
-@media (orientation: landscape) and (min-height: 400px) {
+@media (orientation: landscape) and (min-height: 400px) and (min-width: 610px) {
     .fighterParent {
         aspect-ratio: auto;
     }
