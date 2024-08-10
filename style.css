@@ -849,6 +849,12 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     flex: 1;
 }
 
+
+/* ASPECT RATIOS */
+
+
+
+
 /* MOBILE ASPECT RATIO */
 @media (max-width: 460px) {
 
@@ -883,8 +889,8 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     /* CHARACTER SELECT SCREEN */
 
     dialog {
-        /* width: 90vw; */
-        width: 100%;
+        /* width: 90vw; 
+        width: 100%; */
         box-sizing: border-box;
         padding: 1em;
     }
