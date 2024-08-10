@@ -813,7 +813,7 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
 
 .playerHUD img {
     border-radius: 50%;
-    max-height: 10cqmin;
+    height: 10cqmin;
     /*
     height: 100px;
     min-width: 100px;
@@ -867,7 +867,9 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     }
 
     .playerHUD {
+        /*
         gap: 0;
+        */
     }
 
     .playerHUD p {
@@ -982,14 +984,16 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     }
 }
 
+@media (min-width: 640px) and (min-height: 700px) {
+    .playerHUD p {
+        font-size: large;
+    }
+}
 
-@media (min-width: 700px) and (min-height: 700px) {
+
+@media (min-width: 800px) and (min-height: 900px) {
     .gameGridParent {
         gap: 2em;
-    }
-    
-    .playerHUD img {
-        height: 10cqmin;
     }
 
     .playerHUD {
