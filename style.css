@@ -29,6 +29,9 @@
 
     --buttonHeight: 3em;
     --buttonHeightMobile: 2em;
+
+    --minHeightContent: 310px;
+    --contentPadding: 1em;
     
     /*
     --main-color: #F28E1C;
@@ -592,9 +595,9 @@ footer img {
     flex-direction: column;
     flex: 1;
 
-    padding: 1em 0;
+    padding: var(--contentPadding) 0;
     gap: 2em;
-    min-height: 450px;
+    min-height: var(--minHeightContent);
     min-width: 250px;
 }
 
@@ -845,7 +848,7 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
 }
 
 /* MOBILE ASPECT RATIO */
-@media (max-width: 460px) or (max-height: 520px) {
+@media (max-width: 460px) {
 
     .hudParent {
         flex-direction: column;
@@ -871,6 +874,9 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
 
         box-sizing: border-box;
     }
+}
+
+@media (max-width: 440px) or (max-height: 640px) {
 
     /* CHARACTER SELECT SCREEN */
 
@@ -878,6 +884,7 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
         /* width: 90vw; */
         width: 100%;
         box-sizing: border-box;
+        padding: 1em;
     }
 
     .fightersGrid {
@@ -936,11 +943,28 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     .characterSelectAvatar {
         height: auto;
     }
-
-
 }
+
+@media (orientation: landscape) and (min-height: 400px) {
+    .fighterParent {
+        aspect-ratio: auto;
+    }
+}
+
+@media (min-width: 460px) and (max-height: 640px) {
+    .fightersGrid {
+        flex-direction: row;        
+        justify-content: center;
+    }
+
+    dialog {
+        width: auto;
+    }
+}
+
+
 /* hide the footer in landscape mobile view */
-@media (orientation: landscape) {
+@media (orientation: landscape) and (max-height: 540px) {
     footer {
         display: none;
     }
