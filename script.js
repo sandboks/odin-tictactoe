@@ -85,6 +85,7 @@ const gameBoard = (() => {
             LockGame();
 
             if (playerVictor != null) {
+                await ComputerPlayer.sleep(500);
                 await RecolorWinningPanels(playerVictorCombo);
                 await ComputerPlayer.sleep(750);
             }
