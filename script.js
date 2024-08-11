@@ -304,6 +304,9 @@ const HTMLcontroller = (() => {
 
     const ShowVictoryScreen = () => {
         const VictoryScreenModal = document.querySelector(".VictoryScreenModal");
+        const DialogBackdrop = document.querySelector(".dialogBackdrop");
+
+        DialogBackdrop.style.display = "block";
 
         if (playerVictor == null) {
             VictoryScreenModal.classList.add("TieGame");
@@ -449,6 +452,7 @@ const HTMLcontroller = (() => {
 
     async function FightButtonClicked () {
         const SelectionScreenModal = document.querySelector(".SelectScreenModal");
+        const DialogBackdrop = document.querySelector(".dialogBackdrop");
         const gridWhiteOverlay = document.querySelector(".gameGridRoot .whiteOverlay");
 
         console.log("TODO: Add an input blocker here");
@@ -456,12 +460,15 @@ const HTMLcontroller = (() => {
         
         SelectionScreenModal.classList.add("PlayFadeOut");
         await ComputerPlayer.sleep(500);
-        SelectionScreenModal.classList.add("PlayFadeOutBackdrop");
-        await ComputerPlayer.sleep(500);
-
         SelectionScreenModal.close();
         SelectionScreenModal.classList.remove("PlayFadeOut");
         SelectionScreenModal.classList.remove("PlayFadeOutBackdrop");
+
+        DialogBackdrop.classList.add("PlayFadeOutBackdrop");
+        await ComputerPlayer.sleep(500);
+        DialogBackdrop.style.display = "none";
+        DialogBackdrop.classList.remove("PlayFadeOutBackdrop");
+
 
         // ANIMATE HUD
         SetBothPlayersInactive();

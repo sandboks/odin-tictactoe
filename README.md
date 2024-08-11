@@ -17,6 +17,7 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 
 # COMBATIBILITY
 - ✅ Google Chrome (desktop)
+- ✅ Firefox (desktop)
 - ✅ Safari (iOS)
 
 # RETROSPECTIVE
@@ -42,7 +43,7 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 # TODO
 - add variable CPU difficulty
 - add an intro screen
-- add a 2nd screen where you choose the number of rounds to play
+- add a 2nd screen where you choose the number of rounds to play?
 - update the HUD to include number of rounds won
 
 # SUPERFLUOUS EXTRAS I'D LIKE TO DO
@@ -57,3 +58,6 @@ https://sprites.pmdcollab.org/
 
 Some avatars created as fanart by user Ernmuffin:
 https://x.com/Ernmuffin
+
+Modal animations inspired by:
+https://codepen.io/designcouch/pen/obvKxm
