@@ -13,7 +13,7 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 - Customize each player, including their avatar, name and color
 - Creatively bankrupt? Use the shuffle feature to generate funny player names from a database of over 100 words!
 - Play against an AI-controlled CPU, or pit two of them against each other!
-- Responsive layout that's fully playable across different devices (*not fully implemented yet)
+- Responsive layout that's fully playable across different devices
 
 # COMBATIBILITY
 - ✅ Google Chrome (desktop)
@@ -40,10 +40,7 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 - triggering a css animation and ending it on the last frame, repeatedly
 
 # TODO
-- add a way to change the avatar
-- make the css fully responsive
 - add variable CPU difficulty
-- transition "close" for windows, and wait until they're gone before moving to next screen
 - add an intro screen
 - add a 2nd screen where you choose the number of rounds to play
 - update the HUD to include number of rounds won

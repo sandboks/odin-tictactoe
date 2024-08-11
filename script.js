@@ -5,6 +5,7 @@ const spacePlayerTwo = 2; // o
 
 var currentPlayerID = spacePlayerOne;
 var playerVictor = null;
+var playerVictorCombo = null;
 var gameLocked = true; // start as true
 function InputIsAllowed() { return (!gameLocked && CurrentPlayer().isCPU == false); }
 
@@ -66,7 +67,8 @@ const gameBoard = (() => {
 
     const ResetBoard = () => {
         this.boardGrid = Array(3).fill().map(() => Array(3).fill(0));
-        playerVictor = null
+        playerVictor = null;
+        playerVictorCombo = null;
         gameLocked = true;
         currentPlayerID = spacePlayerOne;
     }
@@ -81,6 +83,12 @@ const gameBoard = (() => {
 
         if (GameIsOver() == true) {
             LockGame();
+
+            if (playerVictor != null) {
+                await RecolorWinningPanels(playerVictorCombo);
+                await ComputerPlayer.sleep(500);
+            }
+
             HTMLcontroller.ShowVictoryScreen();
         }
         else {
@@ -112,9 +120,10 @@ const gameBoard = (() => {
         }
     }
 
-    function RecolorWinningPanels(winningPanelsCombo) {
+    async function RecolorWinningPanels(winningPanelsCombo) {
         for (let i = 0; i < winningPanelsCombo.length; i++) {
             HTMLcontroller.MarkSpaceAsVictor(winningPanelsCombo[i][0], winningPanelsCombo[i][1]);
+            await ComputerPlayer.sleep(250);
         }
     }
 
@@ -127,7 +136,7 @@ const gameBoard = (() => {
             && (boardGrid[combo[2][0]][combo[2][1]] == playerID)) {
                 //console.log("YOU'RE WINNER_" + player + "should now return TRUE");
                 playerVictor = player;
-                RecolorWinningPanels(combo);
+                playerVictorCombo = combo;
                 return true;
             }
         }
@@ -289,10 +298,12 @@ const HTMLcontroller = (() => {
         const VictoryScreenModal = document.querySelector(".VictoryScreenModal");
 
         if (playerVictor == null) {
+            VictoryScreenModal.classList.add("TieGame");
             VictoryScreenModal.querySelector("h2").textContent = `It's a tie!`;
-            VictoryScreenModal.querySelector("img").src = ``;
+            //VictoryScreenModal.querySelector("img").src = ``;
         }
         else {
+            VictoryScreenModal.classList.remove("TieGame");
             VictoryScreenModal.querySelector("h2").textContent = `${playerVictor.name}`;
             VictoryScreenModal.querySelector("img").src = `img/avatar/${playerVictor.avatar}.png`;
             VictoryScreenModal.querySelector(".VictoryScreen").id = playerVictor.id + 1;
@@ -368,6 +379,13 @@ const HTMLcontroller = (() => {
 
             // sync the display with the default player info
             SelectScreenRefreshPlayer(currentFighter, currentFighterNode);
+
+            // AVATAR
+            let avatarSpace = currentFighterNode.querySelector(".characterSelectAvatarParent");
+            avatarSpace.addEventListener("click", (event) => {
+                currentFighter.avatar = (currentFighter.avatar + 1) % TOTAL_AVATARS;
+                SelectScreenRefreshPlayer(currentFighter, currentFighterNode);
+            });
 
             // COLOR PICKER
             let colorPicker = currentFighterNode.querySelector('input[type="color"]');
