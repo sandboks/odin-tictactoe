@@ -715,6 +715,10 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     scale: 0;
 }
 
+.gameGridSquare.darkenedSquare {
+    filter: brightness(0.95);
+}
+
 .gameGridSquare.occupied {
     cursor: default;
     background-color: var(--gridSquareBgOccupied);
@@ -791,6 +795,12 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     */
     max-width: 35cqmin;
     width: 100%;
+
+    transition: transform var(--durationFast2);
+}
+
+.activePlayerBackground.HiddenState {
+    transform: scale(0);
 }
 
 .activePlayerBackground.active {
@@ -805,12 +815,10 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
 
 .canHover:not(.gameGridSquare.occupied):hover {
     transform: scale(1.1);
-    transition: transform var(--durationFast);
 }
 
 .canHover:not(.gameGridSquare.occupied) {
     transform: scale(1);
-    transition: transform var(--durationFast);
 }
 
 .playerHUD {

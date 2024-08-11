@@ -86,7 +86,7 @@ const gameBoard = (() => {
 
             if (playerVictor != null) {
                 await RecolorWinningPanels(playerVictorCombo);
-                await ComputerPlayer.sleep(500);
+                await ComputerPlayer.sleep(750);
             }
 
             HTMLcontroller.ShowVictoryScreen();
@@ -162,7 +162,7 @@ const gameBoard = (() => {
         gameLocked = true;
         HTMLcontroller.SetPlayerInputBlocker(true);
         
-        HTMLcontroller.ApplyLockVisual(AllSquaresOccupied && playerVictor != null && playerVictor.id == spaceEmpty);
+        HTMLcontroller.ApplyLockVisual(AllSquaresOccupied && playerVictor == null);
     }
 
     const ClickOnSpace = (index, override = false) => {
@@ -285,12 +285,19 @@ const HTMLcontroller = (() => {
     }
 
     const HideGameGrid = () => {
-        document.querySelector(".whiteOverlay").style.display = "block";
+        document.querySelector(".gameGridRoot .whiteOverlay").style.display = "block";
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 gridSquareDivs[i][j].classList.add('hidden');
             }
+        }
+
+        // ANIMATE HUD
+        const HUDpanels = document.querySelectorAll(".activePlayerBackground");
+        for (let i = 0; i < HUDpanels.length; i++) {
+            let HUDpanel = HUDpanels[i];
+            HUDpanel.classList.add("HiddenState");
         }
     };
 
@@ -441,7 +448,7 @@ const HTMLcontroller = (() => {
 
     async function FightButtonClicked () {
         const SelectionScreenModal = document.querySelector(".SelectScreenModal");
-        const whiteOverlay = document.querySelector(".whiteOverlay");
+        const gridWhiteOverlay = document.querySelector(".gameGridRoot .whiteOverlay");
 
         console.log("TODO: Add an input blocker here");
         UpdatePlayerHUD();
@@ -455,21 +462,36 @@ const HTMLcontroller = (() => {
         SelectionScreenModal.classList.remove("PlayFadeOut");
         SelectionScreenModal.classList.remove("PlayFadeOutBackdrop");
 
-        whiteOverlay.style.display = "none";
+        // ANIMATE HUD
+        SetBothPlayersInactive();
+        document.querySelector(".hudParent .whiteOverlay").style.display = "none";
+        const HUDpanels = document.querySelectorAll(".activePlayerBackground");
+        for (let i = 0; i < HUDpanels.length; i++) {
+            let HUDpanel = HUDpanels[i];
+            HUDpanel.classList.remove("HiddenState");
+            await ComputerPlayer.sleep(250);
+        }
+
+        await ComputerPlayer.sleep(250);
+
+        // ANIMATE PANELS
+        gridWhiteOverlay.style.display = "none";
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 gridSquareDivs[i][j].classList.add('fadingIn');
+                gridSquareDivs[i][j].classList.add('darkenedSquare');
                 gridSquareDivs[i][j].classList.remove('hidden');
                 await ComputerPlayer.sleep(100);
             }
         }
 
-        await ComputerPlayer.sleep(500);
+        await ComputerPlayer.sleep(750);
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 gridSquareDivs[i][j].classList.remove('fadingIn');
+                gridSquareDivs[i][j].classList.remove('darkenedSquare');
             }
         }
 
