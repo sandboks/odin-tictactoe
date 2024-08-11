@@ -885,10 +885,6 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
 /* MOBILE ASPECT RATIO */
 @media (max-width: 460px) {
 
-    .hudParent {
-        flex-direction: column;
-    }
-
     .main {
         min-height: auto;
     }
@@ -907,7 +903,13 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     }
 }
 
-@media (max-width: 640px) or (max-height: 600px) {
+@media ((max-aspect-ratio: 3/4) and (max-width: 460px)) {
+    .hudParent {
+        flex-direction: column;
+    }
+}
+
+@media ((max-width: 640px)) or (max-height: 600px) {
 
     /* CHARACTER SELECT SCREEN */
 
@@ -976,9 +978,8 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     }
 }
 
+/* move the shuffle button if the screen isn't tall enough to give it its own section */
 @media (max-height: 660px) {
-
-
     .shuffleButton {
         position: absolute;
         top: 0.5em;
@@ -1003,17 +1004,35 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     }
 }
 
+/* make the HUD smaller when the screen is reaaaaally narrow vertically */
+@media (max-height: 420px) {
+    .playerHUD p {
+        font-size: x-small;
+    }
 
-/* hide the footer in landscape mobile view */
-@media (orientation: landscape) and (max-height: 640px) {
-    footer {
-        display: none;
+    .activePlayerBackground {
+        padding: 0;
+        max-width: none;
     }
 
     .hudParent {
-        flex-direction: row;
+        gap: 0.25em;
     }
+}
 
+
+
+/* hide the footer in landscape mobile view */
+@media (max-height: 450px) {
+    footer {
+        display: none;
+    }
+}
+
+
+/* hide the footer in landscape mobile view */
+@media (orientation: landscape) and (max-height: 640px) {
+    
     /* also, victory screen stuff */
     .VictoryScreenModal .nameTagParent {
         height: auto;
