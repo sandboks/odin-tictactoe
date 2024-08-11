@@ -30,7 +30,6 @@
     --buttonHeight: 3em;
     --buttonHeightMobile: 2em;
 
-    --minHeightContent: 310px;
     --contentPadding: 1em;
     
     /*
@@ -627,7 +626,6 @@ footer img {
 
     padding: var(--contentPadding) 0;
     gap: 2em;
-    min-height: var(--minHeightContent);
     min-width: 250px;
 }
 
