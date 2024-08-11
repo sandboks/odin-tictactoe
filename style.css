@@ -229,7 +229,7 @@ button {
     border-color: var(--colorPlayerTwo);
 }
 
-.shuffleButton:hover, .shuffleButton:focus {
+.shuffleButton:hover {
     scale: 115%;
     border-width: 6px;
 
@@ -318,7 +318,7 @@ button {
     transition-duration: var(--durationFast);
 }
 
-.ButtonNext:hover, .ButtonNext:focus {
+.ButtonNext:hover {
     font-size: 2em;
     transition-duration: var(--durationFast);
     filter: brightness(90%);
@@ -377,8 +377,7 @@ input[type=text] {
     transition: var(--durationFast2);
 }
 
-input:hover ~ .inputBorderExtra,
-input:focus ~ .inputBorderExtra {
+input:hover ~ .inputBorderExtra {
     border-width: 6px;
     transition: var(--durationFast2);
 }
@@ -388,22 +387,26 @@ input + .labelContainer label {
   background-color: #ffffff00;
   border-radius: var(--borderRadiusSmall);
   padding: var(--borderRadiusSmall);
+  opacity: 1;
   /*
   left: 0;
   top: 5px;
   */
   pointer-events: none; /* Label doesn't interfere with pointer events */
-  transition: transform var(--durationFast2); /* Smooth transition for transformation */
+  transition: var(--durationFast2); /* Smooth transition for transformation */
   transform-origin: left; /* Think of this as an imaginary point around which all these transformations happen */
 }
 
 /* when selected, or has been filled out */
 input:focus + .labelContainer label,
 input:valid + .labelContainer label {
-  transform: scale(0.8) translateY(-2em) translateX(0.3em); /* Scale down and move up on focus or non-empty input */
+  transform: scale(0.5) translateY(-2.25em) translateX(0.3em); /* Scale down and move up on focus or non-empty input */
+  transition: var(--durationFast2); /* Smooth transition for transformation */
+  
   background-color: white;
   border-radius: var(--borderRadiusSmall);
   padding: var(--borderRadiusSmall);
+  
 }
 
 .colorPickWrapper {
@@ -421,7 +424,7 @@ input[type="color"] {
     transition: var(--durationFast);
 }
 
-input[type="color"]:hover, input[type="color"]:focus {
+input[type="color"]:hover {
     border-width: 6px;
     transition: var(--durationFast);
 }
@@ -479,7 +482,7 @@ input[type="checkbox"]:checked:before {
     background-color: white;
 	color: #89befe;
 }
-input[type="checkbox"]:hover, input[type="checkbox"]:focus, input[type="checkbox"]:hover:before, input[type="checkbox"]:focus:before {
+input[type="checkbox"]:hover, input[type="checkbox"]:hover:before {
     filter: brightness(95%);
     font-size: 1.2em;
     border-width: 6px;
@@ -886,7 +889,7 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     }
 }
 
-@media (max-width: 640px) or (max-height: 640px) {
+@media (max-width: 640px) or (max-height: 600px) {
 
     /* CHARACTER SELECT SCREEN */
 
@@ -955,13 +958,23 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     }
 }
 
-@media (orientation: landscape) and (min-height: 400px) and (min-width: 640px) {
+@media (max-height: 660px) {
+
+
+    .shuffleButton {
+        position: absolute;
+        top: 0.5em;
+        left: 0.5em;
+    }
+}
+
+@media (orientation: landscape) and (min-height: 400px) and (min-width: 600px) {
     .fighterParent {
         aspect-ratio: auto;
     }
 }
 
-@media (min-width: 640px) and (max-height: 640px) {
+@media (min-width: 640px) and (max-height: 600px) {
     .fightersGrid {
         flex-direction: row;        
         justify-content: center;
@@ -974,13 +987,33 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
 
 
 /* hide the footer in landscape mobile view */
-@media (orientation: landscape) and (max-height: 540px) {
+@media (orientation: landscape) and (max-height: 640px) {
     footer {
         display: none;
     }
 
     .hudParent {
         flex-direction: row;
+    }
+
+    /* also, victory screen stuff */
+    .VictoryScreenModal .nameTagParent {
+        height: auto;
+        max-height: 25cqmin;
+    }
+
+    .VictoryScreenModal .characterSelectAvatarParent {
+        width: 100%;
+        max-width: 25cqmin;
+    }
+
+    .fighterParentVictory {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .VictoryScreenModal .nameTagParent {
+        overflow: visible;
     }
 }
 
