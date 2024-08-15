@@ -3,10 +3,12 @@ https://sandboks.github.io/odin-tictactoe/
 
 # PREVIEW
 Desktop:
+
 ![main preview](./preview/0.jpg)
 ![UI desktop](./preview/3.jpg)
 
 Mobile:
+
 ![mobile portrait](./preview/1.jpg)
 ![mobile landscape](./preview/2.jpg)
 
