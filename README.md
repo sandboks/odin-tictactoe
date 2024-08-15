@@ -4,7 +4,6 @@ https://sandboks.github.io/odin-tictactoe/
 # PREVIEW
 [video preview.webm](https://github.com/user-attachments/assets/da89de70-d4d2-4abd-8c38-e22df3957876)
 
-
 Desktop:
 
 ![main preview](./preview/0.jpg)  
