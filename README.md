@@ -2,7 +2,13 @@
 https://sandboks.github.io/odin-tictactoe/
 
 # PREVIEW
-Screenshots for mobile and desktop coming soon, upon the project's completion!
+Desktop:
+![main preview](./preview/0.jpg)
+![UI desktop](./preview/3.jpg)
+
+Mobile:
+![mobile portrait](./preview/1.jpg)
+![mobile landscape](./preview/2.jpg)
 
 # OVERVIEW
 - Created for the Odin Project's [Tic Tac Toe assignment](https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe)
@@ -18,6 +24,7 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 # COMBATIBILITY
 - ✅ Google Chrome (desktop)
 - ✅ Firefox (desktop)
+- ✅ Safari (desktop)
 - ✅ Safari (iOS)
 
 # RETROSPECTIVE
@@ -25,9 +32,10 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 - My goal was to create the absolute best game I could possibly make, with my current skillset and knowledge
 - ... even if that game was something as basic as Tic Tac Toe
 - There are many things I attempted in previous projects that this one does significantly better
+- I learned a lot making this, and did tons of my own research outside the Odin Project to implement features I wanted
 
 # NEW SKILLS ACQUIRED
-- @media rules
+- @media rules (responsive layout)
 - javascript design patterns
 - SVG color manipulation
 - css masking properties
@@ -39,25 +47,32 @@ Screenshots for mobile and desktop coming soon, upon the project's completion!
 - color generation
 - quantifying how similar 2 given colors are
 - triggering a css animation and ending it on the last frame, repeatedly
+- testing across multiple browsers
+- animations to transition between different states of the webpage
 
-# TODO
+# SELF CRITIQUE
+- the .css file is massive (1000+ lines). In future, I need to find ways to organize it better and make it more manageable
+- similarly, the main script.js file could be split into smaller pieces, to reflect the way the code is already divided into different controller "objects" that manage different parts of the logic
+
+# SUPERFLUOUS EXTRAS I'D LIKE TO DO IN FUTURE
 - add variable CPU difficulty
 - add an intro screen
 - add a 2nd screen where you choose the number of rounds to play?
 - update the HUD to include number of rounds won
-
-# SUPERFLUOUS EXTRAS I'D LIKE TO DO
 - dark mode
 
 # CREDITS
-Some ideas were lifted from:
+Material design icons:  
+https://pictogrammers.com/library/mdi/
+
+Some ideas were lifted from:  
 https://codebrainer.com/blog/tic-tac-toe-javascript-game
 
-Pokemon Mystery Dungeon sprites belong to Nintendo, ripped from here:
+Pokemon Mystery Dungeon sprites belong to Nintendo, ripped from here:  
 https://sprites.pmdcollab.org/
 
-Some avatars created as fanart by user Ernmuffin:
+Some avatars created as fanart by Twitter user Ernmuffin:  
 https://x.com/Ernmuffin
 
-Modal animations inspired by:
+Modal animations inspired by:  
 https://codepen.io/designcouch/pen/obvKxm

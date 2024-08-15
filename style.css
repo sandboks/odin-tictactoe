@@ -31,25 +31,6 @@
     --buttonHeightMobile: 2em;
 
     --contentPadding: 1em;
-    
-    /*
-    --main-color: #F28E1C;
-    --border-highlight-color: #ffd100;
-;
-    --main-color-selection: #ffffff36;
-    --main-color-projects: #e3e8ee;
-    --main-color-light: rgb(238, 238, 238);
-
-    --bg-darkmode: #3a3f47;
-    --bg-darkmode2: #2b2d30;
-
-    --font-color-softer: #6c6c6c;
-    --font-color-softer-dark: #cecdcd;
-
-    --padding-amount: 2em;
-    --border-radius: 1em;
-    --transition-time: .2s;
-    */
 }
 
 @font-face {
@@ -223,12 +204,6 @@ button {
     border-radius: 50%;
     align-self: center;
     border: 0px solid var(--colorPlayerOne);
-    /*
-    background-image: var(--imageURLshuffle);
-    background-size: 80%;
-    background-repeat: no-repeat;
-    background-position: center;
-    */
     z-index: 2;
     background-color: white;
 
@@ -315,11 +290,6 @@ button {
 
 .ButtonNext {
     font-size: 1.5em;
-    /*
-    font-size: 2em;
-    font-size: 2.5em;
-    */
-    /* font-weight: 100; */
     font-family: 'LilitaOne';
     font-family: "Poppins", sans-serif;
     font-weight: bolder;
@@ -375,9 +345,6 @@ input[type=text] {
     width: 100%;
     height: 100%;
     border: 2px solid silver;
-    /* display: flex; */
-    /* flex-grow: 1; */
-    /* display: grid; */
     box-sizing: border-box;
 }
 
@@ -689,7 +656,7 @@ https://stackoverflow.com/questions/77701214/constrain-a-responsive-square-insid
     border: 0.5em solid var(--colorPanelBorder);
     overflow: hidden;
 
-    transition: var(--durationFast);
+    transition: var(--durationFast2);
 }
 
 /*
@@ -883,15 +850,6 @@ https://github.com/0xabdulkhalid/tic-tac-toe/blob/main/styles.css
     font-weight: 600;
     font-size: small;
     text-align: start;
-
-    /*
-    text-overflow: ellipsis;
-    width: 100%;
-    overflow-wrap: break-word;
-    overflow: hidden;    
-    overflow: hidden;
-    hyphens: auto;
-    */
 }
 
 .gapBetweenPlayers {

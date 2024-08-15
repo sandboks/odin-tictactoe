@@ -89,6 +89,7 @@ const NAME_ADJECTIVES = [
     "Nightcore",
     "Degenerate",
     "Sweaty",
+    "Deciduous",
 ];
 
 const NAME_NOUN = [
