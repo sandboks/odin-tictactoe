@@ -90,6 +90,9 @@ const NAME_ADJECTIVES = [
     "Degenerate",
     "Sweaty",
     "Deciduous",
+    "Obsequious",
+    "Sycophantic",
+    "Servile",
 ];
 
 const NAME_NOUN = [
