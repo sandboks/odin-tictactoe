@@ -2,7 +2,7 @@
 https://sandboks.github.io/odin-tictactoe/
 
 # PREVIEW
-[video preview.webm](https://github.com/user-attachments/assets/da89de70-d4d2-4abd-8c38-e22df3957876)
+https://github.com/user-attachments/assets/c98a7948-2c44-4055-ab12-20f446974b3f
 
 Desktop:
 
