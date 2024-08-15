@@ -7,12 +7,10 @@ https://sandboks.github.io/odin-tictactoe/
 Desktop:
 
 ![main preview](./preview/0.jpg)  
-![UI desktop](./preview/3.jpg)
 
 Mobile:
-
-![mobile portrait](./preview/1.jpg)  
-![mobile landscape](./preview/2.jpg)
+ 
+![mobile landscape](./preview/1.jpg)
 
 # OVERVIEW
 - Created for the Odin Project's [Tic Tac Toe assignment](https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe)
