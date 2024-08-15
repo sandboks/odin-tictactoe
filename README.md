@@ -6,11 +6,13 @@ https://sandboks.github.io/odin-tictactoe/
 
 Desktop:
 
-![main preview](./preview/0.jpg)  
+![main preview](./preview/d1.jpg)  
+![main preview](./preview/d2.jpg)  
 
 Mobile:
  
-![mobile landscape](./preview/1.jpg)
+![mobile landscape](./preview/m1.jpg)  
+![mobile landscape](./preview/m2.jpg)
 
 # OVERVIEW
 - Created for the Odin Project's [Tic Tac Toe assignment](https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe)
