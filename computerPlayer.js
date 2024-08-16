@@ -33,7 +33,9 @@ const ComputerPlayer = (() => {
         const HEURISTIC_VALID = 0;
         const HEURISTIC_INVALID = -9;
 
-        let AI_intelligence = 0.8; // this determines how smart the AI is, [0-1]
+        // this determines how smart the AI is, [0-1]
+        // ideally this would be controllable in the UI, but it's hard coded for now
+        let AI_intelligence = 0.6;
 
         let candidates = Array(9).fill(HEURISTIC_INVALID); // start by marking each space with HEURISTIC_INVALID
 
@@ -49,29 +51,42 @@ const ComputerPlayer = (() => {
             // IMMEDIATE WINNING MOVES
             // basically check for all the winning combos, where we own 2/3 spaces and the remaining space is empty
             if (ownerCount[spaceEmpty] == 1 && ownerCount[currentPlayerID] == 2) {
-                // we have a winner, now return the empty space
-                for (let j = 0; j < spacesExamined.length; j++) {
-                    if (spacesExamined[j] == spaceEmpty) {
-                        let spaceToPick2D = combo[j];
-                        let spaceToPick1D = (spaceToPick2D[0] * 3) + spaceToPick2D[1];
-                        candidates[spaceToPick1D] = HEURISTIC_WINNER;
+                // AI RNG
+                // use the square root here, so it's very unlikely that the AI misses this
+                if (Math.sqrt(AI_intelligence) >= Math.random()) {
+                    // we have a winner, now return the empty space
+                    for (let j = 0; j < spacesExamined.length; j++) {
+                        if (spacesExamined[j] == spaceEmpty) {
+                            let spaceToPick2D = combo[j];
+                            let spaceToPick1D = (spaceToPick2D[0] * 3) + spaceToPick2D[1];
+                            candidates[spaceToPick1D] = HEURISTIC_WINNER;
 
-                        // return immediately, because we always want to pick this space, and don't need to check anything else
-                        return candidates;
+                            // return immediately, because we always want to pick this space, and don't need to check anything else
+                            return candidates;
+                        }
                     }
+                }
+                else {
+                    console.log("AI missed a winning move!");
                 }
             } else if (ownerCount[CurrentPlayerOpponent().id + 1] == 2 && ownerCount[spaceEmpty] == 1) {
                 // BLOCKERS
                 // we need to pick the empty space here to prevent our opponent from winning
 
-                for (let j = 0; j < spacesExamined.length; j++) {
-                    if (spacesExamined[j] == spaceEmpty) {
-                        let spaceToPick2D = combo[j];
-                        let spaceToPick1D = (spaceToPick2D[0] * 3) + spaceToPick2D[1];
-                        candidates[spaceToPick1D] = HEURISTIC_BLOCKER;
-
-                        // don't return immediately because we're not finished yet, there might be a winner elsewhere
+                // AI RNG
+                if (AI_intelligence >= Math.random()) {
+                    for (let j = 0; j < spacesExamined.length; j++) {
+                        if (spacesExamined[j] == spaceEmpty) {
+                            let spaceToPick2D = combo[j];
+                            let spaceToPick1D = (spaceToPick2D[0] * 3) + spaceToPick2D[1];
+                            candidates[spaceToPick1D] = HEURISTIC_BLOCKER;
+    
+                            // don't return immediately because we're not finished yet, there might be a winner elsewhere
+                        }
                     }
+                }
+                else {
+                    console.log("AI missed a blocking move!");
                 }
             }
         }
