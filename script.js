@@ -13,6 +13,7 @@ let players = []; // a 2D array consisting of 2 Player objects
 function Player1() { return players[0]; }
 function Player2() { return players[1]; }
 function CurrentPlayer() { return players[currentPlayerID - 1]; }
+function CurrentPlayerOpponent() { return players[currentPlayerID % 2]; }
 
 const WINNING_COMBINATIONS = [
     // HORIZONTAL
@@ -186,65 +187,6 @@ const gameBoard = (() => {
     }
 })();
 
-const ComputerPlayer = (() => {
-    const PerformMove = (boardGrid) => {
-        let thinkingTime = (Math.random() * 2500) + 500;
-        
-        sleep(thinkingTime).then(() => { CalculateAndExecuteMove(boardGrid); });
-    }
-
-    const CalculateAndExecuteMove = (boardGrid) => {
-        // go through each space and give it a "weight" based on a heuristic
-        // want to rank options by some simple logic, in decreasing score:
-        // if that space will win the game, give it full marks (and terminate there tbh)
-        // if that space will block the other player from winning, we need to pick that, so store this but don't terminate early because there still might be a winner
-        // for whatever's left, score it based on how many remaining winning combinations it's included in, and add it to a list
-        // if that space is occupied, ignore it
-        // once we've gone through this process:
-        // do we have a "blocker"? If so, return that
-        // else, return the candidate with the highest score
-
-        // examine each space and for now, return any space that's valid
-        let candidates = Array(9).fill(-1); // start by marking each space with -1
-        for (let i = 0; i < candidates.length; i++) {
-            // convert index to 2D array coordinates
-            let y = Math.floor(i / 3);
-            let x = i % 3
-            let currentSpace = boardGrid[y][x];
-            if (currentSpace != spaceEmpty) {
-                continue; // skip this one
-            }
-            candidates[i] = 0; // mark this space as valid
-            // we're not going to check anything else for now lol
-        }
-
-        bestCandidates = getAllIndexes(candidates, Math.max(...candidates));
-        let randomlyChosenElement = shuffleController.GetRandomElementFromArray(bestCandidates);
-        //let chosenSpaceIndex = candidates.indexOf(Math.max(...candidates));
-        gameBoard.ClickOnSpace(randomlyChosenElement, true);
-    }
-
-    // get an array with all the indexes of a given value VAL in an array ARR
-    // https://stackoverflow.com/questions/20798477/how-to-find-the-indexes-of-all-occurrences-of-an-element-in-array
-    const getAllIndexes = (arr, val) => {
-        var indexes = [], i;
-        for(i = 0; i < arr.length; i++)
-            if (arr[i] === val)
-                indexes.push(i);
-        return indexes;
-    }
-
-    // https://www.sitepoint.com/delay-sleep-pause-wait/
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    return {
-        PerformMove,
-        sleep,
-    }
-})();
-
 const HTMLcontroller = (() => {
     const r = document.querySelector(':root');
     
@@ -268,7 +210,7 @@ const HTMLcontroller = (() => {
             ShowSelectionScreen();
         });
 
-        console.log("TODO: Add the intro screen");
+        // console.log("TODO: Add the intro screen");
         StartGameModal.close();
         InitializeGame();
         ShowSelectionScreen();
@@ -455,7 +397,6 @@ const HTMLcontroller = (() => {
         const DialogBackdrop = document.querySelector(".dialogBackdrop");
         const gridWhiteOverlay = document.querySelector(".gameGridRoot .whiteOverlay");
 
-        console.log("TODO: Add an input blocker here");
         UpdatePlayerHUD();
         
         SelectionScreenModal.classList.add("PlayFadeOut");

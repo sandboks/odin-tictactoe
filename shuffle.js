@@ -243,9 +243,8 @@ const shuffleController = (() => {
         
         // HUE: [0-359]
         let HueCandidates = Array(360).fill(0).map((n, i) => n + i);
-        const HueMinimumDelta = 45;
+        const HueMinimumDelta = 60;
         //console.log(HueCandidates);
-        // we can delete the hue and the values +-15
 
         for (let i = 0; i < usedColors.length; i++) {
             let usedColor = usedColors[i];

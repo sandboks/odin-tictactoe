@@ -53,6 +53,7 @@ Mobile:
 - triggering a css animation and ending it on the last frame, repeatedly
 - testing across multiple browsers
 - animations to transition between different states of the webpage
+- basic CPU player AI using a heuristic
 
 # SELF CRITIQUE
 - the .css file is massive (1000+ lines). In future, I need to find ways to organize it better and make it more manageable
