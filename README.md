@@ -31,6 +31,8 @@ Mobile:
 - ✅ Safari (desktop)
 - ✅ Safari (iOS)
 
+Last tested 30/10/24
+
 # RETROSPECTIVE
 - While the basic game logic was completed within a day, I spent much, much longer polishing the visuals and UX, and adding extra features
 - My goal was to create the absolute best game I could possibly make, with my current skillset and knowledge
