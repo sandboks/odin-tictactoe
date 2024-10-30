@@ -31,7 +31,7 @@ Mobile:
 - ✅ Safari (desktop)
 - ✅ Safari (iOS)
 
-Last tested 30/10/24
+Last tested 30/10/24 
 
 # RETROSPECTIVE
 - While the basic game logic was completed within a day, I spent much, much longer polishing the visuals and UX, and adding extra features
