@@ -368,15 +368,7 @@ const HTMLcontroller = (() => {
             // SHUFFLE
             let shuffleButton = currentFighterNode.querySelector(".shuffleButton");
             shuffleButton.addEventListener("click", (event) => {
-                RandomizePlayer(currentFighter);
-                SelectScreenRefreshPlayer(currentFighter, currentFighterNode);
-
-                // play the overlay flash animation
-                let overlayFlash = currentFighterNode.querySelector(".fighterOverlayFlash");
-                // removing, accessing the offset, and adding the class will make the animation play
-                overlayFlash.classList.remove("fighterOverlayFlash");
-                void overlayFlash.offsetWidth;
-                overlayFlash.classList.add("fighterOverlayFlash"); 
+                ShufflePlayerAndUpdateVisual(currentFighter, currentFighterNode);
             });
         }
 
@@ -391,6 +383,19 @@ const HTMLcontroller = (() => {
         img3.src = `img/maru.svg`;
 
     };
+
+    const ShufflePlayerAndUpdateVisual = (player) => {
+        RandomizePlayer(player);
+        let playerNode = document.querySelectorAll(".fighterParent")[player.id];
+        SelectScreenRefreshPlayer(player, playerNode);
+
+        // play the overlay flash animation
+        let overlayFlash = playerNode.querySelector(".fighterOverlayFlash");
+        // removing, accessing the offset, and adding the class will make the animation play
+        overlayFlash.classList.remove("fighterOverlayFlash");
+        void overlayFlash.offsetWidth;
+        overlayFlash.classList.add("fighterOverlayFlash"); 
+    }
 
     async function FightButtonClicked () {
         const SelectionScreenModal = document.querySelector(".SelectScreenModal");
@@ -555,6 +560,10 @@ const HTMLcontroller = (() => {
         currentSpace.classList.add("victory");
     }
 
+    const RandomizeInitialOpponent = () => {
+        ShufflePlayerAndUpdateVisual(Player2());
+    }
+
     return {
         InitializeApp,
         InitializeGame,
@@ -566,9 +575,11 @@ const HTMLcontroller = (() => {
         ApplyLockVisual,
         MarkSpaceAsVictor,
         ShowVictoryScreen,
+        RandomizeInitialOpponent,
     }
 })();
 
 HTMLcontroller.InitializeApp();
+HTMLcontroller.RandomizeInitialOpponent();
 
 // console.log(game.boardGrid[0][0]); // produces error because boardGrid is private
